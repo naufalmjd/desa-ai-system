@@ -25,3 +25,7 @@ INSTALL.md
 
 # Mengabaikan semua file database SQL
 *.sql
+
+
+# Mengabaikan konfigurasi database lokal tim
+config/database.php
