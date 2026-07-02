@@ -1,0 +1,18 @@
+# Mengabaikan konfigurasi lokal tim
+config/config.php
+
+# Mengabaikan folder penyimpanan/upload dinamis lokal (kecuali foldernya sendiri)
+repositories/*
+!repositories/.gitkeep
+
+# Mengabaikan file testing personal
+test_login.php
+
+# Mengabaikan script eksekusi lokal jika jalurnya spesifik ke satu komputer
+run_ai.bat
+
+# Tambahan jika ke depan Anda menggunakan library pihak ketiga atau virtual environment AI
+vendor/
+node_modules/
+venv/
+.env

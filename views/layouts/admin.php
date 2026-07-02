@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title><?= $pageTitle ?? 'Admin' ?> — <?= APP_NAME ?></title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root { --primary:#1e4080; --accent:#059669; --sidebar-bg:#0f2342; --sidebar-w:245px; --header-h:58px; --bg:#eef2f7; }
+* { font-family: 'Plus Jakarta Sans', sans-serif; }
+body { background: var(--bg); }
+
+.sidebar { width:var(--sidebar-w); min-height:100vh; background:var(--sidebar-bg);
+           position:fixed; top:0; left:0; z-index:1040; display:flex;
+           flex-direction:column; transition:width .25s; overflow:hidden; }
+.sidebar.collapsed { width:64px; }
+
+.sb-brand { display:flex; align-items:center; gap:.75rem; padding:1rem;
+            border-bottom:1px solid rgba(255,255,255,.08); min-height:var(--header-h); }
+.sb-icon { width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px;
+           display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+.sb-text .n { color:#fff;font-weight:700;font-size:.8rem;white-space:nowrap; }
+.sb-text .s { color:rgba(255,255,255,.5);font-size:.68rem;white-space:nowrap; }
+
+.sb-badge { width:34px;height:34px;border-radius:10px;background:#059669;
+            display:flex;align-items:center;justify-content:center;color:#fff;
+            font-weight:700;font-size:.7rem;flex-shrink:0; }
+
+.sb-nav { flex:1;overflow-y:auto;padding:.5rem; }
+.sb-nav a { display:flex;align-items:center;gap:.75rem;color:rgba(255,255,255,.6);
+            padding:.6rem .75rem;border-radius:10px;text-decoration:none;
+            font-size:.8rem;font-weight:500;white-space:nowrap;transition:.15s; }
+.sb-nav a:hover { background:rgba(255,255,255,.08);color:#fff; }
+.sb-nav a.active { background:rgba(255,255,255,.15);color:#fff; }
+.sb-nav a i { font-size:1rem;flex-shrink:0; }
+.sb-nav .section-label { color:rgba(255,255,255,.3);font-size:.6rem;font-weight:700;
+                          text-transform:uppercase;letter-spacing:.08em;padding:.75rem .75rem .3rem; }
+
+.sb-footer { padding:.75rem;border-top:1px solid rgba(255,255,255,.08); }
+.sb-footer a { display:flex;align-items:center;gap:.75rem;color:#f87171;
+               padding:.6rem .75rem;border-radius:10px;font-size:.8rem;
+               font-weight:500;text-decoration:none;transition:.15s; }
+.sb-footer a:hover { background:rgba(239,68,68,.15); }
+
+.main-wrap { margin-left:var(--sidebar-w);min-height:100vh;display:flex;
+             flex-direction:column;transition:margin-left .25s; }
+.main-wrap.collapsed { margin-left:64px; }
+
+.topbar { height:var(--header-h);background:#fff;border-bottom:1px solid rgba(30,64,128,.1);
+          display:flex;align-items:center;justify-content:space-between;
+          padding:0 1.25rem;position:sticky;top:0;z-index:100; }
+
+.page-content { flex:1;padding:1.5rem; }
+.card { border:1px solid rgba(30,64,128,.1);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.04); }
+.table th { font-size:.72rem;font-weight:700;text-transform:uppercase;
+             letter-spacing:.04em;color:#5a6a82;border-bottom:2px solid rgba(30,64,128,.1); }
+.table td { font-size:.8rem;vertical-align:middle; }
+.app-footer { background:#fff;border-top:1px solid rgba(30,64,128,.1);
+               padding:.5rem 1.25rem;font-size:.68rem;color:#5a6a82; }
+
+@media(max-width:991px){
+    .sidebar { transform:translateX(-100%); }
+    .sidebar.open { transform:translateX(0); }
+    .main-wrap { margin-left:0 !important; }
+}
+/* Premium Modernization */
+.card {
+    transition: transform .25s ease, box-shadow .25s ease;
+    border: 1px solid rgba(30, 64, 128, 0.08) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(30, 64, 128, 0.06) !important;
+}
+.btn-primary {
+    background: linear-gradient(135deg, #1e4080, #163566);
+    border: none;
+    box-shadow: 0 4px 15px rgba(30, 64, 128, 0.2);
+    transition: all .25s ease;
+}
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(30, 64, 128, 0.3);
+}
+.sidebar-user {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.sb-icon {
+    background: linear-gradient(135deg, #10b981, #047857) !important;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+.sb-icon i {
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+</style>
+<?= $headExtra ?? '' ?>
+</head>
+<body>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sb-brand">
+        <div class="sb-icon"><i class="bi bi-buildings-fill text-white"></i></div>
+        <div class="sb-text">
+            <div class="n"><?= DESA_NAMA ?></div>
+            <div class="s">Panel Admin</div>
+        </div>
+    </div>
+
+    <!-- Admin badge -->
+    <div class="d-flex align-items-center gap-2 mx-3 mt-3 mb-1 p-3 rounded-3" style="background:rgba(255,255,255,.07)">
+        <div class="sb-badge"><i class="bi bi-person-gear"></i></div>
+        <div style="overflow:hidden">
+            <div class="text-white fw-semibold text-truncate" style="font-size:.78rem"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
+            <div class="text-white-50" style="font-size:.65rem">Admin Desa</div>
+        </div>
+    </div>
+
+    <nav class="sb-nav">
+        <?php
+        $adminNav = [
+            ['group' => 'Menu Utama', 'items' => [
+                ['admin/dashboard',          'bi-speedometer2',      'Dashboard'],
+            ]],
+            ['group' => 'Data & Layanan', 'items' => [
+                ['admin/penduduk',            'bi-people-fill',       'Kelola Penduduk'],
+                ['admin/surat',               'bi-file-earmark-check','Kelola Surat'],
+                ['admin/pengaduan',           'bi-megaphone-fill',    'Kelola Pengaduan'],
+                ['admin/informasi',           'bi-newspaper',         'Kelola Informasi'],
+            ]],
+            ['group' => 'Sistem', 'items' => [
+                ['admin/notifikasi',          'bi-bell-fill',         'Notifikasi'],
+                ['admin/laporan',             'bi-bar-chart-fill',    'Laporan'],
+                ['admin/profil',              'bi-person-circle',     'Profil'],
+            ]],
+        ];
+        $currentPath = ltrim(str_replace(parse_url(APP_URL, PHP_URL_PATH) ?? '', '', '/' . ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/')), '/');
+        foreach ($adminNav as $group):
+        ?>
+        <div class="section-label"><?= $group['group'] ?></div>
+        <?php foreach ($group['items'] as [$path, $icon, $label]):
+            $active = str_starts_with($currentPath, $path) ? 'active' : '';
+        ?>
+        <a href="<?= APP_URL ?>/<?= $path ?>" class="<?= $active ?>">
+            <i class="bi <?= $icon ?>"></i>
+            <span><?= $label ?></span>
+        </a>
+        <?php endforeach; endforeach; ?>
+    </nav>
+
+    <div class="sb-footer">
+        <a href="<?= APP_URL ?>/auth/logout" onclick="return confirm('Yakin keluar?')">
+            <i class="bi bi-box-arrow-left"></i><span>Keluar</span>
+        </a>
+    </div>
+</aside>
+
+<div class="main-wrap" id="mainWrap">
+    <header class="topbar">
+        <div class="d-flex align-items-center gap-3">
+            <button class="btn btn-sm btn-light p-1" id="sidebarToggle">
+                <i class="bi bi-layout-sidebar fs-5"></i>
+            </button>
+            <div>
+                <div class="fw-bold" style="font-size:.95rem"><?= $pageTitle ?? 'Dashboard Admin' ?></div>
+                <div class="text-muted" style="font-size:.7rem"><i class="bi bi-house me-1"></i><?= $pageTitle ?? '' ?></div>
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+            <a href="<?= APP_URL ?>/admin/notifikasi" class="btn btn-sm btn-light">
+                <i class="bi bi-bell"></i>
+            </a>
+            <div class="d-flex align-items-center gap-2 ps-2 border-start">
+                <div class="bg-success rounded-3 text-white d-flex align-items-center justify-content-center fw-bold"
+                     style="width:32px;height:32px;font-size:.7rem">
+                    <?= strtoupper(substr($user['nama'] ?? 'A', 0, 2)) ?>
+                </div>
+                <div class="d-none d-sm-block">
+                    <div class="fw-semibold" style="font-size:.78rem"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
+                    <div class="text-muted" style="font-size:.65rem">Admin Desa</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <?= $content ?>
+    </main>
+
+    <footer class="app-footer d-flex justify-content-between">
+        <span><?= APP_FULL ?> &copy; <?= date('Y') ?></span>
+        <span class="font-monospace">Admin Panel &middot; v<?= APP_VERSION ?></span>
+    </footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+const APP_URL    = '<?= APP_URL ?>';
+const CSRF_TOKEN = '<?= $csrfToken ?? '' ?>';
+AOS.init({ once: true, duration: 400 });
+
+document.getElementById('sidebarToggle').addEventListener('click', () => {
+    const s = document.getElementById('sidebar');
+    const m = document.getElementById('mainWrap');
+    s.classList.toggle('collapsed');
+    m.classList.toggle('collapsed');
+});
+
+setTimeout(() => {
+    document.querySelectorAll('.alert-dismissible').forEach(el =>
+        bootstrap.Alert.getOrCreateInstance(el).close()
+    );
+}, 4000);
+
+function confirmAction(url, title, text) {
+    Swal.fire({ title, text, icon:'warning', showCancelButton:true,
+        confirmButtonColor:'#1e4080', cancelButtonText:'Batal',
+        confirmButtonText:'Ya, lanjutkan!' })
+    .then(r => {
+        if (!r.isConfirmed) return;
+        $.post(url, { _csrf_token: CSRF_TOKEN }, res => {
+            res.success
+                ? Swal.fire('Berhasil!', res.message,'success').then(()=>location.reload())
+                : Swal.fire('Gagal', res.message,'error');
+        });
+    });
+}
+</script>
+<?= $footerExtra ?? '' ?>
+</body>
+</html>
