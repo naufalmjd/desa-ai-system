@@ -17,70 +17,18 @@
             <div class="text-start">
                 <small class="text-muted d-block small">Username</small>
                 <span class="text-dark fw-semibold mb-2 d-block"><?= htmlspecialchars($user['username'] ?? '') ?></span>
-
+                
                 <small class="text-muted d-block small">Alamat Email</small>
                 <span class="text-dark fw-semibold mb-2 d-block"><?= htmlspecialchars($user['email'] ?? '') ?></span>
-
+                
                 <small class="text-muted d-block small">Terdaftar Sejak</small>
                 <span class="text-dark fw-semibold d-block"><?= date('d F Y', $user['login_at'] ?? time()) ?></span>
             </div>
         </div>
     </div>
 
+    <!-- Data Penduduk -->
     <div class="col-lg-8">
-
-        <!-- Form Edit Profil -->
-        <div class="card mb-4">
-            <div class="card-header bg-white py-3">
-                <i class="bi bi-pencil-square me-2 text-primary"></i>Edit Profil
-            </div>
-            <div class="card-body">
-                <?php if (!$penduduk): ?>
-                    <div class="alert alert-warning mb-3">
-                        Data kependudukan Anda belum terhubung. Hubungi Admin Desa untuk menautkan akun Anda.
-                    </div>
-                <?php endif; ?>
-
-                <form method="POST" action="<?= APP_URL ?>/warga/profil/update">
-                    <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">Nama Lengkap</label>
-                            <input type="text" name="nama" class="form-control"
-                                   value="<?= htmlspecialchars($penduduk['nama'] ?? $user['nama'] ?? '') ?>" required>
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">Alamat Email</label>
-                            <input type="email" name="email" class="form-control"
-                                   value="<?= htmlspecialchars($user['email'] ?? '') ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">No. HP / Telepon</label>
-                            <input type="text" name="no_hp" class="form-control"
-                                   value="<?= htmlspecialchars($penduduk['no_hp'] ?? '') ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">Pekerjaan</label>
-                            <input type="text" name="pekerjaan" class="form-control"
-                                   value="<?= htmlspecialchars($penduduk['pekerjaan'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <div class="text-muted small mt-3 mb-3">
-                        <i class="bi bi-info-circle me-1"></i>
-                        NIK, No. KK, Tempat/Tanggal Lahir, dan Alamat KTP hanya bisa diubah oleh Admin Desa
-                        karena merupakan data resmi kependudukan.
-                    </div>
-
-                    <button type="submit" class="btn btn-primary px-4">
-                        <i class="bi bi-check2 me-1"></i>Simpan Perubahan
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Data Penduduk (read-only) -->
         <div class="card mb-4">
             <div class="card-header bg-white py-3">
                 <i class="bi bi-person-badge-fill me-2 text-primary"></i>Data Kependudukan Resmi Anda

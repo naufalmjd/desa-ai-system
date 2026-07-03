@@ -25,12 +25,12 @@
                 <hr class="my-4">
                 
                 <div class="d-grid gap-2">
-                    <button class="btn btn-outline-primary py-2" onclick="Swal.fire('Fitur Cetak', 'Mengunduh laporan PDF bulanan...', 'success')" disabled>
+                    <a href="<?= APP_URL ?>/admin/laporan/print" target="_blank" class="btn btn-outline-primary py-2">
                         <i class="bi bi-file-earmark-pdf me-1"></i> Cetak Laporan PDF Bulanan
-                    </button>
-                    <button class="btn btn-outline-success py-2" onclick="Swal.fire('Fitur Ekspor', 'Mengunduh laporan Excel...', 'success')" disabled>
+                    </a>
+                    <a href="<?= APP_URL ?>/admin/laporan/excel" class="btn btn-outline-success py-2">
                         <i class="bi bi-file-earmark-excel me-1"></i> Ekspor Laporan ke Excel
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

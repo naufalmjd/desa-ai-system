@@ -260,10 +260,16 @@ $footerExtra = <<<JS
 <script>
 const SESSION_ID = '{$escapedSessionId}';
 
-function scrollToBottom() {
-    document.getElementById('chatEnd').scrollIntoView({ behavior: 'smooth' });
+function scrollToBottom(smooth = true) {
+    const wrap = document.getElementById('chatMessages');
+    if (wrap) {
+        wrap.scrollTo({
+            top: wrap.scrollHeight,
+            behavior: smooth ? 'smooth' : 'auto'
+        });
+    }
 }
-scrollToBottom();
+scrollToBottom(false);
 
 function sendFaq(text) {
     document.getElementById('chatInput').value = text;
@@ -348,7 +354,17 @@ function removeTyping() {
 }
 
 function escHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function nl2brEsc(s) { return escHtml(s).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>'); }
+function nl2brEsc(s) {
+    let html = escHtml(s);
+    html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+    html = html.replace(/`([^`]+)`/g, '<code class="bg-light px-1.5 py-0.5 rounded text-danger border font-monospace" style="font-size: 0.8rem;">$1</code>');
+    html = html.replace(/^[\\*\\-]\\s+(.*?)$/gm, '<li class="ms-3 mb-1">$1</li>');
+    html = html.replace(/(<li class="ms-3 mb-1">.*?<\\/li>)+/g, '<ul class="ps-3 mb-2">$&</ul>');
+    html = html.replace(/^### (.*?)$/gm, '<h6 class="fw-bold my-2 text-dark" style="font-size:0.92rem">$1</h6>');
+    html = html.replace(/^## (.*?)$/gm, '<h5 class="fw-bold my-2.5 text-dark" style="font-size:1.02rem">$1</h5>');
+    html = html.replace(/\\n/g, '<br>');
+    return html;
+}
 </script>
 JS;
 ?>

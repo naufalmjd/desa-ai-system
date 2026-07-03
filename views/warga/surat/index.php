@@ -70,9 +70,9 @@
                             <span class="badge border <?= $cls ?> badge-status"><?= $lbl ?></span>
                         </td>
                         <td>
-                            <?php if ($s['file_surat']): ?>
-                            <a href="<?= APP_URL ?><?= htmlspecialchars($s['file_surat']) ?>" target="_blank" class="btn btn-xs btn-outline-success py-1 px-2" style="font-size: .7rem">
-                                <i class="bi bi-file-pdf"></i> Unduh PDF
+                            <?php if ($s['status'] === 'selesai'): ?>
+                            <a href="<?= APP_URL ?>/warga/surat/print/<?= $s['id'] ?>" target="_blank" class="btn btn-xs btn-outline-success py-1 px-2" style="font-size: .7rem">
+                                <i class="bi bi-printer"></i> Cetak / PDF
                             </a>
                             <?php else: ?>
                             <span class="text-muted">—</span>

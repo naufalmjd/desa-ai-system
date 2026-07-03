@@ -49,6 +49,7 @@ final class SuratService
                 'penduduk_id'    => $penduduk['id'],
                 'jenis_surat_id' => $jenis['id'],
                 'keperluan'      => $data['keperluan'],
+                'isi_surat'      => $data['isi_surat'] ?? null,
                 'catatan_pemohon'=> $data['catatan'] ?? '',
                 'status'         => 'menunggu',
             ]);
@@ -153,12 +154,20 @@ final class SuratService
 
         $qrCode = $this->generateQrCode($pengajuan['nomor']);
 
+        // Find the citizen-uploaded document (surat_isi) if any
+        $suratIsi = $this->db->fetchOne(
+            'SELECT path FROM lampiran_surat WHERE pengajuan_id = ? AND jenis_lampiran = ?',
+            [$pengajuanId, 'surat_isi']
+        );
+        $fileSurat = $suratIsi ? $suratIsi['path'] : '/warga/surat/print/' . $pengajuanId;
+
         $this->suratRepo->updateStatus($pengajuanId, 'selesai', [
             'kades_id'     => $kadesId,
             'catatan_kades'=> $catatan,
             'approved_at'  => date('Y-m-d H:i:s'),
             'selesai_at'   => date('Y-m-d H:i:s'),
             'qr_code'      => $qrCode,
+            'file_surat'   => $fileSurat,
         ]);
 
         $this->notifikasiUser($pengajuan['user_id'], "Surat {$pengajuan['nomor']} sudah dapat diunduh.", 'surat');
@@ -213,7 +222,16 @@ final class SuratService
     public function getDashboardStats(): array
     {
         $byStatus = $this->suratRepo->countByStatus();
-        $stats    = ['total' => 0, 'menunggu' => 0, 'selesai' => 0, 'ditolak' => 0];
+        $stats    = [
+            'total'                => 0,
+            'menunggu'             => 0,
+            'diverifikasi'         => 0,
+            'diproses'             => 0,
+            'menunggu_persetujuan' => 0,
+            'disetujui'            => 0,
+            'selesai'              => 0,
+            'ditolak'              => 0
+        ];
 
         foreach ($byStatus as $row) {
             $stats['total'] += $row['total'];

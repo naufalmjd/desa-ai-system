@@ -17,53 +17,18 @@
             <div class="text-start">
                 <small class="text-muted d-block small">Username</small>
                 <span class="text-dark fw-semibold mb-2 d-block"><?= htmlspecialchars($user['username'] ?? '') ?></span>
-
+                
                 <small class="text-muted d-block small">Alamat Email</small>
                 <span class="text-dark fw-semibold mb-2 d-block"><?= htmlspecialchars($user['email'] ?? '') ?></span>
-
+                
                 <small class="text-muted d-block small">Jabatan Eksekutif</small>
                 <span class="text-dark fw-semibold d-block">Kepala Desa Sukamaju</span>
             </div>
         </div>
     </div>
 
+    <!-- Data Penduduk -->
     <div class="col-lg-8">
-
-        <!-- Form Edit Profil -->
-        <div class="card mb-4">
-            <div class="card-header bg-white py-3">
-                <i class="bi bi-pencil-square me-2 text-warning"></i>Edit Profil
-            </div>
-            <div class="card-body">
-                <form method="POST" action="<?= APP_URL ?>/kepaladesa/profil/update">
-                    <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-
-                    <div class="row g-3">
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">Nama Lengkap</label>
-                            <input type="text" name="nama" class="form-control"
-                                   value="<?= htmlspecialchars($penduduk['nama'] ?? $user['nama'] ?? '') ?>" required>
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">Alamat Email</label>
-                            <input type="email" name="email" class="form-control"
-                                   value="<?= htmlspecialchars($user['email'] ?? '') ?>">
-                        </div>
-                        <div class="col-sm-6">
-                            <label class="form-label small text-muted mb-1">No. HP / Telepon</label>
-                            <input type="text" name="no_hp" class="form-control"
-                                   value="<?= htmlspecialchars($penduduk['no_hp'] ?? '') ?>">
-                        </div>
-                    </div>
-
-                    <button type="submit" class="btn btn-warning text-white px-4 mt-3">
-                        <i class="bi bi-check2 me-1"></i>Simpan Perubahan
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Data Jabatan & Kependudukan (read-only) -->
         <div class="card mb-4">
             <div class="card-header bg-white py-3">
                 <i class="bi bi-person-badge-fill me-2 text-warning"></i>Data Jabatan & Kependudukan Resmi

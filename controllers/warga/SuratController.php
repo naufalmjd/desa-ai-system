@@ -37,10 +37,19 @@ final class SuratController extends Controller
     // GET /warga/surat/create
     public function create(): void
     {
+        $userId = $this->authId();
+        $penduduk = $this->db->fetchOne('SELECT * FROM penduduk WHERE user_id = ? AND deleted_at IS NULL', [$userId]);
+        
+        if (!$penduduk) {
+            $this->flash('danger', 'Data kependudukan Anda belum terdaftar. Silakan hubungi Staf Administrasi Desa.');
+            $this->redirect('warga/surat');
+            return;
+        }
+
         $jenisSurat = $this->suratService->getJenisSurat();
         $csrfToken  = $this->session->generateCsrfToken();
 
-        $this->render('warga/surat/create', compact('jenisSurat', 'csrfToken'), 'warga');
+        $this->render('warga/surat/create', compact('jenisSurat', 'csrfToken', 'penduduk'), 'warga');
     }
 
     // POST /warga/surat/store
@@ -55,6 +64,7 @@ final class SuratController extends Controller
         if (!$data['jenis_surat_id'] || !$data['keperluan']) {
             $this->flash('danger', 'Jenis surat dan keperluan wajib diisi.');
             $this->redirect('warga/surat/create');
+            return;
         }
 
         $result = $this->suratService->ajukan($this->authId(), $data, $_FILES);
@@ -62,6 +72,7 @@ final class SuratController extends Controller
         if ($result['success']) {
             $this->flash('success', "Pengajuan berhasil! Nomor: {$result['nomor']}");
             $this->redirect('warga/surat');
+            return;
         }
 
         $this->flash('danger', $result['message']);
@@ -102,5 +113,22 @@ final class SuratController extends Controller
         }
 
         $this->render('warga/surat/tracking', compact('suratList', 'selected'), 'warga');
+    }
+
+    // GET /warga/surat/print/{id}
+    public function print(int $id): void
+    {
+        $surat = $this->suratService->getById($id);
+        if (!$surat) {
+            $this->abort(404, 'Surat tidak ditemukan.');
+        }
+
+        $user = $this->auth();
+        // Allow access to citizens who own the letter, admins, and kades
+        if ($user['role'] === 'warga' && $surat['user_id'] !== $user['id']) {
+            $this->abort(403, 'Anda tidak memiliki akses ke surat ini.');
+        }
+
+        $this->render('warga/surat/print', compact('surat'));
     }
 }

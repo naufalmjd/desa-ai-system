@@ -22,6 +22,14 @@
                         <td class="text-muted"><?= htmlspecialchars($surat['alamat'] ?? '-') ?>, RT <?= htmlspecialchars($surat['rt'] ?? '-') ?>/RW <?= htmlspecialchars($surat['rw'] ?? '-') ?>, <?= htmlspecialchars($surat['dusun'] ?? '-') ?></td></tr>
                     <tr><td class="text-muted">Keperluan</td>
                         <td><?= nl2br(htmlspecialchars($surat['keperluan'])) ?></td></tr>
+                    <?php if (!empty($surat['isi_surat'])): ?>
+                    <tr><td class="text-muted">Isi Surat Template</td>
+                        <td>
+                            <div class="border rounded p-3 bg-light font-monospace" style="font-size: .82rem; white-space: pre-wrap; line-height: 1.5; max-height: 250px; overflow-y: auto;">
+                                <?= htmlspecialchars(htmlspecialchars_decode($surat['isi_surat'])) ?>
+                            </div>
+                        </td></tr>
+                    <?php endif; ?>
                     <tr><td class="text-muted">Catatan Pemohon</td>
                         <td class="text-muted font-italic"><?= htmlspecialchars($surat['catatan_pemohon'] ?? '—') ?></td></tr>
                     <tr><td class="text-muted">Catatan Verifikator</td>
@@ -72,7 +80,7 @@
                         <div class="d-flex align-items-center gap-2">
                             <i class="bi bi-file-earmark-pdf-fill text-danger fs-4"></i>
                             <div>
-                                <small class="fw-semibold d-block text-dark" style="font-size:.8rem"><?= htmlspecialchars($l['jenis_lampiran'] === 'ktp' ? 'Fotokopi KTP' : ($l['jenis_lampiran'] === 'kk' ? 'Fotokopi Kartu Keluarga' : 'Dokumen Pendukung')) ?></small>
+                                <small class="fw-semibold d-block text-dark" style="font-size:.8rem"><?= htmlspecialchars($l['jenis_lampiran'] === 'ktp' ? 'Fotokopi KTP' : ($l['jenis_lampiran'] === 'kk' ? 'Fotokopi Kartu Keluarga' : ($l['jenis_lampiran'] === 'surat_isi' ? 'Dokumen Surat (Isian Warga)' : 'Dokumen Pendukung'))) ?></small>
                                 <span class="text-muted font-monospace" style="font-size:.65rem"><?= number_format($l['ukuran'] / 1024, 1) ?> KB</span>
                             </div>
                         </div>

@@ -11,13 +11,23 @@
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
-:root { --primary:#1e4080; --accent:#059669; --sidebar-bg:#0f2342; --sidebar-w:245px; --header-h:58px; --bg:#eef2f7; }
-* { font-family: 'Plus Jakarta Sans', sans-serif; }
-body { background: var(--bg); }
+:root {
+    --primary:      #1e4080;
+    --primary-dark: #163566;
+    --accent:       #059669;
+    --sidebar-bg:   #0f2342;
+    --sidebar-w:    245px;
+    --header-h:     58px;
+    --bg:           #eef2f7;
+    --card-bg:      #ffffff;
+    --border:       rgba(30,64,128,.1);
+}
+* { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
+body { background: var(--bg); min-height: 100vh; }
 
 .sidebar { width:var(--sidebar-w); min-height:100vh; background:var(--sidebar-bg);
            position:fixed; top:0; left:0; z-index:1040; display:flex;
-           flex-direction:column; transition:width .25s; overflow:hidden; }
+           flex-direction:column; transition:all .25s ease; overflow:hidden; }
 .sidebar.collapsed { width:64px; }
 
 .sb-brand { display:flex; align-items:center; gap:.75rem; padding:1rem;
@@ -48,7 +58,7 @@ body { background: var(--bg); }
 .sb-footer a:hover { background:rgba(239,68,68,.15); }
 
 .main-wrap { margin-left:var(--sidebar-w);min-height:100vh;display:flex;
-             flex-direction:column;transition:margin-left .25s; }
+             flex-direction:column;transition:margin-left .25s ease; }
 .main-wrap.collapsed { margin-left:64px; }
 
 .topbar { height:var(--header-h);background:#fff;border-bottom:1px solid rgba(30,64,128,.1);
@@ -63,11 +73,13 @@ body { background: var(--bg); }
 .app-footer { background:#fff;border-top:1px solid rgba(30,64,128,.1);
                padding:.5rem 1.25rem;font-size:.68rem;color:#5a6a82; }
 
-@media(max-width:991px){
-    .sidebar { transform:translateX(-100%); }
-    .sidebar.open { transform:translateX(0); }
-    .main-wrap { margin-left:0 !important; }
+@media (max-width: 991px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.mobile-open { transform: translateX(0); }
+    .main-wrap { margin-left: 0 !important; }
+    .sidebar-overlay { display: block !important; }
 }
+.sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1039; }
 /* Premium Modernization */
 .card {
     transition: transform .25s ease, box-shadow .25s ease;
@@ -104,6 +116,9 @@ body { background: var(--bg); }
 </head>
 <body>
 
+<!-- Sidebar Overlay (mobile) -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+
 <aside class="sidebar" id="sidebar">
     <div class="sb-brand">
         <div class="sb-icon"><i class="bi bi-buildings-fill text-white"></i></div>
@@ -131,6 +146,7 @@ body { background: var(--bg); }
             ['group' => 'Data & Layanan', 'items' => [
                 ['admin/penduduk',            'bi-people-fill',       'Kelola Penduduk'],
                 ['admin/surat',               'bi-file-earmark-check','Kelola Surat'],
+                ['admin/surat/templates',     'bi-file-earmark-text', 'Kelola Template'],
                 ['admin/pengaduan',           'bi-megaphone-fill',    'Kelola Pengaduan'],
                 ['admin/informasi',           'bi-newspaper',         'Kelola Informasi'],
             ]],
@@ -145,7 +161,13 @@ body { background: var(--bg); }
         ?>
         <div class="section-label"><?= $group['group'] ?></div>
         <?php foreach ($group['items'] as [$path, $icon, $label]):
-            $active = str_starts_with($currentPath, $path) ? 'active' : '';
+            if ($path === 'admin/surat') {
+                $active = (str_starts_with($currentPath, 'admin/surat') && !str_starts_with($currentPath, 'admin/surat/template')) ? 'active' : '';
+            } elseif ($path === 'admin/surat/templates') {
+                $active = str_starts_with($currentPath, 'admin/surat/template') ? 'active' : '';
+            } else {
+                $active = str_starts_with($currentPath, $path) ? 'active' : '';
+            }
         ?>
         <a href="<?= APP_URL ?>/<?= $path ?>" class="<?= $active ?>">
             <i class="bi <?= $icon ?>"></i>
@@ -164,7 +186,10 @@ body { background: var(--bg); }
 <div class="main-wrap" id="mainWrap">
     <header class="topbar">
         <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-sm btn-light p-1" id="sidebarToggle">
+            <button class="btn btn-sm btn-light p-1 d-lg-none" onclick="toggleSidebar()">
+                <i class="bi bi-list fs-5"></i>
+            </button>
+            <button class="btn btn-sm btn-light p-1 d-none d-lg-inline-flex" id="sidebarToggleDesktop">
                 <i class="bi bi-layout-sidebar fs-5"></i>
             </button>
             <div>
@@ -211,12 +236,26 @@ const APP_URL    = '<?= APP_URL ?>';
 const CSRF_TOKEN = '<?= $csrfToken ?? '' ?>';
 AOS.init({ once: true, duration: 400 });
 
-document.getElementById('sidebarToggle').addEventListener('click', () => {
-    const s = document.getElementById('sidebar');
-    const m = document.getElementById('mainWrap');
-    s.classList.toggle('collapsed');
-    m.classList.toggle('collapsed');
-});
+function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebarOverlay');
+    if (window.innerWidth < 992) {
+        sidebar.classList.toggle('mobile-open');
+        overlay.style.display = sidebar.classList.contains('mobile-open') ? 'block' : 'none';
+    } else {
+        sidebar.classList.toggle('collapsed');
+        document.getElementById('mainWrap').classList.toggle('collapsed');
+        localStorage.setItem('sidebar_collapsed', sidebar.classList.contains('collapsed'));
+    }
+}
+
+document.getElementById('sidebarToggleDesktop')?.addEventListener('click', toggleSidebar);
+
+// Restore collapse state
+if (localStorage.getItem('sidebar_collapsed') === 'true') {
+    document.getElementById('sidebar').classList.add('collapsed');
+    document.getElementById('mainWrap').classList.add('collapsed');
+}
 
 setTimeout(() => {
     document.querySelectorAll('.alert-dismissible').forEach(el =>

@@ -164,5 +164,5 @@
         </div>
     </div>
 </div>
-
+<?php $content = ob_get_clean(); ?>
 <?php require VIEW_PATH . '/layouts/admin.php'; ?>

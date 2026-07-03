@@ -146,4 +146,5 @@ document.getElementById('editPendudukForm').addEventListener('submit', function(
 </script>
 JS;
 ?>
+<?php $content = ob_get_clean(); ?>
 <?php require VIEW_PATH . '/layouts/admin.php'; ?>

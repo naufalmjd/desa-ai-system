@@ -16,6 +16,14 @@
                         <td class="fw-bold text-dark"><?= htmlspecialchars($surat['jenis_nama']) ?></td></tr>
                     <tr><td class="text-muted">Tujuan / Keperluan</td>
                         <td><?= nl2br(htmlspecialchars($surat['keperluan'])) ?></td></tr>
+                    <?php if (!empty($surat['isi_surat'])): ?>
+                    <tr><td class="text-muted">Isi Surat Template</td>
+                        <td>
+                            <div class="border rounded p-3 bg-light font-monospace" style="font-size: .82rem; white-space: pre-wrap; line-height: 1.5; max-height: 250px; overflow-y: auto;">
+                                <?= htmlspecialchars(htmlspecialchars_decode($surat['isi_surat'])) ?>
+                            </div>
+                        </td></tr>
+                    <?php endif; ?>
                     <tr><td class="text-muted">Catatan Pemohon</td>
                         <td class="text-muted font-italic"><?= htmlspecialchars($surat['catatan_pemohon'] ?? '—') ?></td></tr>
                     <tr><td class="text-muted">Tanggal Diajukan</td>
@@ -45,14 +53,14 @@
         </div>
 
         <!-- Download Section -->
-        <?php if ($surat['status'] === 'selesai' && $surat['file_surat']): ?>
+        <?php if ($surat['status'] === 'selesai'): ?>
         <div class="card border-success border-opacity-25" style="background: #f0fdf4">
             <div class="card-body p-4 text-center">
                 <i class="bi bi-file-earmark-pdf-fill text-success fs-1 mb-2 d-block"></i>
                 <h5 class="fw-bold text-success mb-1">Surat Anda Telah Selesai Diproses!</h5>
-                <p class="text-muted small mx-auto mb-4" style="max-width:440px">Surat administrasi Anda telah ditandatangani secara digital oleh Kepala Desa dan siap diunduh dalam format PDF resmi.</p>
-                <a href="<?= APP_URL ?><?= htmlspecialchars($surat['file_surat']) ?>" target="_blank" class="btn btn-success fw-bold px-4 py-2" style="border-radius:10px">
-                    <i class="bi bi-download me-1"></i> Unduh Surat PDF Resmi
+                <p class="text-muted small mx-auto mb-4" style="max-width:440px">Surat administrasi Anda telah ditandatangani secara digital oleh Kepala Desa dan siap dicetak atau disimpan sebagai PDF resmi.</p>
+                <a href="<?= APP_URL ?>/warga/surat/print/<?= $surat['id'] ?>" target="_blank" class="btn btn-success fw-bold px-4 py-2" style="border-radius:10px">
+                    <i class="bi bi-printer-fill me-1"></i> Cetak / Simpan PDF Resmi
                 </a>
             </div>
         </div>

@@ -20,6 +20,14 @@
                         <td><code class="text-dark"><?= htmlspecialchars($surat['nik']) ?></code></td></tr>
                     <tr><td class="text-muted">Keperluan</td>
                         <td><?= nl2br(htmlspecialchars($surat['keperluan'])) ?></td></tr>
+                    <?php if (!empty($surat['isi_surat'])): ?>
+                    <tr><td class="text-muted">Isi Surat Template</td>
+                        <td>
+                            <div class="border rounded p-3 bg-light font-monospace" style="font-size: .82rem; white-space: pre-wrap; line-height: 1.5; max-height: 250px; overflow-y: auto;">
+                                <?= htmlspecialchars(htmlspecialchars_decode($surat['isi_surat'])) ?>
+                            </div>
+                        </td></tr>
+                    <?php endif; ?>
                     <tr><td class="text-muted">Catatan Pemohon</td>
                         <td class="text-muted font-italic"><?= htmlspecialchars($surat['catatan_pemohon'] ?? '—') ?></td></tr>
                     <tr><td class="text-muted">Tanggal Diajukan</td>

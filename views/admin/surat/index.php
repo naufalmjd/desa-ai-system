@@ -18,10 +18,7 @@
         'selesai' => ['label' => 'Selesai TTD', 'color' => '#059669', 'bg' => '#d1fae5', 'icon' => 'bi-check-circle']
     ];
     foreach ($statusMap as $status => $cfg):
-        $val = 0;
-        foreach ($stats as $s) {
-            if ($s['status'] === $status) $val = $s['total'];
-        }
+        $val = $stats[$status] ?? 0;
     ?>
     <div class="col-6 col-md-3">
         <div class="card p-3 h-100" style="border-left: 4px solid <?= $cfg['color'] ?>">

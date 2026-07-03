@@ -17,7 +17,7 @@
                         <select name="jenis_surat_id" id="jenisSuratSelect" class="form-select" required>
                             <option value="">— Pilih Jenis Surat —</option>
                             <?php foreach ($jenisSurat as $js): ?>
-                            <option value="<?= $js['id'] ?>" data-estimasi="<?= $js['estimasi_hari'] ?>" data-syarat='<?= htmlspecialchars($js['persyaratan']) ?>'>
+                            <option value="<?= $js['id'] ?>" data-estimasi="<?= $js['estimasi_hari'] ?>" data-syarat='<?= htmlspecialchars($js['persyaratan']) ?>' data-template-path="<?= htmlspecialchars($js['template_path'] ?? '') ?>">
                                 <?= htmlspecialchars($js['nama']) ?> (Estimasi: <?= $js['estimasi_hari'] ?> Hari)
                             </option>
                             <?php endforeach; ?>
@@ -25,8 +25,30 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label fw-semibold small">Keperluan <span class="text-danger">*</span></label>
-                        <textarea name="keperluan" class="form-control" rows="3" placeholder="Tuliskan keperluan pembuatan surat secara lengkap..." required maxlength="500"></textarea>
+                        <label class="form-label fw-semibold small">Keperluan / Tujuan Pembuatan Surat <span class="text-danger">*</span></label>
+                        <textarea name="keperluan" id="keperluanInput" class="form-control" rows="3" placeholder="Tuliskan keperluan pembuatan surat secara lengkap..." required maxlength="500"></textarea>
+                    </div>
+
+                    <!-- Dynamic File Template Section -->
+                    <div id="templateFileSection" class="d-none mb-4 border rounded p-3 bg-light">
+                        <h6 class="fw-bold small border-bottom pb-2 mb-3"><i class="bi bi-file-earmark-word-fill text-primary me-2"></i>Unduh & Isi Template Dokumen</h6>
+                        
+                        <div class="d-flex align-items-center gap-3 mb-4 p-3 bg-white border rounded">
+                            <i class="bi bi-cloud-arrow-down-fill text-primary fs-2"></i>
+                            <div>
+                                <strong class="d-block text-dark small">Unduh file template resmi dari desa:</strong>
+                                <span class="text-muted d-block mb-2" style="font-size: .75rem">Silakan unduh dokumen di bawah ini, lalu isi data diri Anda di dalamnya.</span>
+                                <a href="#" id="downloadTemplateBtn" download class="btn btn-sm btn-primary">
+                                    <i class="bi bi-download me-1"></i> Unduh File Template
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="mb-2">
+                            <label class="form-label fw-semibold small text-dark">Unggah Dokumen Surat yang Telah Anda Isi <span class="text-danger">*</span></label>
+                            <input type="file" name="files[surat_isi]" id="suratIsiInput" class="form-control" accept=".doc,.docx,.pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf">
+                            <small class="text-muted d-block mt-1" style="font-size: .68rem">Format: Word (.doc, .docx) atau PDF (Maks. 5MB).</small>
+                        </div>
                     </div>
 
                     <div class="mb-4">
@@ -50,7 +72,7 @@
 
     <!-- Informasi/Estimasi Pelayanan -->
     <div class="col-lg-4">
-        <div class="card">
+        <div class="card mb-4">
             <div class="card-header bg-white py-3">
                 <i class="bi bi-info-circle me-2 text-primary"></i>Informasi Pelayanan
             </div>
@@ -78,6 +100,19 @@
                 </div>
             </div>
         </div>
+
+        <div class="card border-info border-opacity-25" style="background-color: #f0f9ff;">
+            <div class="card-header bg-transparent border-0 py-3 pb-0">
+                <i class="bi bi-person-badge-fill me-2 text-info"></i>Data Personal Anda
+            </div>
+            <div class="card-body py-2" style="font-size: .8rem">
+                <table class="table table-sm table-borderless mb-0">
+                    <tr><td class="text-muted">Nama:</td><td class="fw-semibold"><?= htmlspecialchars($penduduk['nama']) ?></td></tr>
+                    <tr><td class="text-muted">NIK:</td><td class="font-monospace"><?= htmlspecialchars($penduduk['nik']) ?></td></tr>
+                    <tr><td class="text-muted">Alamat:</td><td><?= htmlspecialchars($penduduk['alamat']) ?>, RT <?= htmlspecialchars($penduduk['rt']) ?>/RW <?= htmlspecialchars($penduduk['rw']) ?></td></tr>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -91,11 +126,15 @@ document.getElementById('jenisSuratSelect').addEventListener('change', function(
     const container = document.getElementById('syaratInputsContainer');
     const section = document.getElementById('persyaratanSection');
     const estimasiText = document.getElementById('estimasiWaktu');
+    const templateFileSection = document.getElementById('templateFileSection');
+    const downloadTemplateBtn = document.getElementById('downloadTemplateBtn');
+    const suratIsiInput = document.getElementById('suratIsiInput');
     
     container.innerHTML = '';
     
     if (!this.value) {
         section.classList.add('d-none');
+        templateFileSection.classList.add('d-none');
         estimasiText.textContent = 'Pilih jenis surat terlebih dahulu untuk mengetahui estimasi waktu.';
         return;
     }
@@ -106,6 +145,19 @@ document.getElementById('jenisSuratSelect').addEventListener('change', function(
     const estimasi = selected.getAttribute('data-estimasi');
     estimasiText.textContent = 'Estimasi penyelesaian surat ini adalah ' + estimasi + ' hari kerja setelah berkas diverifikasi.';
     
+    // Check for template file path
+    const templatePath = selected.getAttribute('data-template-path');
+    if (templatePath && templatePath.trim() !== '') {
+        templateFileSection.classList.remove('d-none');
+        downloadTemplateBtn.href = APP_URL + templatePath;
+        suratIsiInput.required = true;
+    } else {
+        templateFileSection.classList.add('d-none');
+        downloadTemplateBtn.href = '#';
+        suratIsiInput.required = false;
+        suratIsiInput.value = '';
+    }
+    
     // Parse persyaratan
     const persyaratan = JSON.parse(selected.getAttribute('data-syarat') || '[]');
     
@@ -115,8 +167,6 @@ document.getElementById('jenisSuratSelect').addEventListener('change', function(
     }
     
     persyaratan.forEach(syarat => {
-        // Map syarat label ke name input
-        let inputName = 'lampiran_pendukung[]';
         let isKtpOrKk = syarat.toLowerCase().includes('ktp') ? 'ktp' : (syarat.toLowerCase().includes('kk') ? 'kk' : 'pendukung');
         
         const col = document.createElement('div');

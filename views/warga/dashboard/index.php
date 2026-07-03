@@ -16,10 +16,10 @@
     </div>
     <div class="row align-items-center">
         <div class="col-sm-8">
-            <p class="mb-1 opacity-75 small">Haloo, Selamat Datang </p>
-            <h4 class="fw-black mb-1"><?= htmlspecialchars($user[''] ?? '') ?></h4>
+            <p class="mb-1 opacity-75 small">Selamat datang,</p>
+            <h4 class="fw-black mb-1"><?= htmlspecialchars($user['nama'] ?? '') ?></h4>
             <p class="mb-0 opacity-75 small font-monospace">
-                nama: <?= htmlspecialchars($penduduk['nama'] ?? '—') ?>
+                NIK: <?= htmlspecialchars($penduduk['nik'] ?? '—') ?>
                 &nbsp;|&nbsp;
                 <?= date('l, d F Y') ?>
             </p>
