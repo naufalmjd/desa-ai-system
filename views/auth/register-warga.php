@@ -368,7 +368,7 @@ declare(strict_types=1);
             <?php endif; ?>
 
             <!-- Form Registrasi -->
-            <form id="registerForm" method="POST" action="<?= APP_URL ?>/auth/auth/registerWarga" class="row g-3">
+            <form id="registerForm" method="POST" action="<?= APP_URL ?>/auth/auth/registerWargaPost" class="row g-3">
                 <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
                 
                 <!-- Username -->

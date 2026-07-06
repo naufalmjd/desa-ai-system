@@ -16,11 +16,8 @@
     </div>
     <div class="row align-items-center">
         <div class="col-sm-8">
-            <p class="mb-1 opacity-75 small">Selamat datang,</p>
-            <h4 class="fw-black mb-1"><?= htmlspecialchars($user['nama'] ?? '') ?></h4>
+            <h4 class="fw-black mb-1">Selamat datang, <?= htmlspecialchars($user['nama'] ?? '') ?></h4>
             <p class="mb-0 opacity-75 small font-monospace">
-                NIK: <?= htmlspecialchars($penduduk['nik'] ?? '—') ?>
-                &nbsp;|&nbsp;
                 <?= date('l, d F Y') ?>
             </p>
         </div>
@@ -156,12 +153,25 @@
         <div class="row g-3">
             <?php foreach ($beritaTerbaru as $b): ?>
             <div class="col-md-6 col-xl-3">
-                <div class="card h-100 border">
-                    <div class="rounded-top-3" style="height:100px;background:linear-gradient(135deg,#1e4080,#059669)">
-                        <div class="d-flex align-items-center justify-content-center h-100">
-                            <i class="bi bi-newspaper text-white opacity-25" style="font-size:3rem"></i>
+                <?php if (!empty($b['file_path'])): ?>
+                    <a href="<?= APP_URL ?>/public/uploads/berita/<?= htmlspecialchars($b['file_path']) ?>" target="_blank" class="text-decoration-none">
+                <?php else: ?>
+                    <a href="#" class="text-decoration-none" data-bs-toggle="modal" data-bs-target="#viewKontenModal"
+                       data-judul="<?= htmlspecialchars($b['judul']) ?>"
+                       data-kategori="<?= htmlspecialchars($b['kategori']) ?>"
+                       data-tanggal="<?= date('d M Y', strtotime($b['created_at'])) ?>"
+                       data-konten="<?= htmlspecialchars($b['konten']) ?>">
+                <?php endif; ?>
+                <div class="card h-100 border card-hover-effect" style="transition: transform .25s, box-shadow .25s;">
+                    <?php if (!empty($b['thumbnail'])): ?>
+                        <img src="<?= APP_URL ?>/public/uploads/berita/<?= htmlspecialchars($b['thumbnail']) ?>" class="rounded-top-3 w-100" style="height: 100px; object-fit: cover;" alt="Thumbnail">
+                    <?php else: ?>
+                        <div class="rounded-top-3" style="height:100px;background:linear-gradient(135deg,#1e4080,#059669)">
+                            <div class="d-flex align-items-center justify-content-center h-100">
+                                <i class="bi bi-newspaper text-white opacity-25" style="font-size:3rem"></i>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
                     <div class="card-body p-3">
                         <?php $cat=$b['kategori']; $catColor=['berita'=>'primary','pengumuman'=>'warning','agenda'=>'success'][$cat]??'secondary'; ?>
                         <div class="d-flex align-items-center gap-2 mb-2">
@@ -172,7 +182,10 @@
                                 <?= date('d M Y', strtotime($b['created_at'])) ?>
                             </small>
                         </div>
-                        <h6 class="fw-bold mb-1" style="font-size:.82rem;line-height:1.3">
+                        <h6 class="fw-bold mb-1 text-dark" style="font-size:.82rem;line-height:1.3">
+                            <?php if (!empty($b['file_path'])): ?>
+                                <i class="bi bi-file-earmark-arrow-down-fill me-1 text-primary"></i>
+                            <?php endif; ?>
                             <?= htmlspecialchars($b['judul']) ?>
                         </h6>
                         <?php if ($b['excerpt']): ?>
@@ -182,6 +195,7 @@
                         <?php endif; ?>
                     </div>
                 </div>
+                </a>
             </div>
             <?php endforeach; ?>
             <?php if (empty($beritaTerbaru)): ?>
@@ -193,6 +207,49 @@
         </div>
     </div>
 </div>
+
+<!-- Modal View Konten Berita -->
+<div class="modal fade" id="viewKontenModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content rounded-4 border-0 shadow">
+            <div class="modal-header py-3 px-4 border-0">
+                <h5 class="modal-title fw-bold text-dark" id="modalJudulBerita"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body px-4 py-3">
+                <div class="d-flex align-items-center gap-2 mb-3">
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle" id="modalKategoriBerita" style="font-size: .7rem"></span>
+                    <small class="text-muted" id="modalTanggalBerita"></small>
+                </div>
+                <hr class="my-2 opacity-25">
+                <div id="modalIsiBerita" class="text-dark mt-3" style="line-height: 1.7; font-size: 0.95rem;"></div>
+            </div>
+            <div class="modal-footer border-0 px-4 py-3">
+                <button type="button" class="btn btn-light rounded-3 px-4" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const viewKontenModal = document.getElementById('viewKontenModal');
+    if (viewKontenModal) {
+        viewKontenModal.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const judul = button.getAttribute('data-judul');
+            const kategori = button.getAttribute('data-kategori');
+            const tanggal = button.getAttribute('data-tanggal');
+            const konten = button.getAttribute('data-konten');
+            
+            document.getElementById('modalJudulBerita').textContent = judul;
+            document.getElementById('modalKategoriBerita').textContent = kategori.toUpperCase();
+            document.getElementById('modalTanggalBerita').textContent = tanggal;
+            document.getElementById('modalIsiBerita').innerHTML = konten.replace(/\n/g, '<br>');
+        });
+    }
+});
+</script>
 
 <?php $content = ob_get_clean(); ?>
 <?php require VIEW_PATH . '/layouts/warga.php'; ?>

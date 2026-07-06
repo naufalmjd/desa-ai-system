@@ -27,7 +27,15 @@
                         <tbody>
                             <?php foreach ($berita as $b): ?>
                             <tr>
-                                <td class="fw-semibold small text-truncate" style="max-width: 220px"><?= htmlspecialchars($b['judul']) ?></td>
+                                <td class="fw-semibold small text-truncate" style="max-width: 220px">
+                                    <?php if (!empty($b['file_path'])): ?>
+                                        <a href="<?= APP_URL ?>/public/uploads/berita/<?= htmlspecialchars($b['file_path']) ?>" target="_blank" class="text-primary text-decoration-none fw-bold">
+                                            <i class="bi bi-file-earmark-arrow-down-fill me-1"></i><?= htmlspecialchars($b['judul']) ?>
+                                        </a>
+                                    <?php else: ?>
+                                        <span class="text-dark"><?= htmlspecialchars($b['judul']) ?></span>
+                                    <?php endif; ?>
+                                </td>
                                 <td><span class="badge bg-light border text-dark"><?= htmlspecialchars($b['kategori']) ?></span></td>
                                 <td>
                                     <span class="badge bg-success-subtle text-success border border-success-subtle badge-status">
@@ -90,7 +98,7 @@
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form method="POST" action="<?= APP_URL ?>/admin/informasi/storeBerita">
+            <form method="POST" action="<?= APP_URL ?>/admin/informasi/storeBerita" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
                 <div class="modal-body px-4 py-2">
                     <div class="row g-3">
@@ -112,6 +120,16 @@
                                 <option value="publish">Publikasikan (Publish)</option>
                                 <option value="draft">Simpan sebagai Draft</option>
                             </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary">Gambar/Thumbnail (Optional)</label>
+                            <input type="file" name="thumbnail" class="form-control rounded-3" accept="image/*">
+                            <div class="form-text text-muted" style="font-size: .65rem">Format: JPG, PNG, WEBP. Maks 5MB.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold text-secondary">File Dokumen Full Berita (Optional)</label>
+                            <input type="file" name="file_berita" class="form-control rounded-3" accept=".pdf,.doc,.docx,.xls,.xlsx">
+                            <div class="form-text text-muted" style="font-size: .65rem">Format: PDF, Word, Excel.</div>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label small fw-semibold text-secondary">Isi Konten Informasi <span class="text-danger">*</span></label>

@@ -53,9 +53,40 @@ final class InformasiController extends Controller
         // Generate excerpt
         $excerpt = mb_strimwidth(strip_tags($konten), 0, 150, '...');
 
+        // Handle File Uploads (Gambar/Thumbnail & Dokumen Lampiran)
+        $thumbnail = null;
+        $filePath = null;
+        $dir = UPLOAD_PATH . '/berita';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0755, true);
+        }
+
+        // 1. Gambar/Thumbnail
+        if (isset($_FILES['thumbnail']) && $_FILES['thumbnail']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['thumbnail'];
+            $mime = $file['type'];
+            $allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+            if (in_array($mime, $allowedTypes, true)) {
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $thumbnail = 'thumb_' . bin2hex(random_bytes(8)) . '.' . $ext;
+                move_uploaded_file($file['tmp_name'], $dir . '/' . $thumbnail);
+            }
+        }
+
+        // 2. Dokumen Berita Full (PDF, Word, Excel)
+        if (isset($_FILES['file_berita']) && $_FILES['file_berita']['error'] === UPLOAD_ERR_OK) {
+            $file = $_FILES['file_berita'];
+            $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+            $allowedExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+            if (in_array($ext, $allowedExtensions, true)) {
+                $filePath = 'doc_' . bin2hex(random_bytes(8)) . '.' . $ext;
+                move_uploaded_file($file['tmp_name'], $dir . '/' . $filePath);
+            }
+        }
+
         $this->db->query(
-            'INSERT INTO berita (user_id, judul, slug, kategori, konten, excerpt, status) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [$user['id'], $judul, $slug, $kategori, $konten, $excerpt, $status]
+            'INSERT INTO berita (user_id, judul, slug, kategori, konten, excerpt, thumbnail, file_path, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [$user['id'], $judul, $slug, $kategori, $konten, $excerpt, $thumbnail, $filePath, $status]
         );
 
         $this->flash('success', 'Berita/Pengumuman baru berhasil disimpan dan dipublikasikan.');

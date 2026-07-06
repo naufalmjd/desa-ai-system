@@ -8,6 +8,28 @@
 </div>
 <?php endif; ?>
 
+<!-- Greeting Banner -->
+<?php $user = $_SESSION['user'] ?? null; ?>
+<div class="rounded-4 p-4 mb-4 text-white position-relative overflow-hidden" data-aos="fade-down"
+     style="background:linear-gradient(135deg,#1e4080 0%,#1a5276 100%)">
+    <div class="position-absolute end-0 top-0 opacity-10">
+        <i class="bi bi-buildings" style="font-size:8rem"></i>
+    </div>
+    <div class="row align-items-center">
+        <div class="col-sm-8">
+            <h4 class="fw-black mb-1">Selamat datang, <?= htmlspecialchars($user['nama'] ?? '') ?></h4>
+            <p class="mb-0 opacity-75 small font-monospace">
+                <?= date('l, d F Y') ?>
+            </p>
+        </div>
+        <div class="col-sm-4 text-sm-end mt-3 mt-sm-0">
+            <span class="badge bg-white bg-opacity-20 border border-white border-opacity-25 px-3 py-2">
+                <i class="bi bi-shield-check me-1"></i>Kepala Desa
+            </span>
+        </div>
+    </div>
+</div>
+
 <!-- KPI Overview -->
 <div class="row g-3 mb-4" data-aos="fade-up">
     <?php

@@ -16,6 +16,8 @@ declare(strict_types=1);
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
         /* ============================================================
@@ -706,6 +708,13 @@ declare(strict_types=1);
                                     <span class="input-group-text"><i class="bi bi-geo-alt"></i></span>
                                     <textarea id="amb-alamat" rows="2" class="form-control" placeholder="Dusun, RT/RW, nomor rumah, atau patokan arah lokasi..." required></textarea>
                                 </div>
+                                <div class="mt-2 d-flex align-items-center">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" id="btn-get-location" style="border-radius: 8px; font-size: 0.75rem; font-weight: 600;">
+                                        <i class="bi bi-geo-fill me-1"></i> Gunakan Titik GPS Akurat
+                                    </button>
+                                    <span id="gps-status" class="text-success small ms-2 fw-semibold" style="display:none; font-size: 0.72rem;"></span>
+                                    <input type="hidden" id="amb-gps" name="gps_coords">
+                                </div>
                             </div>
 
                             <div class="col-12">
@@ -970,15 +979,42 @@ declare(strict_types=1);
                     <div id="modal-news-attachments">
                         <!-- Attachment Documents list -->
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                 </div>
+             </div>
+         </div>
+     </div>
 
-    <!-- Bootstrap 5 Bundle JS (termasuk Popper) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- SweetAlert2 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <!-- Modal Map Picker -->
+     <div class="modal fade" id="mapPickerModal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true" style="z-index: 1060;">
+         <div class="modal-dialog modal-dialog-centered modal-lg">
+             <div class="modal-content rounded-4 border-0 shadow-lg text-dark bg-white">
+                 <div class="modal-header border-bottom-0 pb-0">
+                     <h5 class="modal-title fw-bold text-dark"><i class="bi bi-map-fill text-danger me-2"></i>Geser Pin ke Lokasi Penjemputan</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                 </div>
+                 <div class="modal-body py-3">
+                     <p class="text-muted small mb-2">Klik pada peta atau geser penanda (pin merah) tepat di lokasi Anda. Peta akan melacak koordinat GPS secara presisi.</p>
+                     <div id="map-picker" style="height: 320px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.15); z-index: 1;"></div>
+                     <div class="mt-2 p-2 rounded bg-light border border-opacity-10">
+                         <small class="text-muted fw-semibold d-block" style="font-size: 0.72rem;">Lokasi Terpilih:</small>
+                         <div class="text-danger fw-bold small my-1" id="picker-coords" data-coords=""><i class="bi bi-geo-alt-fill"></i> Menentukan koordinat...</div>
+                         <div class="text-secondary small" id="picker-address" style="font-size: 0.75rem;">Mencari alamat detail...</div>
+                     </div>
+                 </div>
+                 <div class="modal-footer border-top-0 pt-0">
+                     <button type="button" class="btn btn-sm btn-light rounded-3 px-3" data-bs-dismiss="modal">Batal</button>
+                     <button type="button" class="btn btn-sm btn-danger rounded-3 px-4 fw-semibold" id="btn-confirm-map-location">Konfirmasi Lokasi</button>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+     <!-- Bootstrap 5 Bundle JS (termasuk Popper) -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+     <!-- SweetAlert2 JS -->
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+     <!-- Leaflet JS -->
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
         // ============================================================
@@ -1181,6 +1217,7 @@ declare(strict_types=1);
             const nama = document.getElementById('amb-nama').value.trim();
             const alamat = document.getElementById('amb-alamat').value.trim();
             const kondisi = document.getElementById('amb-kondisi').value;
+            const gps = document.getElementById('amb-gps').value.trim();
             
             if (!nama || !alamat || !kondisi) {
                 Swal.fire('Error!', 'Mohon isi semua data formulir darurat.', 'error');
@@ -1189,13 +1226,17 @@ declare(strict_types=1);
             
             const adminPhone = "628123456789";
             
-            const textMsg = `Halo Admin SmartDesa, saya memerlukan bantuan AMBULANS SEGERA.
+            let textMsg = `Halo Admin SmartDesa, saya memerlukan bantuan AMBULANS SEGERA.
             
 Nama Pelapor: ${nama}
 Lokasi Penjemputan: ${alamat}
-Kondisi Darurat: ${kondisi}
+Kondisi Darurat: ${kondisi}`;
 
-Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertugas.`;
+            if (gps) {
+                textMsg += `\nLink Google Maps Titik Jemput: https://www.google.com/maps?q=${gps}`;
+            }
+
+            textMsg += `\n\nMohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertugas.`;
             
             const url = `https://api.whatsapp.com/send?phone=${adminPhone}&text=${encodeURIComponent(textMsg)}`;
             
@@ -1209,9 +1250,155 @@ Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertuga
                 if (result.isConfirmed) {
                     window.open(url, '_blank');
                     document.getElementById('form-ambulans').reset();
+                    const status = document.getElementById('gps-status');
+                    if (status) status.style.display = 'none';
+                    const gpsInput = document.getElementById('amb-gps');
+                    if (gpsInput) gpsInput.value = '';
+                    const btn = document.getElementById('btn-get-location');
+                    if (btn) btn.innerHTML = `<i class="bi bi-geo-fill me-1"></i> Gunakan Titik GPS Akurat`;
                 }
             });
         }
+              // --- Map Picker & Geolocation Logic ---
+        let mapPicker = null;
+        let pickerMarker = null;
+        let mapModal = null;
+
+        // Initialize Map Picker Modal
+        document.addEventListener('DOMContentLoaded', () => {
+            const modalEl = document.getElementById('mapPickerModal');
+            if (modalEl) {
+                mapModal = new bootstrap.Modal(modalEl);
+                
+                modalEl.addEventListener('shown.bs.modal', function () {
+                    const latInput = document.getElementById('amb-gps').value;
+                    let initialLat = -7.9213; // Default Sukamaju/Malang
+                    let initialLng = 112.6826;
+                    
+                    if (latInput) {
+                        const parts = latInput.split(',');
+                        initialLat = parseFloat(parts[0]);
+                        initialLng = parseFloat(parts[1]);
+                    }
+
+                    if (!mapPicker) {
+                        mapPicker = L.map('map-picker').setView([initialLat, initialLng], 14);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; OpenStreetMap contributors'
+                        }).addTo(mapPicker);
+
+                        // Custom Red Icon for Ambulance Pin
+                        const redIcon = L.icon({
+                            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+                            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                            iconSize: [25, 41],
+                            iconAnchor: [12, 41],
+                            popupAnchor: [1, -34],
+                            shadowSize: [41, 41]
+                        });
+
+                        pickerMarker = L.marker([initialLat, initialLng], {
+                            draggable: true,
+                            icon: redIcon
+                        }).addTo(mapPicker);
+
+                        // Event when Marker is dragged
+                        pickerMarker.on('dragend', function (e) {
+                            updateMarkerLocation(pickerMarker.getLatLng());
+                        });
+
+                        // Event when Map is clicked
+                        mapPicker.on('click', function (e) {
+                            pickerMarker.setLatLng(e.latlng);
+                            updateMarkerLocation(e.latlng);
+                        });
+                    } else {
+                        mapPicker.setView([initialLat, initialLng], 14);
+                        pickerMarker.setLatLng([initialLat, initialLng]);
+                        mapPicker.invalidateSize();
+                    }
+
+                    // Try to auto-locate with high accuracy
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            function(position) {
+                                const lat = position.coords.latitude;
+                                const lng = position.coords.longitude;
+                                const newLatLng = new L.LatLng(lat, lng);
+                                mapPicker.setView(newLatLng, 16);
+                                pickerMarker.setLatLng(newLatLng);
+                                updateMarkerLocation(newLatLng);
+                            },
+                            function(error) {
+                                // Just use default center silently
+                                updateMarkerLocation(pickerMarker.getLatLng());
+                            },
+                            { enableHighAccuracy: true, timeout: 5000 }
+                        );
+                    } else {
+                        updateMarkerLocation(pickerMarker.getLatLng());
+                    }
+                });
+            }
+        });
+
+        function updateMarkerLocation(latlng) {
+            const lat = latlng.lat.toFixed(6);
+            const lng = latlng.lng.toFixed(6);
+            document.getElementById('picker-coords').innerHTML = `<i class="bi bi-geo-alt-fill"></i> Lat: ${lat}, Lng: ${lng}`;
+            document.getElementById('picker-coords').setAttribute('data-coords', `${lat},${lng}`);
+            
+            // Reverse Geocoding via Nominatim
+            document.getElementById('picker-address').innerHTML = `<span class="spinner-border spinner-border-sm" style="width: 0.75rem; height: 0.75rem;"></span> Mencari alamat...`;
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`)
+                .then(res => res.json())
+                .then(data => {
+                    const addr = data.display_name || 'Alamat tidak ditemukan.';
+                    document.getElementById('picker-address').textContent = addr;
+                })
+                .catch(() => {
+                    document.getElementById('picker-address').textContent = 'Koneksi gagal mendapatkan nama alamat.';
+                });
+        }
+
+        // Trigger Modal Open on GPS Button Click
+        document.getElementById('btn-get-location')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (mapModal) {
+                mapModal.show();
+            }
+        });
+
+        // Confirm Location Button Click
+        document.getElementById('btn-confirm-map-location')?.addEventListener('click', function() {
+            const coordsAttr = document.getElementById('picker-coords').getAttribute('data-coords');
+            const addrText = document.getElementById('picker-address').textContent;
+            
+            if (coordsAttr) {
+                document.getElementById('amb-gps').value = coordsAttr;
+                const status = document.getElementById('gps-status');
+                status.innerHTML = `<i class="bi bi-check-circle-fill"></i> Titik Map Aktif!`;
+                status.style.display = 'inline';
+                
+                // Set/Append to the textarea address
+                const alamatInput = document.getElementById('amb-alamat');
+                const gpsLink = `https://www.google.com/maps?q=${coordsAttr}`;
+                
+                // Clear old coordinate link in address if exists and add new one
+                let cleanAddr = alamatInput.value;
+                cleanAddr = cleanAddr.replace(/\[Titik Koordinat: https:\/\/www.google.com\/maps\?q=[-\d.,\s]+\]/g, '').trim();
+                cleanAddr = cleanAddr.replace(/\[Titik Map Terpilih:.*\]/g, '').trim();
+                
+                alamatInput.value = cleanAddr + (cleanAddr ? "\n" : "") + `[Titik Map Terpilih: ${addrText} - ${gpsLink}]`;
+                
+                const btn = document.getElementById('btn-get-location');
+                btn.innerHTML = `<i class="bi bi-geo-fill me-1"></i> Update Titik Map/GPS`;
+                
+                if (mapModal) {
+                    mapModal.hide();
+                }
+            }
+        });
 
         // --- Contact Form Submission ---
         function handleContactSubmit(event) {
