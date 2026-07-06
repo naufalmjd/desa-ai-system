@@ -82,13 +82,14 @@ final class Session
     public function login(array $user): void
     {
         $this->set('user', [
-            'id'       => (int)$user['id'],
-            'username' => $user['username'],
-            'email'    => $user['email'],
-            'role'     => $user['role_name'],
-            'role_id'  => (int)$user['role_id'],
-            'nama'     => $user['nama'] ?? $user['username'],
-            'login_at' => time(),
+            'id'          => (int)$user['id'],
+            'username'    => $user['username'],
+            'email'       => $user['email'],
+            'role'        => $user['role_name'],
+            'role_id'     => (int)$user['role_id'],
+            'nama'        => $user['nama'] ?? $user['username'],
+            'foto_profil' => $user['foto_profil'] ?? null,
+            'login_at'    => time(),
         ]);
         session_regenerate_id(true);
     }

@@ -18,9 +18,10 @@ final class UserRepository implements UserRepositoryInterface
     public function findById(int $id): array|false
     {
         return $this->db->fetchOne(
-            'SELECT u.*, r.name AS role_name, r.label AS role_label, r.permissions
+            'SELECT u.*, r.name AS role_name, r.label AS role_label, r.permissions, p.nama AS nama
              FROM users u
              JOIN roles r ON r.id = u.role_id
+             LEFT JOIN penduduk p ON p.user_id = u.id
              WHERE u.id = ? AND u.deleted_at IS NULL AND u.is_active = 1',
             [$id]
         );
@@ -29,8 +30,10 @@ final class UserRepository implements UserRepositoryInterface
     public function findByUsername(string $username): array|false
     {
         return $this->db->fetchOne(
-            'SELECT u.*, r.name AS role_name, r.label AS role_label
-             FROM users u JOIN roles r ON r.id = u.role_id
+            'SELECT u.*, r.name AS role_name, r.label AS role_label, p.nama AS nama
+             FROM users u 
+             JOIN roles r ON r.id = u.role_id
+             LEFT JOIN penduduk p ON p.user_id = u.id
              WHERE u.username = ? AND u.deleted_at IS NULL',
             [$username]
         );
@@ -39,8 +42,10 @@ final class UserRepository implements UserRepositoryInterface
     public function findByEmail(string $email): array|false
     {
         return $this->db->fetchOne(
-            'SELECT u.*, r.name AS role_name, r.label AS role_label
-             FROM users u JOIN roles r ON r.id = u.role_id
+            'SELECT u.*, r.name AS role_name, r.label AS role_label, p.nama AS nama
+             FROM users u 
+             JOIN roles r ON r.id = u.role_id
+             LEFT JOIN penduduk p ON p.user_id = u.id
              WHERE u.email = ? AND u.deleted_at IS NULL',
             [$email]
         );
@@ -49,8 +54,10 @@ final class UserRepository implements UserRepositoryInterface
     public function findByUsernameOrEmail(string $identifier): array|false
     {
         return $this->db->fetchOne(
-            'SELECT u.*, r.name AS role_name, r.label AS role_label
-             FROM users u JOIN roles r ON r.id = u.role_id
+            'SELECT u.*, r.name AS role_name, r.label AS role_label, p.nama AS nama
+             FROM users u 
+             JOIN roles r ON r.id = u.role_id
+             LEFT JOIN penduduk p ON p.user_id = u.id
              WHERE (u.username = ? OR u.email = ?) AND u.deleted_at IS NULL',
             [$identifier, $identifier]
         );
@@ -93,8 +100,10 @@ final class UserRepository implements UserRepositoryInterface
     public function findByRememberToken(string $token): array|false
     {
         return $this->db->fetchOne(
-            'SELECT u.*, r.name AS role_name
-             FROM users u JOIN roles r ON r.id = u.role_id
+            'SELECT u.*, r.name AS role_name, p.nama AS nama
+             FROM users u 
+             JOIN roles r ON r.id = u.role_id
+             LEFT JOIN penduduk p ON p.user_id = u.id
              WHERE u.remember_token = ? AND u.deleted_at IS NULL AND u.is_active = 1',
             [$token]
         );

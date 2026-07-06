@@ -48,9 +48,6 @@ body { background: var(--bg); min-height: 100vh; }
 }
 
 /* Penanganan Sempurna Saat Sidebar Mengecil (Collapsed) */
-.sidebar.collapsed { 
-    width: var(--sidebar-c); 
-}
 .sidebar.collapsed .sb-text,
 .sidebar.collapsed .sidebar-user-info, /* Sembunyikan info teks user */
 .sidebar.collapsed .sb-nav span,
@@ -156,6 +153,24 @@ body { background: var(--bg); min-height: 100vh; }
 .sb-icon i {
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
+
+/* ── STYLE MODAL EDIT PROFIL (WHATSAPP STYLE) ── */
+.wa-input-group {
+    position: relative; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; margin-bottom: 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.wa-input-group input:disabled {
+    background: transparent !important; border: none !important; color: #1e293b !important;
+    font-weight: 500; padding-left: 0; box-shadow: none !important; cursor: default;
+}
+.wa-input-group input:not(:disabled) {
+    border: none !important; border-bottom: 2px solid #059669 !important; border-radius: 0 !important;
+    padding-left: 0; box-shadow: none !important; color: #000;
+}
+.wa-btn-pencil { background: none; border: none; color: #8492a6; padding: 4px 8px; transition: color 0.2s; }
+.wa-btn-pencil:hover { color: #1e4080; }
+.btn-trigger-edit-profil { cursor: pointer; transition: transform 0.2s; color: #1e4080; }
+.btn-trigger-edit-profil:hover { transform: scale(1.15); }
 </style>
 <?= $headExtra ?? '' ?>
 </head>
@@ -173,9 +188,16 @@ body { background: var(--bg); min-height: 100vh; }
         </div>
     </div>
 
-    <!-- Admin badge (Ditambahkan penanda kelas pembungkus teks agar responsive saat kolaps) -->
+    <!-- Admin badge -->
     <div class="sidebar-user d-flex align-items-center gap-2 mx-3 mt-3 mb-1 p-3 rounded-3" style="background:rgba(255,255,255,.07)">
-        <div class="sb-badge"><i class="bi bi-person-gear"></i></div>
+        <?php if (!empty($user['foto_profil'])): ?>
+            <img src="<?= APP_URL ?>/public/uploads/profil/<?= htmlspecialchars($user['foto_profil']) ?>" 
+                 class="rounded-circle" 
+                 style="width: 34px; height: 34px; object-fit: cover;" 
+                 alt="Avatar">
+        <?php else: ?>
+            <div class="sb-badge"><i class="bi bi-person-gear"></i></div>
+        <?php endif; ?>
         <div class="sidebar-user-info" style="overflow:hidden">
             <div class="text-white fw-semibold text-truncate" style="font-size:.78rem"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
             <div class="text-white-50" style="font-size:.65rem">Admin Desa</div>
@@ -247,10 +269,17 @@ body { background: var(--bg); min-height: 100vh; }
                 <i class="bi bi-bell"></i>
             </a>
             <div class="d-flex align-items-center gap-2 ps-2 border-start">
-                <div class="bg-success rounded-3 text-white d-flex align-items-center justify-content-center fw-bold"
-                     style="width:32px;height:32px;font-size:.7rem">
-                    <?= strtoupper(substr($user['nama'] ?? 'A', 0, 2)) ?>
-                </div>
+                <?php if (!empty($user['foto_profil'])): ?>
+                    <img src="<?= APP_URL ?>/public/uploads/profil/<?= htmlspecialchars($user['foto_profil']) ?>" 
+                         class="rounded-circle" 
+                         style="width: 32px; height: 32px; object-fit: cover;" 
+                         alt="Avatar">
+                <?php else: ?>
+                    <div class="bg-success rounded-3 text-white d-flex align-items-center justify-content-center fw-bold"
+                         style="width:32px;height:32px;font-size:.7rem">
+                        <?= strtoupper(substr($user['nama'] ?? 'A', 0, 2)) ?>
+                    </div>
+                <?php endif; ?>
                 <div class="d-none d-sm-block">
                     <div class="fw-semibold" style="font-size:.78rem"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
                     <div class="text-muted" style="font-size:.65rem">Admin Desa</div>
@@ -262,6 +291,63 @@ body { background: var(--bg); min-height: 100vh; }
     <main class="page-content">
         <?= $content ?>
     </main>
+
+    <!-- ── MODAL EDIT PROFIL MODERN (GAYA WHATSAPP) ── -->
+    <div class="modal fade" id="modalEditProfil" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 14px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="font-size: 1rem; color: #0d1b2e;">
+                        <i class="bi bi-person-badge text-success me-2"></i>Ubah Akun Profil
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formEditProfil" autocomplete="off" enctype="multipart/form-data">
+                    <div class="modal-body py-3">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Nama Lengkap</label>
+                            <div class="wa-input-group">
+                                <input type="text" id="inputNama" name="nama" class="form-control form-control-sm" value="<?= htmlspecialchars($user['nama'] ?? '') ?>" required disabled>
+                                <button type="button" class="wa-btn-pencil btn-toggle-field" data-target="#inputNama"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Username</label>
+                            <div class="wa-input-group">
+                                <input type="text" id="inputUsername" name="username" class="form-control form-control-sm" value="<?= htmlspecialchars($user['username'] ?? '') ?>" required disabled>
+                                <button type="button" class="wa-btn-pencil btn-toggle-field" data-target="#inputUsername"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Email</label>
+                            <div class="wa-input-group">
+                                <input type="email" id="inputEmail" name="email" class="form-control form-control-sm" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required disabled>
+                                <button type="button" class="wa-btn-pencil btn-toggle-field" data-target="#inputEmail"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Foto Profil Baru (Opsional)</label>
+                            <div class="input-group input-group-sm">
+                                <input type="file" name="foto_profil" class="form-control form-control-sm" accept="image/*">
+                            </div>
+                            <div class="form-text text-muted" style="font-size: 0.65rem;">Format: JPG, PNG, WEBP. Maks 5MB.</div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold text-muted">Password Baru <span class="text-secondary font-monospace" style="font-size: .65rem;">(Kosongkan jika tidak diganti)</span></label>
+                            <div class="input-group input-group-sm">
+                                <input type="password" id="passwordBaru" name="password" class="form-control" placeholder="••••••••" style="border-top-left-radius: 8px; border-bottom-left-radius: 8px;">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><i class="bi bi-eye"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+                        <button type="submit" class="btn btn-sm btn-success px-4" style="border-radius: 8px;">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <footer class="app-footer d-flex justify-content-between">
         <span><?= htmlspecialchars(APP_FULL ?? '') ?> &copy; <?= date('Y') ?></span>
@@ -275,6 +361,7 @@ body { background: var(--bg); min-height: 100vh; }
 <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
 const APP_URL    = '<?= APP_URL ?>';
@@ -306,6 +393,89 @@ setTimeout(() => {
         bootstrap.Alert.getOrCreateInstance(el).close()
     );
 }, 4000);
+
+// ── PROGRAM LOGIK INTERAKSI PENSIL EDIT PROFIL & AJAX ──
+$(document).ready(function() {
+    const editProfilModal = new bootstrap.Modal(document.getElementById('modalEditProfil'));
+
+    // Pemicu Modal ketika Ikon Pensil/Tombol Ubah Akun diklik
+    $(document).on('click', '.btn-trigger-edit-profil', function(e) {
+        e.preventDefault();
+        $('#formEditProfil input[name="nama"], #formEditProfil input[name="username"], #formEditProfil input[name="email"]').prop('disabled', true);
+        $('.btn-toggle-field i').removeClass('bi-check-lg text-success').addClass('bi-pencil-fill');
+        $('#passwordBaru').val('');
+        editProfilModal.show();
+    });
+
+    // Toggle Input field gaya WA
+    $('.btn-toggle-field').on('click', function() {
+        const target = $($(this).data('target'));
+        const icon = $(this).find('i');
+        if (target.prop('disabled')) {
+            target.prop('disabled', false).focus();
+            icon.removeClass('bi-pencil-fill').addClass('bi-check-lg text-success');
+        } else {
+            target.prop('disabled', true);
+            icon.removeClass('bi-check-lg text-success').addClass('bi-pencil-fill');
+        }
+    });
+
+    // Show/Hide Password
+    $('#togglePassword').on('click', function() {
+        const passInput = $('#passwordBaru');
+        const icon = $(this).find('i');
+        const isPass = passInput.attr('type') === 'password';
+        passInput.attr('type', isPass ? 'text' : 'password');
+        icon.toggleClass('bi-eye bi-eye-slash');
+    });
+
+    // Submit Data Form via AJAX POST
+    $('#formEditProfil').on('submit', function(e) {
+        e.preventDefault();
+        const disabledFields = $(this).find('input[name]:disabled');
+        disabledFields.prop('disabled', false); // Aktifkan sementara agar data terbaca
+        
+        const formData = new FormData(this);
+        disabledFields.prop('disabled', true); // Kembalikan kondisi awal UI
+        formData.append('_csrf_token', CSRF_TOKEN);
+
+        Swal.fire({
+            title: 'Simpan Perubahan?',
+            text: "Data akun profil admin akan diperbarui.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#059669',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Update!',
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+            Swal.showLoading();
+
+            $.ajax({
+                url: APP_URL + '/admin/profil',
+                method: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                dataType: 'json',
+                success: function(res) {
+                    if (res.success || res.status === 'success') {
+                        Swal.fire('Berhasil!', res.message || 'Profil berhasil diperbarui.', 'success').then(() => location.reload());
+                    } else {
+                        Swal.fire('Gagal', res.message || 'Terjadi kesalahan.', 'error');
+                    }
+                },
+                error: function(xhr) {
+                    let errMsg = 'Server merespon dengan kesalahan internal. Pastikan isian form dan koneksi database valid.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errMsg = xhr.responseJSON.message;
+                    }
+                    Swal.fire('Error', errMsg, 'error');
+                }
+            });
+        });
+    });
+});
 
 function confirmAction(url, title, text) {
     Swal.fire({ title, text, icon:'warning', showCancelButton:true,

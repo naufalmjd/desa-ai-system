@@ -84,18 +84,18 @@ body { background: var(--bg); min-height: 100vh; }
 .sidebar-footer .nav-link { color: #f87171; }
 .sidebar-footer .nav-link:hover { background: rgba(239,68,68,.15); }
 
-/* 🛠️ PERBAIKAN TAMPILAN SIDEBAR SAAT COLLAPSED 🛠️ */
+/* ── Perbaikan Collapsed Sidebar ── */
 .sidebar.collapsed .sidebar-brand-text,
 .sidebar.collapsed .sidebar-user .sidebar-brand-text,
 .sidebar.collapsed .nav-link span {
     display: none !important;
 }
 .sidebar.collapsed .sidebar-user { padding: .75rem 0; }
-.sidebar.collapsed .sidebar-user .d-flex { justify-content: center !important; gap: 0 !important; } /* Pusatkan avatar di tengah */
+.sidebar.collapsed .sidebar-user .d-flex { justify-content: center !important; gap: 0 !important; } 
 .sidebar.collapsed .sidebar-nav { padding: .5rem .25rem; }
 .sidebar.collapsed .sidebar-footer { padding: .75rem 0; }
 .sidebar.collapsed .nav-link { justify-content: center; padding: .6rem 0; gap: 0; }
-.sidebar.collapsed .nav-link i { width: 20px; text-align: center; } /* Memastikan semua ikon simetris di tengah */
+.sidebar.collapsed .nav-link i { width: 20px; text-align: center; } 
 .sidebar.collapsed .nav-link.active::after { right: 2px; }
 
 /* ── Main ── */
@@ -112,93 +112,72 @@ body { background: var(--bg); min-height: 100vh; }
 
 .page-content { flex: 1; padding: 1.5rem; }
 
-/* ── Cards ── */
-.card { border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+/* ── Cards & Tables ── */
+.card { border: 1px solid var(--border); border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.04); transition: transform .25s, box-shadow .25s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(30,64,128,.06) !important; }
 .card-header { border-bottom: 1px solid var(--border); font-weight: 700; font-size: .85rem; }
-.stat-card { border-radius: 14px; padding: 1rem; border: 1.5px solid; }
-
-/* ── Badges & Status ── */
-.badge-status { font-family: 'JetBrains Mono', monospace; font-size: .68rem; }
-
-/* ── Table ── */
-.table th { font-size: .75rem; font-weight: 600; text-transform: uppercase;
-             letter-spacing: .03em; color: #5a6a82; border-bottom: 2px solid var(--border); }
+.table th { font-size: .75rem; font-weight: 600; text-transform: uppercase; color: #5a6a82; border-bottom: 2px solid var(--border); }
 .table td { font-size: .8rem; vertical-align: middle; }
-.table-hover tbody tr:hover { background: rgba(30,64,128,.03); }
 
-/* ── Footer ── */
-.app-footer { background: #fff; border-top: 1px solid var(--border);
-               padding: .5rem 1.25rem; font-size: .68rem; color: #5a6a82; }
+/* Premium Elements */
+.btn-primary { background: linear-gradient(135deg, #1e4080, #163566); border: none; box-shadow: 0 4px 15px rgba(30,64,128,0.2); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(30,64,128,0.3); }
+.app-footer { background: #fff; border-top: 1px solid var(--border); padding: .5rem 1.25rem; font-size: .68rem; color: #5a6a82; }
 
-/* Responsive */
 @media (max-width: 991px) {
     .sidebar { transform: translateX(-100%); width: var(--sidebar-w) !important; }
     .sidebar.mobile-open { transform: translateX(0); }
     .main-wrap { margin-left: 0 !important; }
     .sidebar-overlay { display: block !important; }
-    /* Pastikan teks muncul kembali di mobile meskipun di desktop di-collapse */
-    .sidebar.collapsed .sidebar-brand-text,
-    .sidebar.collapsed .sidebar-user .sidebar-brand-text,
-    .sidebar.collapsed .nav-link span { display: block !important; }
+    .sidebar.collapsed .sidebar-brand-text, .sidebar.collapsed .sidebar-user .sidebar-brand-text, .sidebar.collapsed .nav-link span { display: block !important; }
     .sidebar.collapsed .nav-link { justify-content: start; padding: .6rem .75rem; gap: .75rem; }
 }
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1039; }
 
-/* Premium Modernization */
-.card {
-    transition: transform .25s ease, box-shadow .25s ease;
-    border: 1px solid rgba(30, 64, 128, 0.08) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+/* ── STYLE MODAL EDIT PROFIL (WHATSAPP STYLE) ── */
+.wa-input-group {
+    position: relative; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; margin-bottom: 1.25rem;
+    display: flex; align-items: center; justify-content: space-between;
 }
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(30, 64, 128, 0.06) !important;
+.wa-input-group input:disabled {
+    background: transparent !important; border: none !important; color: #1e293b !important;
+    font-weight: 500; padding-left: 0; box-shadow: none !important; cursor: default;
 }
-.btn-primary {
-    background: linear-gradient(135deg, #1e4080, #163566);
-    border: none;
-    box-shadow: 0 4px 15px rgba(30, 64, 128, 0.2);
-    transition: all .25s ease;
+.wa-input-group input:not(:disabled) {
+    border: none !important; border-bottom: 2px solid #059669 !important; border-radius: 0 !important;
+    padding-left: 0; box-shadow: none !important; color: #000;
 }
-.btn-primary:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(30, 64, 128, 0.3);
-}
-.sidebar-user {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
-    border: 1px solid rgba(255, 255, 255, 0.06);
-}
-.sidebar-brand-icon {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8) !important;
-    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
-}
-.sidebar-brand-icon i {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
+.wa-btn-pencil { background: none; border: none; color: #8492a6; padding: 4px 8px; transition: color 0.2s; }
+.wa-btn-pencil:hover { color: #1e4080; }
+.btn-trigger-edit-profil { cursor: pointer; transition: transform 0.2s; color: #1e4080; }
+.btn-trigger-edit-profil:hover { transform: scale(1.15); }
 </style>
 <?= $headExtra ?? '' ?>
 </head>
 <body>
 
-<!-- Sidebar Overlay (mobile) -->
 <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
 <!-- ── SIDEBAR ── -->
 <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-        <div class="sidebar-brand-icon">
-            <i class="bi bi-buildings-fill text-white"></i>
-        </div>
+        <div class="sidebar-brand-icon"><i class="bi bi-buildings-fill text-white"></i></div>
         <div class="sidebar-brand-text">
             <div class="name"><?= DESA_NAMA ?></div>
             <div class="sub"><?= DESA_KAB ?></div>
         </div>
     </div>
 
-    <!-- User Info -->
     <div class="sidebar-user">
         <div class="d-flex align-items-center gap-2">
-            <div class="avatar bg-primary"><?= strtoupper(substr($user['nama'] ?? 'U', 0, 2)) ?></div>
+            <?php if (!empty($user['foto_profil'])): ?>
+                <img src="<?= APP_URL ?>/public/uploads/profil/<?= htmlspecialchars($user['foto_profil']) ?>" 
+                     class="rounded-circle" 
+                     style="width: 36px; height: 36px; object-fit: cover;" 
+                     alt="Avatar">
+            <?php else: ?>
+                <div class="avatar bg-primary"><?= strtoupper(substr($user['nama'] ?? 'U', 0, 2)) ?></div>
+            <?php endif; ?>
             <div class="sidebar-brand-text">
                 <div class="text-white fw-semibold" style="font-size:.78rem;line-height:1.2"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
                 <div class="text-white-50" style="font-size:.65rem">Warga</div>
@@ -206,7 +185,6 @@ body { background: var(--bg); min-height: 100vh; }
         </div>
     </div>
 
-    <!-- Nav -->
     <nav class="sidebar-nav">
         <?php
         $wargaNav = [
@@ -238,10 +216,8 @@ body { background: var(--bg); min-height: 100vh; }
     </nav>
 
     <div class="sidebar-footer">
-        <a href="<?= APP_URL ?>/auth/logout" class="nav-link"
-           onclick="return confirm('Yakin ingin keluar?')">
-            <i class="bi bi-box-arrow-left"></i>
-            <span>Keluar</span>
+        <a href="<?= APP_URL ?>/auth/logout" class="nav-link" onclick="return confirm('Yakin ingin keluar?')">
+            <i class="bi bi-box-arrow-left"></i><span>Keluar</span>
         </a>
     </div>
 </aside>
@@ -251,35 +227,37 @@ body { background: var(--bg); min-height: 100vh; }
     <!-- Topbar -->
     <header class="topbar">
         <div class="d-flex align-items-center gap-3">
-            <button class="btn btn-sm btn-light p-1 d-lg-none" onclick="toggleSidebar()">
-                <i class="bi bi-list fs-5"></i>
-            </button>
-            <button class="btn btn-sm btn-light p-1 d-none d-lg-inline-flex" id="sidebarToggleDesktop">
-                <i class="bi bi-layout-sidebar fs-5"></i>
-            </button>
+            <button class="btn btn-sm btn-light p-1 d-lg-none" onclick="toggleSidebar()"><i class="bi bi-list fs-5"></i></button>
+            <button class="btn btn-sm btn-light p-1 d-none d-lg-inline-flex" id="sidebarToggleDesktop"><i class="bi bi-layout-sidebar fs-5"></i></button>
             <div>
                 <div class="topbar-title"><?= $pageTitle ?? 'Dashboard' ?></div>
-                <div class="topbar-breadcrumb">
-                    <i class="bi bi-house me-1"></i><?= $pageTitle ?? 'Dashboard' ?>
-                </div>
+                <div class="topbar-breadcrumb"><i class="bi bi-house me-1"></i><?= $pageTitle ?? 'Dashboard' ?></div>
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
             <a href="<?= APP_URL ?>/warga/notifikasi" class="btn btn-sm btn-light position-relative">
                 <i class="bi bi-bell"></i>
                 <?php if (($notifCount ?? 0) > 0): ?>
-                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:.6rem">
-                    <?= $notifCount ?>
-                </span>
+                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:.6rem"><?= $notifCount ?></span>
                 <?php endif; ?>
             </a>
             <div class="d-flex align-items-center gap-2 ps-2 border-start">
-                <div class="bg-primary rounded-3 text-white d-flex align-items-center justify-content-center fw-bold"
-                     style="width:32px;height:32px;font-size:.7rem">
-                    <?= strtoupper(substr($user['nama'] ?? 'U', 0, 2)) ?>
-                </div>
+                <?php if (!empty($user['foto_profil'])): ?>
+                    <img src="<?= APP_URL ?>/public/uploads/profil/<?= htmlspecialchars($user['foto_profil']) ?>" 
+                         class="rounded-circle" 
+                         style="width: 32px; height: 32px; object-fit: cover;" 
+                         alt="Avatar">
+                <?php else: ?>
+                    <div class="bg-primary rounded-3 text-white d-flex align-items-center justify-content-center fw-bold" style="width:32px;height:32px;font-size:.7rem">
+                        <?= strtoupper(substr($user['nama'] ?? 'U', 0, 2)) ?>
+                    </div>
+                <?php endif; ?>
                 <div class="d-none d-md-block">
-                    <div class="fw-semibold" style="font-size:.78rem;line-height:1.2"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
+                    <!-- TAMBAHAN: Ikon Pensil Edit Profil di Samping Nama Warga -->
+                    <div class="fw-semibold d-flex align-items-center gap-1" style="font-size:.78rem;line-height:1.2">
+                        <?= htmlspecialchars($user['nama'] ?? '') ?>
+                        <i class="bi bi-pencil-square btn-trigger-edit-profil" title="Edit Akun Profil"></i>
+                    </div>
                     <div class="text-muted" style="font-size:.65rem;font-family:'JetBrains Mono',monospace"><?= htmlspecialchars($user['nik'] ?? '') ?></div>
                 </div>
             </div>
@@ -291,14 +269,75 @@ body { background: var(--bg); min-height: 100vh; }
         <?= $content ?>
     </main>
 
+    <!-- ── MODAL EDIT PROFIL MODERN (GAYA WHATSAPP) ── -->
+    <div class="modal fade" id="modalEditProfil" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 14px;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold" style="font-size: 1rem; color: #0d1b2e;">
+                        <i class="bi bi-person-badge text-primary me-2"></i>Ubah Akun Profil
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="formEditProfil" autocomplete="off" enctype="multipart/form-data">
+                    <div class="modal-body py-3">
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Nama Lengkap</label>
+                            <div class="wa-input-group">
+                                <input type="text" id="inputNama" name="nama" class="form-control form-control-sm" value="<?= htmlspecialchars($user['nama'] ?? '') ?>" required disabled>
+                                <button type="button" class="wa-btn-pencil btn-toggle-field" data-target="#inputNama"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Username</label>
+                            <div class="wa-input-group">
+                                <input type="text" id="inputUsername" name="username" class="form-control form-control-sm" value="<?= htmlspecialchars($user['username'] ?? '') ?>" required disabled>
+                                <button type="button" class="wa-btn-pencil btn-toggle-field" data-target="#inputUsername"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Email</label>
+                            <div class="wa-input-group">
+                                <input type="email" id="inputEmail" name="email" class="form-control form-control-sm" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required disabled>
+                                <button type="button" class="wa-btn-pencil btn-toggle-field" data-target="#inputEmail"><i class="bi bi-pencil-fill"></i></button>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">Foto Profil Baru (Opsional)</label>
+                            <div class="input-group input-group-sm">
+                                <input type="file" name="foto_profil" class="form-control form-control-sm" accept="image/*">
+                            </div>
+                            <div class="form-text text-muted" style="font-size: 0.65rem;">Format: JPG, PNG, WEBP. Maks 5MB.</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-semibold text-muted mb-0">NIK (Nomor Induk Kependudukan)</label>
+                            <div class="wa-input-group" style="border-bottom-style: dashed;">
+                                <input type="text" class="form-control form-control-sm font-monospace text-muted" value="<?= htmlspecialchars($user['nik'] ?? '-') ?>" disabled>
+                                <span class="badge bg-light text-muted border px-2 py-1" style="font-size: 0.65rem;">Terkunci</span>
+                            </div>
+                        </div>
+                        <div class="mb-2">
+                            <label class="form-label small fw-semibold text-muted">Password Baru <span class="text-secondary font-monospace" style="font-size: .65rem;">(Kosongkan jika tidak diganti)</span></label>
+                            <div class="input-group input-group-sm">
+                                <input type="password" id="passwordBaru" name="password" class="form-control" placeholder="••••••••" style="border-top-left-radius: 8px; border-bottom-left-radius: 8px;">
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword" style="border-top-right-radius: 8px; border-bottom-right-radius: 8px;"><i class="bi bi-eye"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer border-0 pt-0">
+                        <button type="button" class="btn btn-sm btn-light" data-bs-dismiss="modal" style="border-radius: 8px;">Batal</button>
+                        <button type="submit" class="btn btn-sm btn-primary px-4" style="border-radius: 8px;">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="app-footer d-flex justify-content-between align-items-center">
         <span><?= APP_FULL ?> &copy; <?= date('Y') ?> &mdash; v<?= APP_VERSION ?></span>
         <span class="d-flex gap-3">
-            <span class="d-flex align-items-center gap-1">
-                <span class="bg-success rounded-circle" style="width:6px;height:6px;display:inline-block"></span>
-                AI Server Online
-            </span>
+            <span class="d-flex align-items-center gap-1"><span class="bg-success rounded-circle" style="width:6px;height:6px;display:inline-block"></span>AI Server Online</span>
             <span class="font-monospace">FastAPI &middot; YOLOv8 &middot; Gemini</span>
         </span>
     </footer>
@@ -320,19 +359,16 @@ const APP_URL    = '<?= APP_URL ?>';
 
 AOS.init({ once: true, duration: 400 });
 
-// ── FIX: Menjaga state sidebar sinkron sejak awal load tanpa berkedip/melompat ──
 const isCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
 if (isCollapsed && window.innerWidth >= 992) {
     document.getElementById('sidebar').classList.add('collapsed');
     document.getElementById('mainWrap').classList.add('collapsed');
 }
 
-// ── Sidebar toggle ────────────────────────────────────────────────────────────
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
     const mainWrap = document.getElementById('mainWrap');
-    
     if (window.innerWidth < 992) {
         sidebar.classList.toggle('mobile-open');
         overlay.style.display = sidebar.classList.contains('mobile-open') ? 'block' : 'none';
@@ -342,41 +378,108 @@ function toggleSidebar() {
         localStorage.setItem('sidebar_collapsed', sidebar.classList.contains('collapsed'));
     }
 }
-
 document.getElementById('sidebarToggleDesktop')?.addEventListener('click', toggleSidebar);
 
-// ── Flash alert auto-dismiss ──────────────────────────────────────────────────
 setTimeout(() => {
-    document.querySelectorAll('.alert-dismissible').forEach(el => {
-        bootstrap.Alert.getOrCreateInstance(el).close();
-    });
+    document.querySelectorAll('.alert-dismissible').forEach(el => { bootstrap.Alert.getOrCreateInstance(el).close(); });
 }, 4000);
 
-// ── DataTables default ────────────────────────────────────────────────────────
-$.fn.dataTable.defaults.language = {
-    url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/id.json'
-};
+$.fn.dataTable.defaults.language = { url: 'https://cdn.datatables.net/plug-ins/1.13.8/i18n/id.json' };
 
-// ── SweetAlert2 AJAX confirm helper ──────────────────────────────────────────
+// ── PROGRAM LOGIK INTERAKSI PENSIL EDIT PROFIL & AJAX ──
+$(document).ready(function() {
+    const editProfilModal = new bootstrap.Modal(document.getElementById('modalEditProfil'));
+
+    // Pemicu Modal ketika Ikon Pensil di Topbar diklik
+    $('.btn-trigger-edit-profil').on('click', function(e) {
+        e.preventDefault();
+        $('#formEditProfil input[name="nama"], #formEditProfil input[name="username"], #formEditProfil input[name="email"]').prop('disabled', true);
+        $('.btn-toggle-field i').removeClass('bi-check-lg text-success').addClass('bi-pencil-fill');
+        $('#passwordBaru').val('');
+        editProfilModal.show();
+    });
+
+    // Toggle Input field gaya WA (Buka gembok input saat pensil kecil diklik)
+    $('.btn-toggle-field').on('click', function() {
+        const target = $($(this).data('target'));
+        const icon = $(this).find('i');
+        if (target.prop('disabled')) {
+            target.prop('disabled', false).focus();
+            icon.removeClass('bi-pencil-fill').addClass('bi-check-lg text-success');
+        } else {
+            target.prop('disabled', true);
+            icon.removeClass('bi-check-lg text-success').addClass('bi-pencil-fill');
+        }
+    });
+
+    // Show/Hide Password
+    $('#togglePassword').on('click', function() {
+        const passInput = $('#passwordBaru');
+        const icon = $(this).find('i');
+        const isPass = passInput.attr('type') === 'password';
+        passInput.attr('type', isPass ? 'text' : 'password');
+        icon.toggleClass('bi-eye bi-eye-slash');
+    });
+
+    // Submit Data Form via AJAX POST
+    $('#formEditProfil').on('submit', function(e) {
+        e.preventDefault();
+        const disabledFields = $(this).find('input[name]:disabled');
+        disabledFields.prop('disabled', false); // Aktifkan sementara agar data terbaca
+        
+        // Buat FormData untuk mendukung file upload
+        const formData = new FormData(this);
+        disabledFields.prop('disabled', true); // Kembalikan kondisi awal UI
+        formData.append('_csrf_token', CSRF_TOKEN);
+
+        Swal.fire({
+            title: 'Simpan Perubahan?',
+            text: "Data akun profil warga akan diperbarui.",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonColor: '#1e4080',
+            cancelButtonText: 'Batal',
+            confirmButtonText: 'Ya, Update!',
+        }).then((result) => {
+            if (!result.isConfirmed) return;
+            Swal.showLoading();
+
+            $.ajax({
+                url: APP_URL + '/warga/profil',
+                method: 'POST',
+                data: formData,
+                processData: false, // Beritahu jQuery jangan memproses data
+                contentType: false, // Beritahu jQuery jangan menetapkan contentType
+                dataType: 'json',
+                success: function(res) {
+                    if (res.success || res.status === 'success') {
+                        Swal.fire('Berhasil!', res.message || 'Profil berhasil diperbarui.', 'success').then(() => location.reload());
+                    } else {
+                        Swal.fire('Gagal', res.message || 'Terjadi kesalahan.', 'error');
+                    }
+                },
+                error: function(xhr) {
+                    let errMsg = 'Server merespon dengan kesalahan internal. Pastikan isian form dan koneksi database valid.';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errMsg = xhr.responseJSON.message;
+                    }
+                    Swal.fire('Error', errMsg, 'error');
+                }
+            });
+        });
+    });
+});
+
 function confirmAction(url, title, text, method = 'POST') {
     Swal.fire({
-        title, text,
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#1e4080',
-        cancelButtonText: 'Batal',
-        confirmButtonText: 'Ya, lanjutkan!',
+        title, text, icon: 'warning', showCancelButton: true, confirmButtonColor: '#1e4080', cancelButtonText: 'Batal', confirmButtonText: 'Ya, lanjutkan!',
     }).then(result => {
         if (!result.isConfirmed) return;
         $.ajax({
-            url, method,
-            data: { _csrf_token: CSRF_TOKEN },
+            url, method, data: { _csrf_token: CSRF_TOKEN },
             success: res => {
-                if (res.success) {
-                    Swal.fire('Berhasil!', res.message, 'success').then(() => location.reload());
-                } else {
-                    Swal.fire('Gagal', res.message, 'error');
-                }
+                if (res.success) { Swal.fire('Berhasil!', res.message, 'success').then(() => location.reload()); }
+                else { Swal.fire('Gagal', res.message, 'error'); }
             },
             error: () => Swal.fire('Error', 'Terjadi kesalahan.', 'error'),
         });

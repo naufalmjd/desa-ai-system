@@ -19,6 +19,8 @@ final class ProfilController extends Controller
         $penduduk = $pendudukRepo->findByUserId($userId);
         $user = $this->auth();
 
+        
+
         $this->render('kepaladesa/profil/index', compact('penduduk', 'user'), 'kepaladesa');
     }
 }
