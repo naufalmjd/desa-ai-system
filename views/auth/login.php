@@ -142,6 +142,23 @@ declare(strict_types=1);
             background: rgba(0, 0, 0, 0.04);
         }
 
+        /* Fix untuk konten agar tidak menempel navbar */
+        main.container {
+            padding-top: 100px !important;
+        }
+
+        /* Responsif untuk mobile */
+        @media (max-width: 768px) {
+            main.container {
+                padding-top: 85px !important;
+            }
+        }
+
+        /* Tambahan spacing untuk section landing */
+        #landing.hero-sec {
+            padding-top: 2rem !important;
+        }
+
         /* Hero Layout */
         .hero-sec {
             position: relative;
@@ -440,12 +457,12 @@ declare(strict_types=1);
     </nav>
 
     <!-- MAIN PORTAL WRAPPER -->
-    <main class="container my-5 pt-4">
+    <main class="container my-5" style="padding-top: 90px;">
 
         <!-- 1. LANDING PAGE SECTION -->
         <section id="landing" class="page-section active">
             <!-- Hero Section -->
-            <div class="hero-sec text-center">
+            <div class="hero-sec text-center" style="padding-top: 1rem;">
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
                 <div class="container py-4">
