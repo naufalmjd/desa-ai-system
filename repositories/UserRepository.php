@@ -56,6 +56,21 @@ final class UserRepository implements UserRepositoryInterface
         );
     }
 
+    /**
+     * Ambil semua user beserta role-nya (untuk ditampilkan di halaman login)
+     */
+    public function findAllWithRole(): array
+    {
+        $sql = "SELECT u.id, u.username, u.email, u.is_active, u.created_at,
+                       r.name AS role_name, r.label AS role_label
+                FROM users u 
+                JOIN roles r ON r.id = u.role_id 
+                WHERE u.deleted_at IS NULL 
+                ORDER BY u.id ASC";
+
+        return $this->db->fetchAll($sql);
+    }
+
     public function create(array $data): int
     {
         return (int)$this->db->insert('users', $data);
