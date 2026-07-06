@@ -142,4 +142,6 @@ final class UserRepository implements UserRepositoryInterface
     {
         return $this->db->softDelete('users', 'id = ?', [$id]) > 0;
     }
+
+    
 }
