@@ -449,7 +449,7 @@ declare(strict_types=1);
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
                 <div class="container py-4">
-                    <h1 class="display-3 fw-bold text-gradient mb-3">DigitalDesa.id</h1>
+                    <h1 class="display-3 fw-bold text-gradient mb-3">SmartDesa.id</h1>
                     <p class="lead text-muted mx-auto mb-4" style="max-width: 650px;">
                         Mewujudkan tata kelola desa yang transparan, pelayanan mandiri warga yang super cepat, dan kesiapsiagaan darurat 24 jam berbasis teknologi digital modern.
                     </p>
@@ -886,10 +886,10 @@ declare(strict_types=1);
     <footer class="text-center py-4 border-top border-secondary border-opacity-10 mt-5">
         <div class="container">
             <p class="text-muted m-0" style="font-size: 0.82rem;">
-                &copy; 2026 <strong>DigitalDesa.id</strong>. Hak Cipta Dilindungi Undang-Undang.
+                &copy; 2026 <strong>SmartDesa.id</strong>. Hak Cipta Dilindungi Undang-Undang.
             </p>
             <small class="text-accent" style="font-size: 0.72rem; font-weight: 500;">
-                Smart Village Initiative &middot; Wonosobo Digital System
+                Smart Village Initiative &middot; Yogyakarta Digital System
             </small>
         </div>
     </footer>
