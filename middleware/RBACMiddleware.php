@@ -19,8 +19,9 @@ final class RBACMiddleware
     /** Peta modul URL → role yang diizinkan */
     private const ROLE_MAP = [
         'warga'      => ['warga'],
-        'admin'      => ['admin'],
-        'kepaladesa' => ['kepala_desa'],
+        'admin'      => ['admin', 'superadmin'],
+        'kepaladesa' => ['kepala_desa', 'superadmin'],
+        'superadmin' => ['superadmin'],
     ];
 
     public function __construct(private string $module) {}
@@ -51,6 +52,7 @@ final class RBACMiddleware
             'warga'       => APP_URL . '/warga/dashboard',
             'admin'       => APP_URL . '/admin/dashboard',
             'kepala_desa' => APP_URL . '/kepaladesa/dashboard',
+            'superadmin'  => APP_URL . '/superadmin/dashboard',
             default       => APP_URL . '/login',
         };
 

@@ -68,6 +68,9 @@ abstract class Controller
         // Render layout jika ada dan belum dirender di dalam view file
         $alreadyHasLayout = str_contains($content, '<!DOCTYPE html>') || str_contains($content, '<html');
         if ($layout && !$alreadyHasLayout) {
+            if ($this->authRole() === 'superadmin' && in_array($layout, ['admin', 'kepaladesa'], true)) {
+                $layout = 'superadmin';
+            }
             $layoutFile = VIEW_PATH . '/layouts/' . $layout . '.php';
             if (!is_file($layoutFile)) {
                 throw new \RuntimeException("Layout tidak ditemukan: $layoutFile");

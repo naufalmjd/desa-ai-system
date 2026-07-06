@@ -1,3 +1,9 @@
+<?php
+if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmin') {
+    require VIEW_PATH . '/layouts/superadmin.php';
+    return;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>

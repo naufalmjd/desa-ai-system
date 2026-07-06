@@ -63,7 +63,7 @@ final class App
         $segments = explode('/', $path);
 
         $module = strtolower($segments[0] ?? '');
-        $allowedModules = ['warga', 'admin', 'kepaladesa', 'auth', 'api'];
+        $allowedModules = ['warga', 'admin', 'kepaladesa', 'superadmin', 'auth', 'api'];
 
         if ($module === 'auth' && ($segments[1] ?? '') === 'logout') {
             $this->module     = 'auth';
@@ -80,6 +80,7 @@ final class App
                 'warga'      => 'Warga',
                 'admin'      => 'Admin',
                 'kepaladesa' => 'Kepaladesa',
+                'superadmin' => 'Superadmin',
                 'api'        => 'Api',
                 default      => 'Auth',
             };

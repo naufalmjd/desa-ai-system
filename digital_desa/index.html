@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SmartDesa — Sistem Informasi & Layanan Darurat Desa</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+    <!-- Google Fonts: Outfit -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <!-- SweetAlert2 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css"
+      rel="stylesheet"
+    />
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- NAVBAR UTAMA -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#landing">
+          <i class="bi bi-house-gear-fill text-accent"></i>
+          <span>SmartDesa</span>
+        </a>
+        <button
+          class="navbar-toggler border-secondary"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+            <li class="nav-item">
+              <a class="nav-link active" href="#landing"
+                ><i class="bi bi-compass me-1"></i>Beranda</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#beranda"
+                ><i class="bi bi-grid-fill me-1"></i>Dashboard Desa</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#berita"
+                ><i class="bi bi-newspaper me-1"></i>Berita</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#ambulans"
+                ><i
+                  class="bi bi-heart-pulse-fill me-1 text-danger animate-pulse"
+                ></i
+                >Layanan Ambulans</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#kontak"
+                ><i class="bi bi-chat-left-dots-fill me-1"></i>Kontak</a
+              >
+            </li>
+            <!-- Theme Toggle -->
+            <li class="nav-item px-2">
+              <button
+                id="theme-toggle-btn"
+                class="theme-btn"
+                title="Ganti Tema"
+              >
+                <i id="theme-icon" class="bi bi-moon-stars-fill text-info"></i>
+              </button>
+            </li>
+            <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+              <a href="#login" class="btn btn-premium btn-sm w-100 px-4">
+                <i class="bi bi-box-arrow-in-right me-1"></i>Login
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- MAIN APP WRAPPER -->
+    <main class="container my-5 pt-5">
+      <!-- 1. LANDING PAGE SECTION -->
+      <section id="landing" class="page-section active">
+        <!-- Hero Section -->
+        <div class="hero-sec text-center">
+          <div class="hero-glow hero-glow-1"></div>
+          <div class="hero-glow hero-glow-2"></div>
+          <div class="container py-4">
+            <h1 class="display-3 fw-bold text-gradient mb-3">SmartDesa.id</h1>
+            <p class="lead text-muted mx-auto mb-4" style="max-width: 650px">
+              Mewujudkan tata kelola desa yang transparan, pelayanan mandiri
+              warga yang super cepat, dan kesiapsiagaan darurat 24 jam berbasis
+              teknologi digital modern.
+            </p>
+            <div class="d-flex justify-content-center gap-3">
+              <a href="#login" class="btn btn-premium py-2.5 px-4 fs-6">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Masuk ke Sistem
+              </a>
+              <a
+                href="#beranda"
+                class="btn btn-outline-premium py-2.5 px-4 fs-6"
+              >
+                Jelajahi Dashboard Publik
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tentang Website Section -->
+        <div class="row align-items-center my-5 py-3">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <div class="card glass-card p-4 border-0">
+              <h3 class="fw-bold text-white mb-3">Modernisasi Layanan Desa</h3>
+              <p class="text-muted mb-3" style="line-height: 1.7">
+                Portal Sistem Informasi **SmartDesa.id** dirancang untuk
+                mempermudah koordinasi antara perangkat desa dan masyarakat.
+                Dengan integrasi teknologi informasi, pengurusan administrasi
+                surat-menyurat, pemantauan logistik desa, hingga penanganan
+                darurat ambulans kini dapat diakses kapan saja dan di mana saja.
+              </p>
+              <p class="text-muted mb-0" style="line-height: 1.7">
+                Kami berkomitmen memberikan keterbukaan informasi publik dan
+                akuntabilitas anggaran desa guna mendukung terwujudnya konsep
+                smart village di Indonesia.
+              </p>
+            </div>
+          </div>
+          <div class="col-lg-6 text-center">
+            <img
+              src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80"
+              alt="Tentang Desa"
+              class="img-fluid rounded-5 shadow-lg border border-secondary border-opacity-25"
+              style="max-height: 320px; width: 100%; object-fit: cover"
+            />
+          </div>
+        </div>
+
+        <!-- Fitur Utama Section -->
+        <div class="my-5">
+          <h3 class="text-center fw-bold text-white mb-4">
+            Fitur Unggulan Sistem
+          </h3>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <div class="card glass-card p-4 h-100 border-0">
+                <div class="feat-icon"><i class="bi bi-eye-fill"></i></div>
+                <h5 class="fw-bold text-white mb-2">Transparansi Anggaran</h5>
+                <p
+                  class="text-muted mb-0"
+                  style="font-size: 0.88rem; line-height: 1.6"
+                >
+                  Publikasi realisasi penggunaan anggaran Dana Desa (APBDes)
+                  yang akuntabel dan dapat diawasi langsung oleh seluruh warga.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card glass-card p-4 h-100 border-0">
+                <div class="feat-icon"><i class="bi bi-clock-fill"></i></div>
+                <h5 class="fw-bold text-white mb-2">Pelayanan Cepat</h5>
+                <p
+                  class="text-muted mb-0"
+                  style="font-size: 0.88rem; line-height: 1.6"
+                >
+                  Layanan permohonan surat administrasi desa yang instan,
+                  efisien, serta ramah perangkat seluler warganya.
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card glass-card p-4 h-100 border-0">
+                <div class="feat-icon"><i class="bi bi-newspaper"></i></div>
+                <h5 class="fw-bold text-white mb-2">Berita Terkini</h5>
+                <p
+                  class="text-muted mb-0"
+                  style="font-size: 0.88rem; line-height: 1.6"
+                >
+                  Portal kabar, pengumuman darurat, agenda desa, dan dokumentasi
+                  kegiatan pembangunan yang terintegrasi rapi.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2. HALAMAN BERANDA (Dashboard Publik) SECTION -->
+      <section id="beranda" class="page-section">
+        <div class="row g-4">
+          <!-- Welcome & Announcement Banner -->
+          <div class="col-lg-8">
+            <!-- Banner Pengumuman Penting Kades -->
+            <div class="card glass-card p-4 border-0 mb-4 banner-announce">
+              <div class="d-flex align-items-start gap-3">
+                <span class="fs-2 text-accent"
+                  ><i class="bi bi-megaphone-fill"></i
+                ></span>
+                <div>
+                  <h5 class="fw-bold text-white mb-1">
+                    Pengumuman Penting Kepala Desa
+                  </h5>
+                  <p class="text-muted mb-2" style="font-size: 0.88rem">
+                    Diterbitkan pada: 04 Juli 2026
+                  </p>
+                  <p
+                    class="text-white mb-0"
+                    style="font-size: 0.92rem; line-height: 1.6"
+                  >
+                    "Dihimbau kepada seluruh ketua RT/RW dan warga desa untuk
+                    ikut berpartisipasi dalam kegiatan kerja bakti massal
+                    pembersihan saluran irigasi pada hari Minggu, 12 Juli 2026
+                    jam 07:00 WIB guna menyambut musim tanam."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Statistik Desa Grid -->
+            <div class="my-4">
+              <h4 class="fw-bold text-white mb-3">Statistik Demografi Desa</h4>
+              <div class="row g-3">
+                <div class="col-6 col-sm-4">
+                  <div class="card glass-card border-0 p-3 text-center">
+                    <div class="stat-icon">
+                      <i class="bi bi-people-fill"></i>
+                    </div>
+                    <h3 class="fw-bold text-white mb-0">3,450</h3>
+                    <small class="text-muted" style="font-size: 0.75rem"
+                      >Total Penduduk</small
+                    >
+                  </div>
+                </div>
+                <div class="col-6 col-sm-4">
+                  <div class="card glass-card border-0 p-3 text-center">
+                    <div class="stat-icon">
+                      <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+                    <h3 class="fw-bold text-white mb-0">12.8 Km²</h3>
+                    <small class="text-muted" style="font-size: 0.75rem"
+                      >Luas Wilayah</small
+                    >
+                  </div>
+                </div>
+                <div class="col-12 col-sm-4">
+                  <div class="card glass-card border-0 p-3 text-center">
+                    <div class="stat-icon">
+                      <i class="bi bi-houses-fill"></i>
+                    </div>
+                    <h3 class="fw-bold text-white mb-0">12 RT / 4 RW</h3>
+                    <small class="text-muted" style="font-size: 0.75rem"
+                      >Wilayah Administrasi</small
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Widget Area -->
+          <div class="col-lg-4">
+            <div
+              class="card glass-card p-4 border-0 text-center h-100 d-flex flex-column justify-content-between"
+              style="
+                background: linear-gradient(
+                  135deg,
+                  rgba(244, 63, 94, 0.08),
+                  rgba(99, 102, 241, 0.05)
+                ) !important;
+              "
+            >
+              <div>
+                <div
+                  class="rounded-circle bg-danger bg-opacity-10 d-flex align-items-center justify-content-center text-danger mx-auto mb-3"
+                  style="width: 70px; height: 70px"
+                >
+                  <i class="bi bi-heart-pulse-fill fs-1 animate-pulse"></i>
+                </div>
+                <h4 class="fw-bold text-white mb-2">Ambulans Darurat</h4>
+                <p
+                  class="text-muted mb-4"
+                  style="font-size: 0.88rem; line-height: 1.6"
+                >
+                  Butuh bantuan medis segera? Pesan Sopir Ambulans Desa langsung
+                  ke kontak WhatsApp admin siaga. Layanan aktif 24 jam bebas
+                  biaya bagi seluruh warga.
+                </p>
+              </div>
+              <a href="#ambulans" class="btn btn-emergency w-100 py-3 fs-6">
+                <i class="bi bi-telephone-fill me-2"></i>HUBUNGI AMBULANS DESA
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sekilas Berita Terbaru -->
+        <div class="my-5">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold text-white m-0">Kabar & Rilis Berita Terbaru</h4>
+            <a href="#berita" class="btn btn-outline-premium btn-sm px-3"
+              >Lihat Semua Berita</a
+            >
+          </div>
+          <div class="row" id="latest-news-grid">
+            <!-- Dinamis Diisi Oleh JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. HALAMAN BERITA & LAYANAN DOKUMEN SECTION -->
+      <section id="berita" class="page-section">
+        <div class="text-center mb-5">
+          <h2 class="fw-bold text-white">Berita Desa & Pusat Lampiran</h2>
+          <p class="text-muted">
+            Pantau terus kegiatan pembangunan desa dan unduh dokumen
+            administrasi secara praktis.
+          </p>
+        </div>
+
+        <div class="row" id="all-news-list">
+          <!-- Dinamis Diisi Oleh JS -->
+        </div>
+      </section>
+
+      <!-- 4. LAYANAN AMBULANS DARURAT SECTION -->
+      <section id="ambulans" class="page-section">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="card glass-card p-4 border-0 shadow-lg">
+              <div class="text-center mb-4">
+                <div
+                  class="badge bg-danger bg-opacity-25 text-danger px-3 py-2 fs-6 rounded-pill mb-2"
+                >
+                  <i
+                    class="bi bi-circle-fill me-1 animate-ping"
+                    style="font-size: 0.6rem"
+                  ></i>
+                  Layanan Siaga 24 Jam
+                </div>
+                <h3 class="fw-bold text-white">Formulir Panggilan Ambulans</h3>
+                <p class="text-muted" style="font-size: 0.88rem">
+                  Harap isi data pelapor dan titik jemput dengan jelas. Menekan
+                  tombol kirim akan langsung mengarahkan Anda ke WhatsApp Admin
+                  untuk mencarikan armada terdekat.
+                </p>
+              </div>
+
+              <form id="form-ambulans" class="row g-3">
+                <div class="col-12">
+                  <label
+                    for="amb-nama"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Nama Pelapor / Keluarga</label
+                  >
+                  <div class="input-group">
+                    <span
+                      class="input-group-text bg-transparent border-secondary text-muted"
+                      ><i class="bi bi-person"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="amb-nama"
+                      class="form-control"
+                      placeholder="Contoh: Budi Santoso"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="amb-alamat"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Lokasi / Alamat Lengkap Penjemputan</label
+                  >
+                  <div class="input-group">
+                    <span
+                      class="input-group-text bg-transparent border-secondary text-muted"
+                      ><i class="bi bi-geo-alt"></i
+                    ></span>
+                    <textarea
+                      id="amb-alamat"
+                      rows="2"
+                      class="form-control"
+                      placeholder="Dusun, RT/RW, nomor rumah, atau patokan arah lokasi..."
+                      required
+                    ></textarea>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label
+                    for="amb-kondisi"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Kondisi Darurat Pasien</label
+                  >
+                  <div class="input-group">
+                    <span
+                      class="input-group-text bg-transparent border-secondary text-muted"
+                      ><i class="bi bi-activity"></i
+                    ></span>
+                    <select id="amb-kondisi" class="form-select" required>
+                      <option value="" disabled selected>
+                        -- Pilih Kondisi Pasien --
+                      </option>
+                      <option value="Persalinan/Melahirkan">
+                        Persalinan / Melahirkan
+                      </option>
+                      <option value="Kecelakaan Lalu Lintas">
+                        Kecelakaan Lalu Lintas
+                      </option>
+                      <option value="Serangan Jantung/Nyeri Dada Parah">
+                        Serangan Jantung / Nyeri Dada Parah
+                      </option>
+                      <option value="Demam Tinggi / Kejang Anak">
+                        Demam Tinggi / Kejang Anak
+                      </option>
+                      <option value="Kedaruratan Medis Lainnya">
+                        Lainnya (Tuliskan di pesan WA nanti)
+                      </option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="col-12 d-grid mt-4">
+                  <button type="submit" class="btn btn-emergency py-3 fs-6">
+                    <i class="bi bi-whatsapp me-2"></i>Pesan Ambulans Sekarang
+                    (Kirim WA)
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5. HALAMAN KONTAK SECTION -->
+      <section id="kontak" class="page-section">
+        <div class="row g-4">
+          <!-- Contact Info Area -->
+          <div class="col-lg-5">
+            <div class="card glass-card p-4 border-0 h-100">
+              <h4 class="fw-bold text-white mb-4">
+                Informasi Kontak Kantor Desa
+              </h4>
+
+              <div class="d-flex align-items-start gap-3 mb-3">
+                <span class="fs-4 text-primary"
+                  ><i class="bi bi-geo-alt-fill"></i
+                ></span>
+                <div>
+                  <h6 class="fw-bold text-white mb-1">Alamat Kantor</h6>
+                  <p class="text-muted" style="font-size: 0.88rem">
+                    Jl. Raya Demokrasi No. 45, Kecamatan Sukamaju, Kabupaten
+                    Wonosobo, Jawa Tengah, 56361
+                  </p>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-start gap-3 mb-3">
+                <span class="fs-4 text-accent"
+                  ><i class="bi bi-envelope-fill"></i
+                ></span>
+                <div>
+                  <h6 class="fw-bold text-white mb-1">Email Resmi</h6>
+                  <p class="text-muted" style="font-size: 0.88rem">
+                    info@digitaldesa.id &middot; desa.sukamaju@gmail.com
+                  </p>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-start gap-3 mb-4">
+                <span class="fs-4 text-success"
+                  ><i class="bi bi-telephone-fill"></i
+                ></span>
+                <div>
+                  <h6 class="fw-bold text-white mb-1">
+                    Telepon / WhatsApp Siaga
+                  </h6>
+                  <p class="text-muted" style="font-size: 0.88rem">
+                    +62 812-3456-789 (Humas Desa)
+                  </p>
+                </div>
+              </div>
+
+              <!-- Google Maps Placeholder -->
+              <div
+                class="rounded-4 overflow-hidden border border-secondary border-opacity-25"
+                style="height: 180px"
+              >
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.33806407062!2d109.83151978250645!3d-7.3596720516644265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7aa1a91e57c6b9%3A0x4027a7b50a25610!2sWonosobo%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1704200000000!5m2!1sen!2sid"
+                  width="100%"
+                  height="100%"
+                  style="border: 0"
+                  allowfullscreen=""
+                  loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Message Form -->
+          <div class="col-lg-7">
+            <div class="card glass-card p-4 border-0 h-100">
+              <h4 class="fw-bold text-white mb-3">
+                Kirim Pesan Aspirasi Warga
+              </h4>
+              <p class="text-muted mb-4" style="font-size: 0.88rem">
+                Ada saran, aduan, kritik, atau pertanyaan? Kirim pesan Anda di
+                bawah ini secara rahasia dan aman.
+              </p>
+
+              <form id="form-kontak" class="row g-3">
+                <div class="col-md-6">
+                  <label
+                    for="c-nama"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Nama Anda</label
+                  >
+                  <input
+                    type="text"
+                    id="c-nama"
+                    class="form-control"
+                    placeholder="Contoh: Rian Pratama"
+                    required
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label
+                    for="c-email"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Alamat Email</label
+                  >
+                  <input
+                    type="email"
+                    id="c-email"
+                    class="form-control"
+                    placeholder="Contoh: rian@email.com"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <label
+                    for="c-subjek"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Subjek Aspirasi</label
+                  >
+                  <input
+                    type="text"
+                    id="c-subjek"
+                    class="form-control"
+                    placeholder="Contoh: Pengaduan Saluran Air Mampet"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <label
+                    for="c-pesan"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Isi Pesan Detail</label
+                  >
+                  <textarea
+                    id="c-pesan"
+                    rows="4"
+                    class="form-control"
+                    placeholder="Tuliskan keluhan atau saran Anda dengan jelas..."
+                    required
+                  ></textarea>
+                </div>
+                <div class="col-12 d-grid mt-4">
+                  <button type="submit" class="btn btn-premium py-2.5">
+                    <i class="bi bi-send-fill me-1"></i>Kirim Aspirasi Sekarang
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. HALAMAN LOGIN SECTION -->
+      <section id="login" class="page-section">
+        <div class="row justify-content-center">
+          <div class="col-md-5">
+            <div class="card glass-card p-4 border-0">
+              <div class="text-center mb-4">
+                <i
+                  class="bi bi-shield-lock-fill text-accent display-4 mb-2"
+                ></i>
+                <h4 class="fw-bold text-white">Login Perangkat Desa</h4>
+                <p class="text-muted" style="font-size: 0.82rem">
+                  Masukkan akun admin terdaftar Anda untuk memproses
+                  administrasi desa.
+                </p>
+              </div>
+
+              <form id="form-login" class="row g-3">
+                <div class="col-12">
+                  <label
+                    for="l-user"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Username atau Email</label
+                  >
+                  <div class="input-group">
+                    <span
+                      class="input-group-text bg-transparent border-secondary text-muted"
+                      ><i class="bi bi-person"></i
+                    ></span>
+                    <input
+                      type="text"
+                      id="l-user"
+                      class="form-control"
+                      placeholder="Masukkan username/email..."
+                      required
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+                <div class="col-12">
+                  <label
+                    for="l-pass"
+                    class="form-label text-white-50 fw-semibold"
+                    style="font-size: 0.82rem"
+                    >Kata Sandi (Password)</label
+                  >
+                  <div class="input-group">
+                    <span
+                      class="input-group-text bg-transparent border-secondary text-muted"
+                      ><i class="bi bi-lock"></i
+                    ></span>
+                    <input
+                      type="password"
+                      id="l-pass"
+                      class="form-control"
+                      placeholder="Masukkan kata sandi..."
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div
+                  class="col-12 d-flex justify-content-between align-items-center mt-3"
+                  style="font-size: 0.82rem"
+                >
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="l-remember"
+                      style="cursor: pointer"
+                    />
+                    <label
+                      class="form-check-label text-muted"
+                      for="l-remember"
+                      style="cursor: pointer"
+                      >Ingat Saya</label
+                    >
+                  </div>
+                  <a
+                    href="javascript:void(0)"
+                    onclick="
+                      Swal.fire(
+                        'Fitur Lupa Password',
+                        'Silakan hubungi administrator IT desa untuk mereset kata sandi Anda.',
+                        'info',
+                      )
+                    "
+                    class="text-accent text-decoration-none"
+                    >Lupa Sandi?</a
+                  >
+                </div>
+
+                <div class="col-12 d-grid mt-4">
+                  <button type="submit" class="btn btn-premium py-2.5 fw-bold">
+                    <i class="bi bi-box-arrow-in-right me-1"></i>Masuk Sistem
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER UTAMA -->
+    <footer
+      class="text-center py-4 border-top border-secondary border-opacity-10 mt-5"
+    >
+      <div class="container">
+        <p class="text-muted m-0" style="font-size: 0.82rem">
+          &copy; 2026 <strong>SmartDesa.id</strong>. Hak Cipta Dilindungi
+          Undang-Undang.
+        </p>
+        <small class="text-accent" style="font-size: 0.72rem; font-weight: 500">
+          Smart Village Initiative &middot; Wonosobo Digital System
+        </small>
+      </div>
+    </footer>
+
+    <!-- MODAL DETAIL BERITA & DOKUMEN -->
+    <div
+      class="modal fade"
+      id="newsDetailModal"
+      tabindex="-1"
+      aria-labelledby="newsDetailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div
+          class="modal-content glass-card border-0 p-2"
+          style="background: rgba(8, 10, 16, 0.9) !important"
+        >
+          <div class="modal-header border-0 pb-0">
+            <div>
+              <h5
+                class="modal-title fw-bold text-white"
+                id="newsDetailModalLabel"
+              >
+                Judul Berita
+              </h5>
+              <small class="text-accent" id="modal-news-date">Tanggal</small>
+            </div>
+            <button
+              type="button"
+              class="btn-close btn-close-white"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img
+              src=""
+              id="modal-news-img"
+              class="img-fluid rounded-4 mb-3"
+              alt="Berita"
+              style="width: 100%; max-height: 380px; object-fit: cover"
+            />
+            <div id="modal-news-body" class="text-muted mb-4">
+              <!-- Isi Konten Berita -->
+            </div>
+            <div id="modal-news-attachments">
+              <!-- Unduh Lampiran Dokumen -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS (termasuk Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Custom Application Logic JS -->
+    <script src="app.js"></script>
+  </body>
+</html>

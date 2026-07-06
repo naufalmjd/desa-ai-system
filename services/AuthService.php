@@ -160,6 +160,7 @@ final class AuthService
             'warga'       => APP_URL . '/warga/dashboard',
             'admin'       => APP_URL . '/admin/dashboard',
             'kepala_desa' => APP_URL . '/kepaladesa/dashboard',
+            'superadmin'  => APP_URL . '/superadmin/dashboard',
             default       => APP_URL . '/login',
         };
     }

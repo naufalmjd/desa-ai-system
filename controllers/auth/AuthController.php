@@ -72,6 +72,7 @@ final class AuthController extends Controller
             'warga'       => 'warga/dashboard',
             'admin'       => 'admin/dashboard',
             'kepala_desa' => 'kepaladesa/dashboard',
+            'superadmin'  => 'superadmin/dashboard',
             default       => 'login',
         };
     }
