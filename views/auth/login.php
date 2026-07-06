@@ -12,7 +12,7 @@ declare(strict_types=1);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-    <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
@@ -22,13 +22,13 @@ declare(strict_types=1);
            DigitalDesa.id — Premium Glassmorphism Design System
            ============================================================ */
         :root {
-            --primary:          #6366f1; /* Indigo */
+            --primary:          #6366f1;
             --primary-dark:     #4f46e5;
             --primary-glow:     rgba(99, 102, 241, 0.25);
-            --accent:           #06b6d4; /* Cyan */
+            --accent:           #06b6d4;
             --accent-glow:      rgba(6, 182, 212, 0.25);
-            --success:          #10b981; /* Emerald */
-            --danger:           #f43f5e; /* Rose */
+            --success:          #10b981;
+            --danger:           #f43f5e;
             
             /* Dark Theme Properties */
             --bg-gradient:      radial-gradient(circle at 10% 20%, #080d1a 0%, #030508 90%);
@@ -70,7 +70,6 @@ declare(strict_types=1);
             transition: background 0.4s ease, color 0.4s ease;
         }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -85,7 +84,6 @@ declare(strict_types=1);
             background: var(--primary);
         }
 
-        /* Glassmorphism Cards */
         .glass-card {
             background: var(--card-bg) !important;
             border: 1px solid var(--card-border) !important;
@@ -103,7 +101,6 @@ declare(strict_types=1);
             box-shadow: 0 12px 40px var(--primary-glow);
         }
 
-        /* Navbar Styling */
         .navbar {
             background: var(--nav-bg);
             backdrop-filter: blur(15px);
@@ -142,24 +139,16 @@ declare(strict_types=1);
             background: rgba(0, 0, 0, 0.04);
         }
 
-        /* Fix untuk konten agar tidak menempel navbar */
         main.container {
             padding-top: 100px !important;
         }
 
-        /* Responsif untuk mobile */
         @media (max-width: 768px) {
             main.container {
                 padding-top: 85px !important;
             }
         }
 
-        /* Tambahan spacing untuk section landing */
-        #landing.hero-sec {
-            padding-top: 2rem !important;
-        }
-
-        /* Hero Layout */
         .hero-sec {
             position: relative;
             padding: 8rem 0 5rem;
@@ -188,7 +177,6 @@ declare(strict_types=1);
             -webkit-text-fill-color: transparent;
         }
 
-        /* Page Switcher Sections */
         .page-section {
             display: none;
             opacity: 0;
@@ -201,7 +189,6 @@ declare(strict_types=1);
             transform: translateY(0);
         }
 
-        /* Premium Buttons */
         .btn-premium {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff !important;
@@ -249,7 +236,6 @@ declare(strict_types=1);
             box-shadow: 0 6px 25px rgba(244, 63, 94, 0.55);
         }
 
-        /* Inputs & Selections */
         .form-control, .form-select {
             background-color: var(--input-bg) !important;
             border: 1px solid var(--card-border) !important;
@@ -273,7 +259,6 @@ declare(strict_types=1);
             color: var(--text-muted);
         }
 
-        /* Stats widgets */
         .stat-icon {
             width: 50px;
             height: 50px;
@@ -300,13 +285,11 @@ declare(strict_types=1);
             border: 1px solid rgba(6, 182, 212, 0.2);
         }
 
-        /* Announcement banner style */
         .banner-announce {
             background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(99, 102, 241, 0.06));
             border-left: 4px solid var(--accent);
         }
 
-        /* Document download design */
         .doc-item {
             display: flex;
             align-items: center;
@@ -333,7 +316,6 @@ declare(strict_types=1);
         .doc-badge.xls  { background: rgba(16, 185, 129, 0.15); color: #34d399; }
         .doc-badge.doc  { background: rgba(59, 130, 246, 0.15); color: #60a5fa; }
 
-        /* Pulsing indicator */
         .animate-pulse {
             animation: pulse 1.8s infinite;
         }
@@ -343,7 +325,6 @@ declare(strict_types=1);
             100% { transform: scale(1); }
         }
 
-        /* Theme Toggle Button */
         .theme-btn {
             cursor: pointer;
             font-size: 1.15rem;
@@ -366,18 +347,33 @@ declare(strict_types=1);
             background: rgba(0, 0, 0, 0.03);
         }
 
-        /* Demo Account Buttons */
-        .demo-btn {
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 700;
+        /* Style untuk daftar akun warga */
+        .account-list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
             transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .account-list-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--primary-glow);
+        }
+        .account-list-item .badge-role {
+            font-size: 0.6rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
+            font-weight: 700;
         }
-        .demo-btn:hover {
-            transform: translateY(-2px);
-        }
+        .account-list-item .badge-role.warga { background: rgba(99, 102, 241, 0.2); color: #818cf8; }
+        .account-list-item .badge-role.admin { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .account-list-item .badge-role.kades { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        .account-list-item .badge-role.superadmin { background: rgba(244, 63, 94, 0.2); color: #fb7185; }
         
         .btn-submit {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
@@ -396,7 +392,6 @@ declare(strict_types=1);
             filter: brightness(1.1);
         }
 
-        /* Login Left Panel Details */
         .login-info-box {
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
@@ -408,6 +403,19 @@ declare(strict_types=1);
         .login-info-box:hover {
             transform: translateY(-3px);
             border-color: var(--primary-glow);
+        }
+
+        /* Scroll area untuk daftar akun */
+        .account-scroll {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .account-scroll::-webkit-scrollbar {
+            width: 4px;
+        }
+        .account-scroll::-webkit-scrollbar-thumb {
+            background: var(--primary-glow);
+            border-radius: 2px;
         }
     </style>
 </head>
@@ -440,7 +448,6 @@ declare(strict_types=1);
                     <li class="nav-item">
                         <a class="nav-link" href="#kontak"><i class="bi bi-chat-left-dots-fill me-1"></i>Kontak</a>
                     </li>
-                    <!-- Theme Toggle -->
                     <li class="nav-item px-2">
                         <button id="theme-toggle-btn" class="theme-btn" title="Ganti Tema">
                             <i id="theme-icon" class="bi bi-moon-stars-fill text-info"></i>
@@ -461,7 +468,6 @@ declare(strict_types=1);
 
         <!-- 1. LANDING PAGE SECTION -->
         <section id="landing" class="page-section active">
-            <!-- Hero Section -->
             <div class="hero-sec text-center" style="padding-top: 1rem;">
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
@@ -481,7 +487,6 @@ declare(strict_types=1);
                 </div>
             </div>
 
-            <!-- Tentang Website Section -->
             <div class="row align-items-center my-4 py-3">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="card glass-card p-4 border-0">
@@ -499,7 +504,6 @@ declare(strict_types=1);
                 </div>
             </div>
 
-            <!-- Fitur Utama Section -->
             <div class="my-5">
                 <h3 class="text-center fw-bold mb-4"><i class="bi bi-stars text-accent me-2"></i>Fitur Unggulan Sistem</h3>
                 <div class="row g-4">
@@ -528,14 +532,10 @@ declare(strict_types=1);
             </div>
         </section>
 
-
-        <!-- 2. HALAMAN BERANDA (Dashboard Publik) SECTION -->
+        <!-- 2. HALAMAN BERANDA -->
         <section id="beranda" class="page-section">
             <div class="row g-4">
-                
-                <!-- Welcome & Announcement Banner -->
                 <div class="col-lg-8">
-                    <!-- Banner Pengumuman Penting Kades -->
                     <div class="card glass-card p-4 border-0 mb-4 banner-announce">
                         <div class="d-flex align-items-start gap-3">
                             <span class="fs-2 text-accent"><i class="bi bi-megaphone-fill"></i></span>
@@ -549,7 +549,6 @@ declare(strict_types=1);
                         </div>
                     </div>
 
-                    <!-- Statistik Desa Grid -->
                     <div class="my-4">
                         <h4 class="fw-bold mb-3"><i class="bi bi-graph-up-arrow me-2 text-accent"></i>Statistik Demografi Desa</h4>
                         <div class="row g-3">
@@ -578,7 +577,6 @@ declare(strict_types=1);
                     </div>
                 </div>
 
-                <!-- Emergency Widget Area -->
                 <div class="col-lg-4">
                     <div class="card glass-card p-4 border-0 text-center h-100 d-flex flex-column justify-content-between" style="background: linear-gradient(135deg, rgba(244,63,94,0.08), rgba(99,102,241,0.05)) !important;">
                         <div>
@@ -597,7 +595,6 @@ declare(strict_types=1);
                 </div>
             </div>
 
-            <!-- Sekilas Berita Terbaru -->
             <div class="my-5">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h4 class="fw-bold m-0"><i class="bi bi-newspaper text-primary me-2"></i>Kabar & Rilis Berita Terbaru</h4>
@@ -609,21 +606,18 @@ declare(strict_types=1);
             </div>
         </section>
 
-
-        <!-- 3. HALAMAN BERITA & LAYANAN DOKUMEN SECTION -->
+        <!-- 3. HALAMAN BERITA -->
         <section id="berita" class="page-section">
             <div class="text-center mb-5">
                 <h2 class="fw-bold"><i class="bi bi-journal-text text-accent me-2"></i>Berita Desa & Pusat Lampiran</h2>
                 <p class="text-muted">Pantau terus kegiatan pembangunan desa dan unduh berkas administrasi secara praktis.</p>
             </div>
-            
             <div class="row" id="all-news-list">
                 <!-- Loaded dynamically via JS -->
             </div>
         </section>
 
-
-        <!-- 4. LAYANAN AMBULANS DARURAT SECTION -->
+        <!-- 4. LAYANAN AMBULANS -->
         <section id="ambulans" class="page-section">
             <div class="row justify-content-center">
                 <div class="col-lg-7">
@@ -644,7 +638,6 @@ declare(strict_types=1);
                                     <input type="text" id="amb-nama" class="form-control" placeholder="Contoh: Budi Santoso" required>
                                 </div>
                             </div>
-                            
                             <div class="col-12">
                                 <label for="amb-alamat" class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Lokasi / Alamat Lengkap Penjemputan</label>
                                 <div class="input-group">
@@ -652,7 +645,6 @@ declare(strict_types=1);
                                     <textarea id="amb-alamat" rows="2" class="form-control" placeholder="Dusun, RT/RW, nomor rumah, atau patokan arah lokasi..." required></textarea>
                                 </div>
                             </div>
-
                             <div class="col-12">
                                 <label for="amb-kondisi" class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Kondisi Darurat Pasien</label>
                                 <div class="input-group">
@@ -667,7 +659,6 @@ declare(strict_types=1);
                                     </select>
                                 </div>
                             </div>
-
                             <div class="col-12 d-grid mt-4">
                                 <button type="submit" class="btn btn-emergency py-3 fs-6">
                                     <i class="bi bi-whatsapp me-2"></i>Pesan Ambulans Sekarang (Kirim WA)
@@ -679,16 +670,12 @@ declare(strict_types=1);
             </div>
         </section>
 
-
-        <!-- 5. HALAMAN KONTAK SECTION -->
+        <!-- 5. HALAMAN KONTAK -->
         <section id="kontak" class="page-section">
             <div class="row g-4">
-                
-                <!-- Contact Info Area -->
                 <div class="col-lg-5">
                     <div class="card glass-card p-4 border-0 h-100">
                         <h4 class="fw-bold mb-4"><i class="bi bi-telephone-inbound text-accent me-2"></i>Informasi Kontak Kantor Desa</h4>
-                        
                         <div class="d-flex align-items-start gap-3 mb-3">
                             <span class="fs-4 text-primary"><i class="bi bi-geo-alt-fill"></i></span>
                             <div>
@@ -696,7 +683,6 @@ declare(strict_types=1);
                                 <p class="text-muted" style="font-size: 0.88rem;">Jl. Raya Demokrasi No. 45, Kecamatan Sukamaju, Kabupaten Wonosobo, Jawa Tengah, 56361</p>
                             </div>
                         </div>
-
                         <div class="d-flex align-items-start gap-3 mb-3">
                             <span class="fs-4 text-accent"><i class="bi bi-envelope-fill"></i></span>
                             <div>
@@ -704,7 +690,6 @@ declare(strict_types=1);
                                 <p class="text-muted" style="font-size: 0.88rem;">info@digitaldesa.id &middot; desa.sukamaju@gmail.com</p>
                             </div>
                         </div>
-
                         <div class="d-flex align-items-start gap-3 mb-4">
                             <span class="fs-4 text-success"><i class="bi bi-telephone-fill"></i></span>
                             <div>
@@ -712,8 +697,6 @@ declare(strict_types=1);
                                 <p class="text-muted" style="font-size: 0.88rem;">+62 812-3456-789 (Humas Desa)</p>
                             </div>
                         </div>
-
-                        <!-- Google Maps Placeholder -->
                         <div class="rounded-4 overflow-hidden border border-secondary border-opacity-25" style="height: 180px;">
                             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.33806407062!2d109.83151978250645!3d-7.3596720516644265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7aa1a91e57c6b9%3A0x4027a7b50a25610!2sWonosobo%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1704200000000!5m2!1sen!2sid" 
                                     width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -721,12 +704,10 @@ declare(strict_types=1);
                     </div>
                 </div>
 
-                <!-- Contact Message Form -->
                 <div class="col-lg-7">
                     <div class="card glass-card p-4 border-0 h-100">
                         <h4 class="fw-bold mb-3"><i class="bi bi-send-fill text-primary me-2"></i>Kirim Pesan Aspirasi Warga</h4>
                         <p class="text-muted mb-4" style="font-size: 0.88rem;">Ada saran, aduan, kritik, atau pertanyaan? Kirim pesan Anda di bawah ini secara rahasia dan aman.</p>
-                        
                         <form id="form-kontak" class="row g-3">
                             <div class="col-md-6">
                                 <label for="c-nama" class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Nama Anda</label>
@@ -755,8 +736,7 @@ declare(strict_types=1);
             </div>
         </section>
 
-
-        <!-- 6. HALAMAN LOGIN SECTION (REAL LOGIN PORTAL) -->
+        <!-- 6. HALAMAN LOGIN SECTION (DENGAN DAFTAR AKUN WARGA) -->
         <section id="login" class="page-section">
             <div class="row g-4 align-items-stretch justify-content-center">
                 
@@ -780,7 +760,6 @@ declare(strict_types=1);
                         </p>
                     </div>
 
-                    <!-- Statistics grid inside login area -->
                     <div class="row g-2">
                         <div class="col-4">
                             <div class="login-info-box">
@@ -806,7 +785,7 @@ declare(strict_types=1);
                     </div>
                 </div>
 
-                <!-- Right Form Column (Real Submit Form) -->
+                <!-- Right Form Column -->
                 <div class="col-12 col-md-8 col-lg-5">
                     <div class="card glass-card p-4 border-0 h-100 d-flex flex-column justify-content-center">
                         <div class="text-center mb-4">
@@ -814,7 +793,7 @@ declare(strict_types=1);
                                 <i class="bi bi-shield-lock-fill fs-3 text-primary"></i>
                             </div>
                             <h3 class="fw-bold mb-1">Masuk Portal</h3>
-                            <p class="text-muted small">Silakan masuk menggunakan akun admin desa terdaftar</p>
+                            <p class="text-muted small">Silakan masuk menggunakan akun yang terdaftar</p>
                         </div>
 
                         <!-- PHP Flash Messages -->
@@ -867,29 +846,38 @@ declare(strict_types=1);
                             </div>
                         </form>
 
-                        <!-- Demo Accounts Autofill -->
-                        <div class="mt-4">
-                            <div class="text-center position-relative mb-3">
-                                <hr class="my-0 text-muted opacity-25">
-                                <span class="bg-solid px-3 position-absolute top-50 start-50 translate-middle small text-muted fw-semibold">
-                                    Pilih Akun Demo
-                                </span>
+                        <!-- DAFTAR AKUN WARGA TERDAFTAR (Pengganti Demo Account) -->
+                        <div class="mt-3">
+                            <div class="account-scroll">
+                                <?php if (isset($users) && !empty($users)): ?>
+                                    <?php foreach ($users as $user): ?>
+                                        <div class="account-list-item" onclick="fillUserAccount('<?= htmlspecialchars($user['username']) ?>', '<?= htmlspecialchars($user['password_preview'] ?? '*****') ?>')" title="Klik untuk mengisi otomatis">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <i class="bi bi-person-circle text-muted"></i>
+                                                <span class="fw-semibold" style="font-size: 0.85rem;"><?= htmlspecialchars($user['username']) ?></span>
+                                                <span class="badge-role <?= $user['role_name'] ?? 'warga' ?>"><?= htmlspecialchars($user['role_label'] ?? 'Warga') ?></span>
+                                            </div>
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span class="text-muted" style="font-size: 0.7rem;">
+                                                    <i class="bi bi-envelope me-1"></i><?= htmlspecialchars($user['email']) ?>
+                                                </span>
+                                                <i class="bi bi-chevron-right text-muted" style="font-size: 0.7rem;"></i>
+                                            </div>
+                                        </div>
+                                    <?php endforeach; ?>
+                                <?php else: ?>
+                                    <div class="text-center text-muted py-6" style="font-size: 0.82rem;">
+                                        <i class="bi bi-inbox me-1"></i> Belum Memiliki akun warga terdaftar
+                                    </div>
+                                <?php endif; ?>
                             </div>
-                            <div class="row g-2">
-                                <?php foreach([
-                                    ['warga','password123','Warga','primary'],
-                                    ['admin','password123','Admin','success'],
-                                    ['kepaladesa','password123','Kades','warning'],
-                                ] as [$user,$pass,$label,$color]): ?>
-                                <div class="col-4">
-                                    <button type="button" class="btn btn-outline-<?= $color ?> demo-btn w-100 py-2"
-                                             onclick="fillDemo('<?= $user ?>','<?= $pass ?>')">
-                                        <?= $label ?>
-                                    </button>
-                                </div>
-                                <?php endforeach; ?>
+
+                            <!-- Tombol Tambah Akun Warga Baru -->
+                            <div class="mt-3 text-center">
+                                <button type="button" class="btn btn-outline-premium btn-sm w-100" data-bs-toggle="modal" data-bs-target="#tambahAkunModal">
+                                    <i class="bi bi-person-plus me-1"></i> Tambah Akun Warga Baru
+                                </button>
                             </div>
-                            <p class="text-center small text-muted mt-2 mb-0" style="font-size: 0.68rem">Klik tombol di atas untuk mengisi akun demo otomatis</p>
                         </div>
                     </div>
                 </div>
@@ -899,7 +887,82 @@ declare(strict_types=1);
 
     </main>
 
-    <!-- FOOTER UTAMA -->
+    <!-- MODAL TAMBAH AKUN WARGA -->
+    <div class="modal fade" id="tambahAkunModal" tabindex="-1" aria-labelledby="tambahAkunModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0 p-3" style="background: var(--bg-solid) !important;">
+                <div class="modal-header border-0 pb-0">
+                    <h5 class="modal-title fw-bold text-dark" id="tambahAkunModalLabel">
+                        <i class="bi bi-person-plus text-primary me-2"></i>Tambah Akun Warga
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTambahAkun" method="POST" action="<?= APP_URL ?>/auth/auth/register">
+                        <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Username</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                <input type="text" name="username" class="form-control" placeholder="Masukkan username" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" name="email" class="form-control" placeholder="Masukkan email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" name="password" class="form-control" placeholder="Minimal 8 karakter" required minlength="8">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Peran (Role)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-person-badge"></i></span>
+                                <select name="role_id" class="form-select" required>
+                                    <option value="1" selected>Warga</option>
+                                    <option value="2">Admin Desa</option>
+                                    <option value="3">Kepala Desa</option>
+                                    <?php if (isset($is_superadmin) && $is_superadmin): ?>
+                                        <option value="4">Super Admin</option>
+                                    <?php endif; ?>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Nama Lengkap (Opsional)</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-card-text"></i></span>
+                                <input type="text" name="nama_lengkap" class="form-control" placeholder="Nama lengkap warga">
+                            </div>
+                        </div>
+                        
+                        <div class="d-grid gap-2 mt-4">
+                            <button type="submit" class="btn btn-premium py-2.5">
+                                <i class="bi bi-save me-1"></i> Simpan Akun Warga
+                            </button>
+                            <button type="button" class="btn btn-outline-premium py-2" data-bs-dismiss="modal">
+                                Batal
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
     <footer class="text-center py-4 border-top border-secondary border-opacity-10 mt-5">
         <div class="container">
             <p class="text-muted m-0" style="font-size: 0.82rem;">
@@ -911,7 +974,7 @@ declare(strict_types=1);
         </div>
     </footer>
 
-    <!-- MODAL DETAIL BERITA & DOKUMEN -->
+    <!-- MODAL DETAIL BERITA -->
     <div class="modal fade" id="newsDetailModal" tabindex="-1" aria-labelledby="newsDetailModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content glass-card border-0 p-2" style="background: var(--bg-solid) !important;">
@@ -924,18 +987,14 @@ declare(strict_types=1);
                 </div>
                 <div class="modal-body">
                     <img src="" id="modal-news-img" class="img-fluid rounded-4 mb-3" alt="Berita" style="width: 100%; max-height: 380px; object-fit: cover;">
-                    <div id="modal-news-body" class="text-muted mb-4">
-                        <!-- Content -->
-                    </div>
-                    <div id="modal-news-attachments">
-                        <!-- Attachment Documents list -->
-                    </div>
+                    <div id="modal-news-body" class="text-muted mb-4"></div>
+                    <div id="modal-news-attachments"></div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Bootstrap 5 Bundle JS (termasuk Popper) -->
+    <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -945,7 +1004,6 @@ declare(strict_types=1);
         // DigitalDesa.id — Frontend Logic & Router
         // ============================================================
 
-        // --- Mock Data: Berita & Dokumen ---
         const MOCK_BERITA = [
             {
                 id: 1,
@@ -984,11 +1042,9 @@ declare(strict_types=1);
             }
         ];
 
-        // --- SPA Routing System ---
         function initRouter() {
-            const hasFlash = <?= $flash ? 'true' : 'false' ?>;
+            const hasFlash = <?= isset($flash) && $flash ? 'true' : 'false' ?>;
             
-            // Redirect to #login if there is an authentication error
             if (hasFlash && !window.location.hash) {
                 window.location.hash = '#login';
             }
@@ -997,12 +1053,10 @@ declare(strict_types=1);
                 const hash = window.location.hash || '#landing';
                 const pageId = hash.substring(1);
                 
-                // Hide all sections
                 document.querySelectorAll('.page-section').forEach(section => {
                     section.classList.remove('active');
                 });
                 
-                // Show target section
                 const activeSection = document.getElementById(pageId);
                 if (activeSection) {
                     activeSection.classList.add('active');
@@ -1011,7 +1065,6 @@ declare(strict_types=1);
                     document.getElementById('landing').classList.add('active');
                 }
                 
-                // Update active link state in navbar
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                     const href = link.getAttribute('href');
@@ -1025,9 +1078,7 @@ declare(strict_types=1);
             window.addEventListener('load', routePage);
         }
 
-        // --- Render Kabar Berita & Dokumen ---
         function renderPublicData() {
-            // 1. Render News preview on Dashboard (3 latest news)
             const newsContainer = document.getElementById('latest-news-grid');
             if (newsContainer) {
                 newsContainer.innerHTML = MOCK_BERITA.map(news => `
@@ -1049,7 +1100,6 @@ declare(strict_types=1);
                 `).join('');
             }
 
-            // 2. Render News list on Halaman Berita
             const allNewsContainer = document.getElementById('all-news-list');
             if (allNewsContainer) {
                 allNewsContainer.innerHTML = MOCK_BERITA.map(news => `
@@ -1078,13 +1128,11 @@ declare(strict_types=1);
             }
         }
 
-        // --- Format Tanggal ---
         function formatDate(dateStr) {
             const options = { year: 'numeric', month: 'long', day: 'numeric' };
             return new Date(dateStr).toLocaleDateString('id-ID', options);
         }
 
-        // --- View News Detail & Document Download ---
         function viewNewsDetail(newsId) {
             const news = MOCK_BERITA.find(b => b.id === newsId);
             if (!news) return;
@@ -1121,7 +1169,6 @@ declare(strict_types=1);
             myModal.show();
         }
 
-        // --- Download File Simulation ---
         function downloadMockFile(fileName) {
             Swal.fire({
                 title: 'Mengunduh Berkas...',
@@ -1134,7 +1181,6 @@ declare(strict_types=1);
             });
         }
 
-        // --- WhatsApp Ambulance Booking ---
         function handleAmbulanceOrder(event) {
             event.preventDefault();
             
@@ -1173,7 +1219,6 @@ Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertuga
             });
         }
 
-        // --- Contact Form Submission ---
         function handleContactSubmit(event) {
             event.preventDefault();
             const nama = document.getElementById('c-nama').value;
@@ -1196,14 +1241,24 @@ Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertuga
             document.getElementById('form-kontak').reset();
         }
 
-        // --- autofill demo accounts ---
-        function fillDemo(username, password) {
+        // Fungsi untuk mengisi akun dari daftar
+        function fillUserAccount(username, password) {
             document.getElementById('identifier').value = username;
             document.getElementById('password').value = password;
             document.getElementById('identifier').focus();
+            
+            // Tampilkan notifikasi kecil
+            Swal.fire({
+                title: 'Akun Terisi!',
+                text: `Username "${username}" telah diisi otomatis. Silakan klik tombol Masuk.`,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false,
+                toast: true,
+                position: 'top-end'
+            });
         }
 
-        // --- password visibility toggle ---
         document.getElementById('togglePass')?.addEventListener('click', function() {
             const p = document.getElementById('password');
             const icon = document.getElementById('eyeIcon');
@@ -1216,14 +1271,12 @@ Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertuga
             }
         });
 
-        // --- form submission loader ---
         document.getElementById('loginForm')?.addEventListener('submit', function() {
             const btn = document.getElementById('submitBtn');
             btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Memproses...';
             btn.disabled = true;
         });
 
-        // --- Theme Switcher ---
         function initTheme() {
             const btn = document.getElementById('theme-toggle-btn');
             const icon = document.getElementById('theme-icon');
@@ -1250,7 +1303,6 @@ Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertuga
             }
         }
 
-        // --- App Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             initRouter();
             renderPublicData();
@@ -1258,6 +1310,57 @@ Mohon admin segera mencarikan sopir ambulans desa yang sedang ready/siap bertuga
             
             document.getElementById('form-ambulans')?.addEventListener('submit', handleAmbulanceOrder);
             document.getElementById('form-kontak')?.addEventListener('submit', handleContactSubmit);
+            
+            // Submit form tambah akun via AJAX
+            document.getElementById('formTambahAkun')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                
+                Swal.fire({
+                    title: 'Menyimpan Akun...',
+                    text: 'Mohon tunggu sebentar.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+                
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: data.message || 'Akun warga berhasil ditambahkan.',
+                            icon: 'success',
+                            confirmButtonColor: '#6366f1'
+                        }).then(() => {
+                            location.reload();
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: data.message || 'Terjadi kesalahan saat menambahkan akun.',
+                            icon: 'error',
+                            confirmButtonColor: '#f43f5e'
+                        });
+                    }
+                })
+                .catch(() => {
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Terjadi kesalahan koneksi. Silakan coba lagi.',
+                        icon: 'error',
+                        confirmButtonColor: '#f43f5e'
+                    });
+                });
+            });
         });
     </script>
 </body>
