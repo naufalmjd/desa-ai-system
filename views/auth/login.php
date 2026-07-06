@@ -29,8 +29,9 @@ declare(strict_types=1);
             --accent-glow:      rgba(34, 211, 238, 0.25);
             --success:          #34d399; /* Emerald */
             --danger:           #fb7185; /* Rose */
-            
-            
+            --register-color:   #f59e0b; /* Amber */
+            --register-dark:    #d97706;
+            --register-glow:    rgba(245, 158, 11, 0.3);
         }
 
         [data-theme="dark"] {
@@ -43,6 +44,8 @@ declare(strict_types=1);
             --shadow:           rgba(0, 0, 0, 0.7);
             --nav-bg:           rgba(8, 10, 16, 0.92);
             --input-bg:         rgba(30, 41, 59, 0.6);
+            --register-bg:      rgba(245, 158, 11, 0.15);
+            --register-border:  rgba(245, 158, 11, 0.3);
         }
 
         [data-theme="light"] {
@@ -55,6 +58,8 @@ declare(strict_types=1);
             --shadow:           rgba(15, 23, 42, 0.08);
             --nav-bg:           rgba(226, 232, 240, 0.9);
             --input-bg:         rgba(255, 255, 255, 0.75);
+            --register-bg:      rgba(245, 158, 11, 0.1);
+            --register-border:  rgba(245, 158, 11, 0.2);
         }
 
         * {
@@ -187,7 +192,7 @@ declare(strict_types=1);
             transform: translateY(0);
         }
 
-        /* Premium Buttons */
+        /* Premium Buttons - Warna Indigo */
         .btn-premium {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff !important;
@@ -197,12 +202,40 @@ declare(strict_types=1);
             font-weight: 600;
             box-shadow: 0 4px 15px var(--primary-glow);
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         .btn-premium:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 22px rgba(99, 102, 241, 0.45);
             filter: brightness(1.1);
         }
+
+        /* Register Button - Warna Amber/Kuning */
+        .btn-register {
+            background: linear-gradient(135deg, var(--register-color), var(--register-dark));
+            color: #fff !important;
+            border: none;
+            border-radius: 12px;
+            padding: 0.7rem 1.8rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px var(--register-glow);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-register:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+            filter: brightness(1.1);
+        }
+
         .btn-outline-premium {
             background: transparent;
             color: var(--text-main) !important;
@@ -211,6 +244,11 @@ declare(strict_types=1);
             padding: 0.7rem 1.8rem;
             font-weight: 600;
             transition: all 0.25s ease;
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         .btn-outline-premium:hover {
             background: rgba(255, 255, 255, 0.05);
@@ -229,6 +267,12 @@ declare(strict_types=1);
             font-weight: 700;
             letter-spacing: 0.5px;
             transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 0.7rem 1.8rem;
+            font-size: 0.92rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
         }
         .btn-emergency:hover {
             transform: scale(1.02);
@@ -352,19 +396,6 @@ declare(strict_types=1);
             background: rgba(0, 0, 0, 0.03);
         }
 
-        /* Demo Account Buttons */
-        .demo-btn {
-            border-radius: 10px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-        .demo-btn:hover {
-            transform: translateY(-2px);
-        }
-        
         .btn-submit {
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
@@ -429,7 +460,6 @@ declare(strict_types=1);
             color: var(--text-muted) !important;
             opacity: 0.6;
         }
-        /* Demo account buttons */
         .demo-btn {
             color: var(--text-main) !important;
         }
@@ -442,7 +472,7 @@ declare(strict_types=1);
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="#landing">
                 <i class="bi bi-house-gear-fill text-accent"></i>
-                <span>SmartDesa.id</span>
+                <span>DigitalDesa.id</span>
             </a>
             <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
@@ -490,7 +520,7 @@ declare(strict_types=1);
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
                 <div class="container py-4">
-                    <h1 class="display-3 fw-bold text-gradient mb-3">SmartDesa.id</h1>
+                    <h1 class="display-3 fw-bold text-gradient mb-3">DigitalDesa.id</h1>
                     <p class="lead text-muted mx-auto mb-4" style="max-width: 650px;">
                         Mewujudkan tata kelola desa yang transparan, pelayanan mandiri warga yang super cepat, dan kesiapsiagaan darurat 24 jam berbasis teknologi digital modern.
                     </p>
@@ -838,21 +868,23 @@ declare(strict_types=1);
                                 <i class="bi bi-shield-lock-fill fs-3 text-primary"></i>
                             </div>
                             <h3 class="fw-bold mb-1">Masuk Portal</h3>
-                            <p class="text-muted small">Silakan masuk menggunakan akun admin desa terdaftar</p>
+                            <p class="text-muted small">Silakan masuk menggunakan akun yang terdaftar</p>
                         </div>
 
                         <!-- PHP Flash Messages -->
-                        <?php if ($flash): ?>
-                        <div class="alert alert-<?= $flash['type'] ?> alert-dismissible d-flex align-items-center gap-2 rounded-3 border-0 shadow-sm mb-3" role="alert" style="background: rgba(244,63,94,0.15) !important;">
-                            <i class="bi bi-exclamation-triangle-fill fs-5 text-danger"></i>
-                            <span class="small fw-semibold text-danger"><?= htmlspecialchars($flash['message']) ?></span>
-                            <button type="button" class="btn-close text-danger" data-bs-dismiss="alert"></button>
+                        <?php if (isset($flash) && $flash): ?>
+                        <div class="alert alert-<?= $flash['type'] ?> alert-dismissible d-flex align-items-center gap-2 rounded-3 border-0 shadow-sm mb-3" role="alert" style="background: <?= $flash['type'] === 'success' ? 'rgba(16,185,129,0.12)' : 'rgba(244,63,94,0.12)' ?> !important;">
+                            <i class="bi bi-<?= $flash['type'] === 'success' ? 'check-circle-fill text-success' : 'exclamation-triangle-fill text-danger' ?> fs-5"></i>
+                            <span class="small fw-semibold <?= $flash['type'] === 'success' ? 'text-success' : 'text-danger' ?>">
+                                <?= htmlspecialchars($flash['message']) ?>
+                            </span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" style="filter: invert(0.5);"></button>
                         </div>
                         <?php endif; ?>
 
                         <!-- Real Authentication Submit Form -->
                         <form method="POST" action="<?= APP_URL ?>/auth/auth/loginPost" id="loginForm" class="row g-3">
-                            <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+                            <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
 
                             <div class="col-12">
                                 <label class="form-label text-muted fw-semibold mb-1" style="font-size: 0.82rem;">Username atau Email</label>
@@ -891,29 +923,12 @@ declare(strict_types=1);
                             </div>
                         </form>
 
-                        <!-- Demo Accounts Autofill -->
-                        <div class="mt-4">
-                            <div class="text-center position-relative mb-3">
-                                <hr class="my-0 text-muted opacity-25">
-                                <span class="bg-solid px-3 position-absolute top-50 start-50 translate-middle small text-muted fw-semibold">
-                                    Pilih Akun Demo
-                                </span>
-                            </div>
-                            <div class="row g-2">
-                                <?php foreach([
-                                    ['warga','password123','Warga','primary'],
-                                    ['admin','password123','Admin','success'],
-                                    ['kepaladesa','password123','Kades','warning'],
-                                ] as [$user,$pass,$label,$color]): ?>
-                                <div class="col-4">
-                                    <button type="button" class="btn btn-outline-<?= $color ?> demo-btn w-100 py-2"
-                                             onclick="fillDemo('<?= $user ?>','<?= $pass ?>')">
-                                        <?= $label ?>
-                                    </button>
-                                </div>
-                                <?php endforeach; ?>
-                            </div>
-                            <p class="text-center small text-muted mt-2 mb-0" style="font-size: 0.68rem">Klik tombol di atas untuk mengisi akun demo otomatis</p>
+                        <!-- Tombol Daftar Akun Warga - Warna Kuning/Amber -->
+                        <div class="col-12 d-grid mt-4">
+                            <a href="<?= APP_URL ?>/auth/register-warga" class="btn btn-register w-100 d-flex align-items-center justify-content-center gap-2" id="registerBtn">
+                                <i class="bi bi-person-plus"></i>
+                                Daftar Akun Warga
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -927,7 +942,7 @@ declare(strict_types=1);
     <footer class="text-center py-4 border-top border-secondary border-opacity-10 mt-5">
         <div class="container">
             <p class="text-muted m-0" style="font-size: 0.82rem;">
-                &copy; 2026 <strong>SmartDesa.id</strong>. Hak Cipta Dilindungi Undang-Undang.
+                &copy; 2026 <strong>DigitalDesa.id</strong>. Hak Cipta Dilindungi Undang-Undang.
             </p>
             <small class="text-accent" style="font-size: 0.72rem; font-weight: 500;">
                 Smart Village Initiative &middot; Yogyakarta Digital System
@@ -1010,7 +1025,7 @@ declare(strict_types=1);
 
         // --- SPA Routing System ---
         function initRouter() {
-            const hasFlash = <?= $flash ? 'true' : 'false' ?>;
+            const hasFlash = <?= isset($flash) && $flash ? 'true' : 'false' ?>;
             
             // Redirect to #login if there is an authentication error
             if (hasFlash && !window.location.hash) {
