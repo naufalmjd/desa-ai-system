@@ -1,0 +1,10 @@
+{
+    "app_name": "SIAP-Desa",
+    "app_full": "Sistem Pelayanan Administrasi Desa Berbasis AI",
+    "desa_nama": "Desa Saya",
+    "desa_kec": "Depok",
+    "desa_kab": "Sleman",
+    "desa_prov": "Daerah Istimewa Yogyakarta",
+    "ai_server_url": "http:\/\/127.0.0.1:8000",
+    "ai_timeout": 30
+}

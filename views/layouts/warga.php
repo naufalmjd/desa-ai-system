@@ -38,7 +38,7 @@ body { background: var(--bg); min-height: 100vh; }
 .sidebar {
     width: var(--sidebar-w); min-height: 100vh;
     background: var(--sidebar-bg); position: fixed; top: 0; left: 0; z-index: 1040;
-    display: flex; flex-direction: column; transition: width .25s ease;
+    display: flex; flex-direction: column; transition: width .25s ease, transform .25s ease;
     overflow: hidden;
 }
 .sidebar.collapsed { width: 64px; }
@@ -54,14 +54,14 @@ body { background: var(--bg); min-height: 100vh; }
 .sidebar-brand-text .sub  { color: rgba(255,255,255,.5); font-size: .68rem; }
 
 .sidebar-user { margin: .75rem; padding: .75rem; border-radius: 12px;
-                background: rgba(255,255,255,.07); flex-shrink: 0; }
+                background: rgba(255,255,255,.07); flex-shrink: 0; transition: padding .25s ease; }
 .sidebar-user .avatar {
     width: 36px; height: 36px; border-radius: 10px; background: #1e4080;
     display: flex; align-items: center; justify-content: center;
     color: #fff; font-weight: 700; font-size: .75rem; flex-shrink: 0;
 }
 
-.sidebar-nav { flex: 1; overflow-y: auto; padding: .5rem; }
+.sidebar-nav { flex: 1; overflow-y: auto; padding: .5rem; transition: padding .25s ease; }
 .sidebar-nav::-webkit-scrollbar { width: 3px; }
 .sidebar-nav::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 2px; }
 
@@ -80,9 +80,23 @@ body { background: var(--bg); min-height: 100vh; }
 }
 .nav-link i { font-size: 1rem; flex-shrink: 0; }
 
-.sidebar-footer { padding: .75rem; border-top: 1px solid rgba(255,255,255,.08); flex-shrink: 0; }
+.sidebar-footer { padding: .75rem; border-top: 1px solid rgba(255,255,255,.08); flex-shrink: 0; transition: padding .25s ease; }
 .sidebar-footer .nav-link { color: #f87171; }
 .sidebar-footer .nav-link:hover { background: rgba(239,68,68,.15); }
+
+/* 🛠️ PERBAIKAN TAMPILAN SIDEBAR SAAT COLLAPSED 🛠️ */
+.sidebar.collapsed .sidebar-brand-text,
+.sidebar.collapsed .sidebar-user .sidebar-brand-text,
+.sidebar.collapsed .nav-link span {
+    display: none !important;
+}
+.sidebar.collapsed .sidebar-user { padding: .75rem 0; }
+.sidebar.collapsed .sidebar-user .d-flex { justify-content: center !important; gap: 0 !important; } /* Pusatkan avatar di tengah */
+.sidebar.collapsed .sidebar-nav { padding: .5rem .25rem; }
+.sidebar.collapsed .sidebar-footer { padding: .75rem 0; }
+.sidebar.collapsed .nav-link { justify-content: center; padding: .6rem 0; gap: 0; }
+.sidebar.collapsed .nav-link i { width: 20px; text-align: center; } /* Memastikan semua ikon simetris di tengah */
+.sidebar.collapsed .nav-link.active::after { right: 2px; }
 
 /* ── Main ── */
 .main-wrap { margin-left: var(--sidebar-w); min-height: 100vh; display: flex; flex-direction: column; transition: margin-left .25s; }
@@ -118,12 +132,18 @@ body { background: var(--bg); min-height: 100vh; }
 
 /* Responsive */
 @media (max-width: 991px) {
-    .sidebar { transform: translateX(-100%); }
+    .sidebar { transform: translateX(-100%); width: var(--sidebar-w) !important; }
     .sidebar.mobile-open { transform: translateX(0); }
     .main-wrap { margin-left: 0 !important; }
     .sidebar-overlay { display: block !important; }
+    /* Pastikan teks muncul kembali di mobile meskipun di desktop di-collapse */
+    .sidebar.collapsed .sidebar-brand-text,
+    .sidebar.collapsed .sidebar-user .sidebar-brand-text,
+    .sidebar.collapsed .nav-link span { display: block !important; }
+    .sidebar.collapsed .nav-link { justify-content: start; padding: .6rem .75rem; gap: .75rem; }
 }
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1039; }
+
 /* Premium Modernization */
 .card {
     transition: transform .25s ease, box-shadow .25s ease;
@@ -200,7 +220,6 @@ body { background: var(--bg); min-height: 100vh; }
             ['warga/profil',             'bi-person-circle',  'Profil Saya'],
         ];
         $currentPath = ltrim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
-        // strip base
         $currentPath = ltrim(str_replace(parse_url(APP_URL, PHP_URL_PATH) ?? '', '', '/' . $currentPath), '/');
 
         foreach ($wargaNav as [$path, $icon, $label]):
@@ -296,33 +315,35 @@ body { background: var(--bg); min-height: 100vh; }
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 
 <script>
-// Global CSRF token untuk AJAX
 const CSRF_TOKEN = '<?= $csrfToken ?? '' ?>';
 const APP_URL    = '<?= APP_URL ?>';
 
 AOS.init({ once: true, duration: 400 });
 
+// ── FIX: Menjaga state sidebar sinkron sejak awal load tanpa berkedip/melompat ──
+const isCollapsed = localStorage.getItem('sidebar_collapsed') === 'true';
+if (isCollapsed && window.innerWidth >= 992) {
+    document.getElementById('sidebar').classList.add('collapsed');
+    document.getElementById('mainWrap').classList.add('collapsed');
+}
+
 // ── Sidebar toggle ────────────────────────────────────────────────────────────
 function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebarOverlay');
+    const mainWrap = document.getElementById('mainWrap');
+    
     if (window.innerWidth < 992) {
         sidebar.classList.toggle('mobile-open');
         overlay.style.display = sidebar.classList.contains('mobile-open') ? 'block' : 'none';
     } else {
         sidebar.classList.toggle('collapsed');
-        document.getElementById('mainWrap').classList.toggle('collapsed');
+        mainWrap.classList.toggle('collapsed');
         localStorage.setItem('sidebar_collapsed', sidebar.classList.contains('collapsed'));
     }
 }
 
 document.getElementById('sidebarToggleDesktop')?.addEventListener('click', toggleSidebar);
-
-// Restore collapse state
-if (localStorage.getItem('sidebar_collapsed') === 'true') {
-    document.getElementById('sidebar').classList.add('collapsed');
-    document.getElementById('mainWrap').classList.add('collapsed');
-}
 
 // ── Flash alert auto-dismiss ──────────────────────────────────────────────────
 setTimeout(() => {

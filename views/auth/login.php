@@ -22,35 +22,38 @@ declare(strict_types=1);
            DigitalDesa.id — Premium Glassmorphism Design System
            ============================================================ */
         :root {
-            --primary:          #6366f1;
+            --primary:          #6366f1; /* Indigo */
             --primary-dark:     #4f46e5;
             --primary-glow:     rgba(99, 102, 241, 0.25);
-            --accent:           #06b6d4;
+            --accent:           #06b6d4; /* Cyan */
             --accent-glow:      rgba(6, 182, 212, 0.25);
-            --success:          #10b981;
-            --danger:           #f43f5e;
+            --success:          #10b981; /* Emerald */
+            --danger:           #f43f5e; /* Rose */
             
-            /* Dark Theme Properties */
-            --bg-gradient:      radial-gradient(circle at 10% 20%, #080d1a 0%, #030508 90%);
-            --bg-solid:         #030508;
-            --card-bg:          rgba(15, 23, 42, 0.55);
-            --card-border:      rgba(255, 255, 255, 0.06);
-            --text-main:        #f8fafc;
-            --text-muted:       #94a3b8;
-            --shadow:           rgba(0, 0, 0, 0.5);
-            --nav-bg:           rgba(8, 10, 16, 0.8);
-            --input-bg:         rgba(15, 23, 42, 0.4);
+            
+        }
+
+        [data-theme="dark"] {
+            --bg-gradient:      radial-gradient(circle at 10% 20%, #0f172a 0%, #020617 100%);
+            --bg-solid:         #020617;
+            --card-bg:          rgba(30, 41, 59, 0.85);
+            --card-border:      rgba(255, 255, 255, 0.08);
+            --text-main:        #f1f5f9;
+            --text-muted:       #cbd5e1;
+            --shadow:           rgba(0, 0, 0, 0.7);
+            --nav-bg:           rgba(8, 10, 16, 0.92);
+            --input-bg:         rgba(30, 41, 59, 0.6);
         }
 
         [data-theme="light"] {
             --bg-gradient:      radial-gradient(circle at 10% 20%, #f1f5f9 0%, #e2e8f0 100%);
             --bg-solid:         #e2e8f0;
-            --card-bg:          rgba(255, 255, 255, 0.7);
+            --card-bg:          rgba(255, 255, 255, 0.8);
             --card-border:      rgba(0, 0, 0, 0.08);
             --text-main:        #0f172a;
             --text-muted:       #475569;
             --shadow:           rgba(15, 23, 42, 0.08);
-            --nav-bg:           rgba(226, 232, 240, 0.85);
+            --nav-bg:           rgba(226, 232, 240, 0.9);
             --input-bg:         rgba(255, 255, 255, 0.75);
         }
 
@@ -88,17 +91,17 @@ declare(strict_types=1);
             background: var(--card-bg) !important;
             border: 1px solid var(--card-border) !important;
             border-radius: 20px;
-            backdrop-filter: blur(16px) saturate(180%);
-            -webkit-backdrop-filter: blur(16px) saturate(180%);
-            box-shadow: 0 8px 32px 0 var(--shadow);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            box-shadow: 0 8px 32px 0 var(--shadow), 0 0 0 1px rgba(255,255,255,0.02);
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
                         box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
                         border-color 0.3s ease;
         }
         .glass-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(99, 102, 241, 0.25) !important;
-            box-shadow: 0 12px 40px var(--primary-glow);
+            border-color: rgba(129, 140, 248, 0.3) !important;
+            box-shadow: 0 12px 40px var(--primary-glow), 0 0 0 1px rgba(129, 140, 248, 0.1);
         }
 
         .navbar {
@@ -139,16 +142,24 @@ declare(strict_types=1);
             background: rgba(0, 0, 0, 0.04);
         }
 
+        /* Fix untuk konten agar tidak menempel navbar */
         main.container {
             padding-top: 100px !important;
         }
 
+        /* Responsif untuk mobile */
         @media (max-width: 768px) {
             main.container {
                 padding-top: 85px !important;
             }
         }
 
+        /* Tambahan spacing untuk section landing */
+        #landing.hero-sec {
+            padding-top: 2rem !important;
+        }
+
+        /* Hero Layout */
         .hero-sec {
             position: relative;
             padding: 8rem 0 5rem;
@@ -404,19 +415,6 @@ declare(strict_types=1);
             transform: translateY(-3px);
             border-color: var(--primary-glow);
         }
-
-        /* Scroll area untuk daftar akun */
-        .account-scroll {
-            max-height: 200px;
-            overflow-y: auto;
-        }
-        .account-scroll::-webkit-scrollbar {
-            width: 4px;
-        }
-        .account-scroll::-webkit-scrollbar-thumb {
-            background: var(--primary-glow);
-            border-radius: 2px;
-        }
     </style>
 </head>
 <body>
@@ -464,10 +462,11 @@ declare(strict_types=1);
     </nav>
 
     <!-- MAIN PORTAL WRAPPER -->
-    <main class="container my-5" style="padding-top: 90px;">
+    <main class="container my-5 pt-4">
 
         <!-- 1. LANDING PAGE SECTION -->
         <section id="landing" class="page-section active">
+            <!-- Hero Section -->
             <div class="hero-sec text-center" style="padding-top: 1rem;">
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
