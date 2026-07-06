@@ -6,7 +6,7 @@ declare(strict_types=1);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DigitalDesa.id — Portal Informasi & Layanan Darurat Desa</title>
+    <title>SmartDesa.id — Portal Informasi & Layanan Darurat Desa</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@ declare(strict_types=1);
 
     <style>
         /* ============================================================
-           DigitalDesa.id — Premium Glassmorphism Design System
+           SmartDesa.id — Premium Glassmorphism Design System
            ============================================================ */
         :root {
             --primary:          #818cf8; /* Indigo */
@@ -473,7 +473,7 @@ declare(strict_types=1);
         <div class="container">
             <a class="navbar-brand d-flex align-items-center gap-2" href="#landing">
                 <i class="bi bi-house-gear-fill text-accent"></i>
-                <span>DigitalDesa.id</span>
+                <span>SmartDesa.id</span>
             </a>
             <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
@@ -521,7 +521,7 @@ declare(strict_types=1);
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
                 <div class="container py-4">
-                    <h1 class="display-3 fw-bold text-gradient mb-3">DigitalDesa.id</h1>
+                    <h1 class="display-3 fw-bold text-gradient mb-3">SmartDesa.id</h1>
                     <p class="lead text-muted mx-auto mb-4" style="max-width: 650px;">
                         Mewujudkan tata kelola desa yang transparan, pelayanan mandiri warga yang super cepat, dan kesiapsiagaan darurat 24 jam berbasis teknologi digital modern.
                     </p>
@@ -542,7 +542,7 @@ declare(strict_types=1);
                     <div class="card glass-card p-4 border-0">
                         <h3 class="fw-bold mb-3"><i class="bi bi-info-circle-fill text-primary me-2"></i>Tentang Portal</h3>
                         <p class="text-muted mb-3" style="line-height: 1.7;">
-                            Portal Sistem Informasi **DigitalDesa.id** dirancang untuk mempermudah koordinasi antara perangkat desa dan masyarakat. Dengan integrasi teknologi informasi, pengurusan administrasi surat-menyurat, pemantauan logistik desa, hingga penanganan darurat ambulans kini dapat diakses kapan saja dan di mana saja.
+                            Portal Sistem Informasi **SmartDesa.id** dirancang untuk mempermudah koordinasi antara perangkat desa dan masyarakat. Dengan integrasi teknologi informasi, pengurusan administrasi surat-menyurat, pemantauan logistik desa, hingga penanganan darurat ambulans kini dapat diakses kapan saja dan di mana saja.
                         </p>
                         <p class="text-muted mb-0" style="line-height: 1.7;">
                             Kami berkomitmen memberikan keterbukaan informasi publik dan akuntabilitas anggaran desa guna mendukung terwujudnya konsep smart village di Indonesia.
@@ -756,7 +756,7 @@ declare(strict_types=1);
                             <span class="fs-4 text-accent"><i class="bi bi-envelope-fill"></i></span>
                             <div>
                                 <h6 class="fw-bold mb-1">Email Resmi</h6>
-                                <p class="text-muted" style="font-size: 0.88rem;">info@digitaldesa.id &middot; desa.sukamaju@gmail.com</p>
+                                <p class="text-muted" style="font-size: 0.88rem;">info@Smartdesa.id &middot; desa.sukamaju@gmail.com</p>
                             </div>
                         </div>
 
@@ -943,7 +943,7 @@ declare(strict_types=1);
     <footer class="text-center py-4 border-top border-secondary border-opacity-10 mt-5">
         <div class="container">
             <p class="text-muted m-0" style="font-size: 0.82rem;">
-                &copy; 2026 <strong>DigitalDesa.id</strong>. Hak Cipta Dilindungi Undang-Undang.
+                &copy; 2026 <strong>SmartDesa.id</strong>. Hak Cipta Dilindungi Undang-Undang.
             </p>
             <small class="text-accent" style="font-size: 0.72rem; font-weight: 500;">
                 Smart Village Initiative &middot; Yogyakarta Digital System
@@ -982,7 +982,7 @@ declare(strict_types=1);
 
     <script>
         // ============================================================
-        // DigitalDesa.id — Frontend Logic & Router
+        // SmartDesa.id — Frontend Logic & Router
         // ============================================================
 
         // --- Mock Data: Berita & Dokumen ---
@@ -1189,7 +1189,7 @@ declare(strict_types=1);
             
             const adminPhone = "628123456789";
             
-            const textMsg = `Halo Admin DigitalDesa, saya memerlukan bantuan AMBULANS SEGERA.
+            const textMsg = `Halo Admin SmartDesa, saya memerlukan bantuan AMBULANS SEGERA.
             
 Nama Pelapor: ${nama}
 Lokasi Penjemputan: ${alamat}
