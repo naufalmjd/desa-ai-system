@@ -9,7 +9,7 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title><?= $pageTitle ?? 'Admin' ?> — <?= APP_NAME ?></title>
+<title><?= htmlspecialchars($pageTitle ?? 'Admin') ?> — <?= htmlspecialchars(APP_NAME ?? '') ?></title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css">
@@ -23,6 +23,7 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
     --accent:       #059669;
     --sidebar-bg:   #0f2342;
     --sidebar-w:    245px;
+    --sidebar-c:    64px;  /* Lebar standar saat collapsed */
     --header-h:     58px;
     --bg:           #eef2f7;
     --card-bg:      #ffffff;
@@ -31,53 +32,90 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
 * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
 body { background: var(--bg); min-height: 100vh; }
 
-.sidebar { width:var(--sidebar-w); min-height:100vh; background:var(--sidebar-bg);
-           position:fixed; top:0; left:0; z-index:1040; display:flex;
-           flex-direction:column; transition:all .25s ease; overflow:hidden; }
-.sidebar.collapsed { width:64px; }
+/* --- PERBAIKAN STRUKTUR SIDEBAR --- */
+.sidebar { 
+    width: var(--sidebar-w); 
+    min-height: 100vh; 
+    background: var(--sidebar-bg);
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 1040; 
+    display: flex;
+    flex-direction: column; 
+    transition: width .25s cubic-bezier(0.4, 0, 0.2, 1); 
+    overflow: hidden; 
+}
 
-.sb-brand { display:flex; align-items:center; gap:.75rem; padding:1rem;
-            border-bottom:1px solid rgba(255,255,255,.08); min-height:var(--header-h); }
-.sb-icon { width:36px;height:36px;background:rgba(255,255,255,.15);border-radius:10px;
-           display:flex;align-items:center;justify-content:center;flex-shrink:0; }
-.sb-text .n { color:#fff;font-weight:700;font-size:.8rem;white-space:nowrap; }
-.sb-text .s { color:rgba(255,255,255,.5);font-size:.68rem;white-space:nowrap; }
+/* Penanganan Sempurna Saat Sidebar Mengecil (Collapsed) */
+.sidebar.collapsed { 
+    width: var(--sidebar-c); 
+}
+.sidebar.collapsed .sb-text,
+.sidebar.collapsed .sidebar-user-info, /* Sembunyikan info teks user */
+.sidebar.collapsed .sb-nav span,
+.sidebar.collapsed .sb-footer span,   /* Solusi Utama: Sembunyikan teks "Keluar" */
+.sidebar.collapsed .section-label { 
+    opacity: 0;
+    pointer-events: none;
+    display: none !important; 
+}
+.sidebar.collapsed .sb-brand,
+.sidebar.collapsed .sidebar-user {
+    justify-content: center;
+    padding: 1rem 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+.sidebar.collapsed .sb-nav a,
+.sidebar.collapsed .sb-footer a {
+    justify-content: center;
+    padding: 0.6rem 0;
+}
 
-.sb-badge { width:34px;height:34px;border-radius:10px;background:#059669;
-            display:flex;align-items:center;justify-content:center;color:#fff;
-            font-weight:700;font-size:.7rem;flex-shrink:0; }
+.sb-brand { display: flex; align-items: center; gap: .75rem; padding: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,.08); min-height: var(--header-h); }
+.sb-icon { width: 36px; height: 36px; background: rgba(255,255,255,.15); border-radius: 10px;
+           display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sb-text .n { color: #fff; font-weight: 700; font-size: .8rem; white-space: nowrap; }
+.sb-text .s { color: rgba(255,255,255,.5); font-size: .68rem; white-space: nowrap; }
 
-.sb-nav { flex:1;overflow-y:auto;padding:.5rem; }
-.sb-nav a { display:flex;align-items:center;gap:.75rem;color:rgba(255,255,255,.6);
-            padding:.6rem .75rem;border-radius:10px;text-decoration:none;
-            font-size:.8rem;font-weight:500;white-space:nowrap;transition:.15s; }
-.sb-nav a:hover { background:rgba(255,255,255,.08);color:#fff; }
-.sb-nav a.active { background:rgba(255,255,255,.15);color:#fff; }
-.sb-nav a i { font-size:1rem;flex-shrink:0; }
-.sb-nav .section-label { color:rgba(255,255,255,.3);font-size:.6rem;font-weight:700;
-                          text-transform:uppercase;letter-spacing:.08em;padding:.75rem .75rem .3rem; }
+.sb-badge { width: 34px; height: 34px; border-radius: 10px; background: #059669;
+            display: flex; align-items: center; justify-content: center; color: #fff;
+            font-weight: 700; font-size: .7rem; flex-shrink: 0; }
 
-.sb-footer { padding:.75rem;border-top:1px solid rgba(255,255,255,.08); }
-.sb-footer a { display:flex;align-items:center;gap:.75rem;color:#f87171;
-               padding:.6rem .75rem;border-radius:10px;font-size:.8rem;
-               font-weight:500;text-decoration:none;transition:.15s; }
-.sb-footer a:hover { background:rgba(239,68,68,.15); }
+.sb-nav { flex: 1; overflow-y: auto; padding: .5rem; }
+.sb-nav a { display: flex; align-items: center; gap: .75rem; color: rgba(255,255,255,.6);
+            padding: .6rem .75rem; border-radius: 10px; text-decoration: none;
+            font-size: .8rem; font-weight: 500; white-space: nowrap; transition: .15s; }
+.sb-nav a:hover { background: rgba(255,255,255,.08); color: #fff; }
+.sb-nav a.active { background: rgba(255,255,255,.15); color: #fff; }
+.sb-nav a i { font-size: 1rem; flex-shrink: 0; width: 20px; text-align: center; } /* Penyelaras Ikon */
+.sb-nav .section-label { color: rgba(255,255,255,.3); font-size: .6rem; font-weight: 700;
+                          text-transform: uppercase; letter-spacing: .08em; padding: .75rem .75rem .3rem; }
 
-.main-wrap { margin-left:var(--sidebar-w);min-height:100vh;display:flex;
-             flex-direction:column;transition:margin-left .25s ease; }
-.main-wrap.collapsed { margin-left:64px; }
+.sb-footer { padding: .75rem; border-top: 1px solid rgba(255,255,255,.08); }
+.sb-footer a { display: flex; align-items: center; gap: .75rem; color: #f87171;
+               padding: .6rem .75rem; border-radius: 10px; font-size: .8rem;
+               font-weight: 500; text-decoration: none; transition: .15s; }
+.sb-footer a:hover { background: rgba(239,68,68,.15); }
+.sb-footer a i { font-size: 1rem; flex-shrink: 0; width: 20px; text-align: center; }
 
-.topbar { height:var(--header-h);background:#fff;border-bottom:1px solid rgba(30,64,128,.1);
-          display:flex;align-items:center;justify-content:space-between;
-          padding:0 1.25rem;position:sticky;top:0;z-index:100; }
+.main-wrap { margin-left: var(--sidebar-w); min-height: 100vh; display: flex;
+             flex-direction: column; transition: margin-left .25s ease; }
+.main-wrap.collapsed { margin-left: var(--sidebar-c); }
 
-.page-content { flex:1;padding:1.5rem; }
-.card { border:1px solid rgba(30,64,128,.1);border-radius:14px;box-shadow:0 1px 4px rgba(0,0,0,.04); }
-.table th { font-size:.72rem;font-weight:700;text-transform:uppercase;
-             letter-spacing:.04em;color:#5a6a82;border-bottom:2px solid rgba(30,64,128,.1); }
-.table td { font-size:.8rem;vertical-align:middle; }
-.app-footer { background:#fff;border-top:1px solid rgba(30,64,128,.1);
-               padding:.5rem 1.25rem;font-size:.68rem;color:#5a6a82; }
+.topbar { height: var(--header-h); background: #fff; border-bottom: 1px solid rgba(30,64,128,.1);
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 0 1.25rem; position: sticky; top: 0; z-index: 100; }
+
+.page-content { flex: 1; padding: 1.5rem; }
+.card { border: 1px solid rgba(30,64,128,.1); border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+.table th { font-size: .72rem; font-weight: 700; text-transform: uppercase;
+             letter-spacing: .04em; color: #5a6a82; border-bottom: 2px solid rgba(30,64,128,.1); }
+.table td { font-size: .8rem; vertical-align: middle; }
+.app-footer { background: #fff; border-top: 1px solid rgba(30,64,128,.1);
+               padding: .5rem 1.25rem; font-size: .68rem; color: #5a6a82; }
 
 @media (max-width: 991px) {
     .sidebar { transform: translateX(-100%); }
@@ -86,6 +124,7 @@ body { background: var(--bg); min-height: 100vh; }
     .sidebar-overlay { display: block !important; }
 }
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1039; }
+
 /* Premium Modernization */
 .card {
     transition: transform .25s ease, box-shadow .25s ease;
@@ -129,15 +168,15 @@ body { background: var(--bg); min-height: 100vh; }
     <div class="sb-brand">
         <div class="sb-icon"><i class="bi bi-buildings-fill text-white"></i></div>
         <div class="sb-text">
-            <div class="n"><?= DESA_NAMA ?></div>
+            <div class="n"><?= htmlspecialchars(DESA_NAMA ?? 'Desa') ?></div>
             <div class="s">Panel Admin</div>
         </div>
     </div>
 
-    <!-- Admin badge -->
-    <div class="d-flex align-items-center gap-2 mx-3 mt-3 mb-1 p-3 rounded-3" style="background:rgba(255,255,255,.07)">
+    <!-- Admin badge (Ditambahkan penanda kelas pembungkus teks agar responsive saat kolaps) -->
+    <div class="sidebar-user d-flex align-items-center gap-2 mx-3 mt-3 mb-1 p-3 rounded-3" style="background:rgba(255,255,255,.07)">
         <div class="sb-badge"><i class="bi bi-person-gear"></i></div>
-        <div style="overflow:hidden">
+        <div class="sidebar-user-info" style="overflow:hidden">
             <div class="text-white fw-semibold text-truncate" style="font-size:.78rem"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
             <div class="text-white-50" style="font-size:.65rem">Admin Desa</div>
         </div>
@@ -199,8 +238,8 @@ body { background: var(--bg); min-height: 100vh; }
                 <i class="bi bi-layout-sidebar fs-5"></i>
             </button>
             <div>
-                <div class="fw-bold" style="font-size:.95rem"><?= $pageTitle ?? 'Dashboard Admin' ?></div>
-                <div class="text-muted" style="font-size:.7rem"><i class="bi bi-house me-1"></i><?= $pageTitle ?? '' ?></div>
+                <div class="fw-bold" style="font-size:.95rem"><?= htmlspecialchars($pageTitle ?? 'Dashboard Admin') ?></div>
+                <div class="text-muted" style="font-size:.7rem"><i class="bi bi-house me-1"></i><?= htmlspecialchars($pageTitle ?? '') ?></div>
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
@@ -225,8 +264,8 @@ body { background: var(--bg); min-height: 100vh; }
     </main>
 
     <footer class="app-footer d-flex justify-content-between">
-        <span><?= APP_FULL ?> &copy; <?= date('Y') ?></span>
-        <span class="font-monospace">Admin Panel &middot; v<?= APP_VERSION ?></span>
+        <span><?= htmlspecialchars(APP_FULL ?? '') ?> &copy; <?= date('Y') ?></span>
+        <span class="font-monospace">Admin Panel &middot; v<?= htmlspecialchars(APP_VERSION ?? '1.0') ?></span>
     </footer>
 </div>
 
@@ -257,7 +296,6 @@ function toggleSidebar() {
 
 document.getElementById('sidebarToggleDesktop')?.addEventListener('click', toggleSidebar);
 
-// Restore collapse state
 if (localStorage.getItem('sidebar_collapsed') === 'true') {
     document.getElementById('sidebar').classList.add('collapsed');
     document.getElementById('mainWrap').classList.add('collapsed');

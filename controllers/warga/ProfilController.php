@@ -22,3 +22,4 @@ final class ProfilController extends Controller
         $this->render('warga/profil/index', compact('penduduk', 'user'), 'warga');
     }
 }
+
