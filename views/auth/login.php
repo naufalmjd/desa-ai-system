@@ -427,6 +427,7 @@ declare(strict_types=1);
             border-color: var(--primary-glow);
         }
 
+
         /* Pastikan semua teks utama menggunakan variabel */
         .text-main {
             color: var(--text-main) !important;
@@ -829,7 +830,7 @@ declare(strict_types=1);
                         <h2 class="text-white fw-black fs-2 lh-sm mb-3">
                             Sistem Pelayanan Administrasi Desa
                         </h2>
-                        <p class="text-muted mb-4" style="font-size:0.9rem; line-height: 1.6;">
+                        <p class="text-white mb-4" style="font-size:0.9rem; line-height: 1.6 ; ">
                             Selamat datang di portal login perangkat desa. Silakan masuk untuk mengelola persuratan warga, memoderasi pengaduan, log aktivitas kecerdasan buatan, serta melacak log audit sistem informasi.
                         </p>
                     </div>
