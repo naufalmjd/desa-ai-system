@@ -54,9 +54,44 @@ final class App
         }
         $path = trim($path, '/');
 
-        if ($path === '' || $path === 'login') {
+        // Route khusus untuk register-warga
+        if ($path === 'auth/register-warga') {
+            $this->module     = 'auth';
+            $this->controller = 'Auth\AuthController';
+            $this->action     = 'registerWarga';
+            $this->params     = [];
+            return;
+        }
+
+        // Route khusus untuk login
+        if ($path === '' || $path === 'login' || $path === 'auth/login') {
             $this->controller = 'Auth\AuthController';
             $this->action     = 'login';
+            return;
+        }
+
+        // Route khusus untuk logout
+        if ($path === 'auth/logout') {
+            $this->module     = 'auth';
+            $this->controller = 'Auth\AuthController';
+            $this->action     = 'logout';
+            $this->params     = [];
+            return;
+        }
+
+        // Route untuk loginPost
+        if ($path === 'auth/loginPost') {
+            $this->controller = 'Auth\AuthController';
+            $this->action     = 'loginPost';
+            return;
+        }
+
+        // Route untuk registerWargaPost (AJAX)
+        if ($path === 'auth/auth/registerWarga') {
+            $this->module     = 'auth';
+            $this->controller = 'Auth\AuthController';
+            $this->action     = 'registerWargaPost';
+            $this->params     = [];
             return;
         }
 
@@ -64,14 +99,6 @@ final class App
 
         $module = strtolower($segments[0] ?? '');
         $allowedModules = ['warga', 'admin', 'kepaladesa', 'superadmin', 'auth', 'api'];
-
-        if ($module === 'auth' && ($segments[1] ?? '') === 'logout') {
-            $this->module     = 'auth';
-            $this->controller = 'Auth\AuthController';
-            $this->action     = 'logout';
-            $this->params     = [];
-            return;
-        }
 
         if (in_array($module, $allowedModules, true)) {
             $this->module = $module;
@@ -124,7 +151,13 @@ final class App
         }
 
         // Auth & RBAC middleware
-        $publicRoutes = ['Auth\AuthController::login', 'Auth\AuthController::loginPost', 'Auth\AuthController::logout'];
+        $publicRoutes = [
+            'Auth\AuthController::login', 
+            'Auth\AuthController::loginPost', 
+            'Auth\AuthController::logout',
+            'Auth\AuthController::registerWarga',
+            'Auth\AuthController::registerWargaPost'
+        ];
         $currentRoute = $this->controller . '::' . $this->action;
 
         if (!in_array($currentRoute, $publicRoutes, true)) {

@@ -1,5 +1,7 @@
-<?php $pageTitle = 'Profil Admin'; ?>
-<?php ob_start(); ?>
+<?php
+$pageTitle = 'Profil Admin';
+ob_start();
+?>
 
 <style>
     .profile-banner {
@@ -162,10 +164,18 @@
                     </div>
                 </div>
             </div>
+            <!-- Tombol Edit Profil -->
+            <button class="btn btn-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#editProfilModal">
+                <i class="bi bi-pencil-square me-1"></i> Edit Profil
+            </button>
         </div>
     </div>
 
+<<<<<<< HEAD
     <!-- Data Pegawai -->
+=======
+    <!-- Data Penduduk (tetap) -->
+>>>>>>> 881128b3260f9e43c09df221d2cbebbc51ac1e19
     <div class="col-lg-8">
         <div class="card border-0 rounded-4 shadow-sm bg-white overflow-hidden">
             <div class="card-header bg-white py-4 border-0 d-flex align-items-center justify-content-between px-4">
@@ -250,5 +260,86 @@
     </div>
 </div>
 
-<?php $content = ob_get_clean(); ?>
-<?php require VIEW_PATH . '/layouts/admin.php'; ?>
+<!-- ========== MODAL EDIT PROFIL ========== -->
+<div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold" id="editProfilModalLabel"><i class="bi bi-person-gear me-2"></i>Edit Profil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+            </div>
+            <form method="POST" action="<?= APP_URL ?>/admin/profil/update" id="formEditProfil">
+                <div class="modal-body">
+                    <!-- CSRF Token (sesuaikan dengan mekanisme Anda) -->
+                    <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label for="edit_username" class="form-label fw-semibold">Username</label>
+                        <input type="text" class="form-control" id="edit_username" name="username"
+                               value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-3">
+                        <label for="edit_email" class="form-label fw-semibold">Alamat Email</label>
+                        <input type="email" class="form-control" id="edit_email" name="email"
+                               value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
+                    </div>
+
+                    <hr>
+
+                    <!-- Password Baru (opsional) -->
+                    <div class="mb-3">
+                        <label for="edit_password" class="form-label fw-semibold">Password Baru <span class="text-muted small">(kosongkan jika tidak diubah)</span></label>
+                        <input type="password" class="form-control" id="edit_password" name="password" placeholder="Masukkan password baru">
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit_password_confirm" class="form-label fw-semibold">Konfirmasi Password Baru</label>
+                        <input type="password" class="form-control" id="edit_password_confirm" name="password_confirm" placeholder="Ulangi password baru">
+                    </div>
+
+                    <!-- Pesan error (bisa ditampilkan dari flash message) -->
+                    <?php if (isset($flash) && $flash['type'] === 'danger'): ?>
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <?= htmlspecialchars($flash['message']) ?>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-1"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Script untuk validasi password dan tampilkan modal jika ada error -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Jika ada error dari server, tampilkan modal otomatis
+    <?php if (isset($flash) && $flash['type'] === 'danger'): ?>
+        var myModal = new bootstrap.Modal(document.getElementById('editProfilModal'));
+        myModal.show();
+    <?php endif; ?>
+
+    // Validasi sederhana: password dan konfirmasi harus sama jika diisi
+    document.getElementById('formEditProfil').addEventListener('submit', function(e) {
+        var pass = document.getElementById('edit_password').value;
+        var confirm = document.getElementById('edit_password_confirm').value;
+        if (pass !== '' && pass !== confirm) {
+            e.preventDefault();
+            alert('Password baru dan konfirmasi tidak cocok!');
+        }
+    });
+});
+</script>
+
+<?php
+$content = ob_get_clean();
+require VIEW_PATH . '/layouts/admin.php';
+?>
