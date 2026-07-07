@@ -1,7 +1,7 @@
 Options -Indexes
 
 RewriteEngine On
-RewriteBase /desa-ai-system/
+RewriteBase /
 
 # Jika file atau direktori fisik memang ada, langsung buka
 RewriteCond %{REQUEST_FILENAME} !-f
