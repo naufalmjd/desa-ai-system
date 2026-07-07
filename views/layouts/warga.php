@@ -20,17 +20,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
 <script>
-    // Theme Initializer to prevent light theme flash
     (function() {
-        const theme = localStorage.getItem('app_theme') || 'light';
-        if (theme === 'dark') {
-            document.documentElement.classList.add('dark-theme-init');
-        }
+        const theme = localStorage.getItem('theme') || 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
     })();
 </script>
 <style>
-    /* Default: Light Mode */
-    :root {
+    :root, [data-bs-theme="light"] {
         --primary:      #1e4080;
         --primary-dark: #163566;
         --primary-glow: rgba(30, 64, 128, 0.15);
@@ -46,9 +42,7 @@
         --topbar-bg:    #ffffff;
     }
 
-    /* Dark Mode variables */
-    html.dark-theme-init,
-    body.dark-theme {
+    [data-bs-theme="dark"] {
         --bg:           #080d16;
         --card-bg:      #111827;
         --border:       rgba(255, 255, 255, 0.08);
@@ -86,7 +80,7 @@
     .sidebar-brand-text .sub  { color: rgba(255,255,255,.5); font-size: .68rem; }
 
     .sidebar-user { margin: .75rem; padding: .75rem; border-radius: 12px;
-                    background: rgba(255,255,255,.07); flex-shrink: 0; transition: padding .25s ease; }
+                    background: rgba(255, 255, 255, .07); flex-shrink: 0; transition: padding .25s ease; }
     .sidebar-user .avatar {
         width: 36px; height: 36px; border-radius: 10px; background: var(--primary);
         display: flex; align-items: center; justify-content: center;
@@ -154,15 +148,34 @@
     .table td { font-size: .8rem; vertical-align: middle; border-bottom: 1px solid var(--border) !important; background: transparent !important; color: var(--text-main); }
     .table-hover tbody tr:hover td { background-color: rgba(255, 255, 255, 0.02) !important; }
 
-    /* Form Inputs in Dark Mode */
-    .form-control, .form-select, .input-group-text {
-        background-color: #ffffff;
-        border: 1px solid var(--border);
-        color: var(--text-main);
+    /* Form Inputs */
+    [data-bs-theme="dark"] .form-control,
+    [data-bs-theme="dark"] .form-select,
+    [data-bs-theme="dark"] .input-group-text {
+        background-color: #1f2937 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #f3f4f6 !important;
     }
-    .form-control:focus, .form-select:focus {
-        border-color: var(--primary);
-        box-shadow: 0 0 0 3px var(--primary-glow);
+    [data-bs-theme="dark"] .form-control:focus,
+    [data-bs-theme="dark"] .form-select:focus {
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 3px var(--primary-glow) !important;
+        background-color: #1f2937 !important;
+        color: #f3f4f6 !important;
+    }
+
+    [data-bs-theme="light"] .form-control,
+    [data-bs-theme="light"] .form-select,
+    [data-bs-theme="light"] .input-group-text {
+        background-color: #ffffff !important;
+        border: 1px solid #d1d5db !important;
+        color: #1f2937 !important;
+    }
+    [data-bs-theme="light"] .form-control:focus,
+    [data-bs-theme="light"] .form-select:focus {
+        background-color: #ffffff !important;
+        color: #1f2937 !important;
+        border-color: var(--primary) !important;
     }
 
     /* Modals */
@@ -173,6 +186,9 @@
     }
     .modal-header, .modal-footer {
         border-color: var(--border);
+    }
+    [data-bs-theme="dark"] .modal-header .btn-close {
+        filter: invert(1) !important;
     }
 
     /* Premium Elements */
@@ -193,6 +209,9 @@
         border: none !important; border-bottom: 2px solid var(--accent) !important; border-radius: 0 !important;
         padding-left: 0; box-shadow: none !important; color: var(--text-main) !important;
     }
+    [data-bs-theme="light"] .wa-input-group input:not(:disabled) {
+        color: #1f2937 !important;
+    }
     .wa-btn-pencil { background: none; border: none; color: var(--text-muted); padding: 4px 8px; transition: color 0.2s; }
     .wa-btn-pencil:hover { color: var(--accent); }
     .btn-trigger-edit-profil { cursor: pointer; transition: transform 0.2s; color: var(--accent); }
@@ -201,152 +220,192 @@
     /* ==========================================
        DARK MODE OVERRIDES (HIGH CONTRAST & READABLE)
        ========================================== */
-    html.dark-theme-init body,
-    body.dark-theme {
+    [data-bs-theme="dark"] body {
         background: var(--bg) !important;
         color: var(--text-main) !important;
     }
-    
-    html.dark-theme-init .bg-white,
-    body.dark-theme .bg-white {
+    [data-bs-theme="dark"] .bg-white {
         background-color: var(--card-bg) !important;
         color: var(--text-main) !important;
     }
-
-    html.dark-theme-init .text-dark,
-    body.dark-theme .text-dark {
+    [data-bs-theme="dark"] .text-dark {
         color: var(--text-main) !important;
     }
-
-    html.dark-theme-init .list-group-item,
-    body.dark-theme .list-group-item {
+    [data-bs-theme="dark"] .list-group-item {
         background-color: var(--card-bg) !important;
         color: var(--text-main) !important;
         border-color: var(--border) !important;
     }
-
-    html.dark-theme-init .list-group-item-action:hover,
-    body.dark-theme .list-group-item-action:hover {
+    [data-bs-theme="dark"] .list-group-item-action:hover {
         background-color: rgba(255, 255, 255, 0.04) !important;
         color: #fff !important;
     }
-
-    html.dark-theme-init .card,
-    body.dark-theme .card {
+    [data-bs-theme="dark"] .card {
         background: var(--card-bg) !important;
         border: 1px solid var(--border) !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
         color: var(--text-main);
     }
-    
-    html.dark-theme-init .card:hover,
-    body.dark-theme .card:hover {
+    [data-bs-theme="dark"] .card:hover {
         box-shadow: 0 12px 30px var(--primary-glow) !important;
     }
-
-    html.dark-theme-init .card-header,
-    body.dark-theme .card-header {
+    [data-bs-theme="dark"] .card-header {
         background: rgba(255, 255, 255, 0.02) !important;
         border-bottom: 1px solid var(--border) !important;
         color: var(--text-main) !important;
     }
-
-    html.dark-theme-init .card-footer,
-    body.dark-theme .card-footer {
+    [data-bs-theme="dark"] .card-footer {
         background: rgba(255, 255, 255, 0.02) !important;
         border-top: 1px solid var(--border) !important;
         color: var(--text-muted) !important;
     }
-
-    html.dark-theme-init .table,
-    body.dark-theme .table {
+    [data-bs-theme="dark"] .table {
         color: var(--text-main) !important;
     }
-
-    html.dark-theme-init .table th,
-    body.dark-theme .table th {
+    [data-bs-theme="dark"] .table th {
         color: var(--text-muted) !important;
         border-bottom: 2px solid var(--border) !important;
         background: transparent !important;
     }
-
-    html.dark-theme-init .table td,
-    body.dark-theme .table td {
+    [data-bs-theme="dark"] .table td {
         color: var(--text-main) !important;
         border-bottom: 1px solid var(--border) !important;
         background: transparent !important;
     }
-
-    html.dark-theme-init .table-hover tbody tr:hover td,
-    body.dark-theme .table-hover tbody tr:hover td {
+    [data-bs-theme="dark"] .table-hover tbody tr:hover td {
         background-color: rgba(255, 255, 255, 0.02) !important;
     }
-
-    html.dark-theme-init .form-control,
-    html.dark-theme-init .form-select,
-    html.dark-theme-init .input-group-text,
-    body.dark-theme .form-control,
-    body.dark-theme .form-select,
-    body.dark-theme .input-group-text {
+    [data-bs-theme="dark"] .form-control,
+    [data-bs-theme="dark"] .form-select,
+    [data-bs-theme="dark"] .input-group-text {
         background-color: #1f2937 !important;
         border-color: rgba(255, 255, 255, 0.08) !important;
         color: #f3f4f6 !important;
     }
-
-    html.dark-theme-init .form-control:focus,
-    html.dark-theme-init .form-select:focus,
-    body.dark-theme .form-control:focus,
-    body.dark-theme .form-select:focus {
+    [data-bs-theme="dark"] .form-control:focus,
+    [data-bs-theme="dark"] .form-select:focus {
         border-color: var(--primary) !important;
         box-shadow: 0 0 0 3px var(--primary-glow) !important;
     }
-
-    html.dark-theme-init .modal-content,
-    body.dark-theme .modal-content {
+    [data-bs-theme="dark"] .modal-content {
         background-color: var(--card-bg) !important;
         border: 1px solid var(--border) !important;
         color: var(--text-main);
     }
-
-    html.dark-theme-init .modal-header,
-    html.dark-theme-init .modal-footer,
-    body.dark-theme .modal-header,
-    body.dark-theme .modal-footer {
+    [data-bs-theme="dark"] .modal-header,
+    [data-bs-theme="dark"] .modal-footer {
         border-color: var(--border) !important;
     }
-
-    html.dark-theme-init .modal-header .btn-close,
-    body.dark-theme .modal-header .btn-close {
-        filter: invert(1);
+    [data-bs-theme="dark"] .modal-header .btn-close {
+        filter: invert(1) !important;
     }
-
-    /* Override KPI text colors specifically inside cards */
-    html.dark-theme-init .card h3,
-    body.dark-theme .card h3 {
+    [data-bs-theme="dark"] .card h3 {
         color: var(--text-main) !important;
     }
-    
-    html.dark-theme-init .card small,
-    body.dark-theme .card small {
+    [data-bs-theme="dark"] .card small {
         color: var(--text-muted) !important;
     }
-    
-    html.dark-theme-init .card p.text-muted,
-    body.dark-theme .card p.text-muted {
+    [data-bs-theme="dark"] .card p.text-muted {
         color: var(--text-muted) !important;
     }
-    
-    /* Topbar buttons in dark theme */
-    html.dark-theme-init .topbar .btn-light,
-    body.dark-theme .topbar .btn-light {
+    [data-bs-theme="dark"] .topbar .btn-light {
         background-color: rgba(255, 255, 255, 0.05) !important;
         border: none !important;
         color: #fff !important;
     }
-    
-    html.dark-theme-init .topbar .btn-light:hover,
-    body.dark-theme .topbar .btn-light:hover {
+    [data-bs-theme="dark"] .topbar .btn-light:hover {
         background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Light Mode button standard style */
+    [data-bs-theme="light"] .btn-light {
+        background-color: #f3f4f6 !important;
+        border-color: #e5e7eb !important;
+        color: #1f2937 !important;
+    }
+    [data-bs-theme="light"] .btn-light:hover {
+        background-color: #e5e7eb !important;
+    }
+
+    /* Chatbot Glassmorphic Adjustments for Dark Mode */
+    [data-bs-theme="dark"] .card[style*="background: rgba(255, 255, 255, 0.7)"] {
+        background: rgba(17, 28, 68, 0.7) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    [data-bs-theme="dark"] .faq-btn {
+        background: rgba(30, 41, 59, 0.55) !important;
+        color: #cbd5e1 !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    [data-bs-theme="dark"] .faq-btn:hover {
+        background: #1e293b !important;
+        color: #60a5fa !important;
+    }
+    [data-bs-theme="dark"] div[style*="background: #ffffff"] {
+        background: var(--card-bg) !important;
+        color: #f8fafc !important;
+        border-color: var(--border) !important;
+    }
+    [data-bs-theme="dark"] div[style*="background: #white"] {
+        background: var(--card-bg) !important;
+        color: #f8fafc !important;
+    }
+    [data-bs-theme="dark"] #chatInput:focus {
+        background: #1e293b !important;
+        color: #f8fafc !important;
+    }
+
+    /* --- HIGH CONTRAST THEME OVERRIDES --- */
+    [data-bs-theme="dark"] .text-dark,
+    [data-bs-theme="dark"] .text-black,
+    [data-bs-theme="dark"] strong.text-dark,
+    [data-bs-theme="dark"] span.text-dark,
+    [data-bs-theme="dark"] div.text-dark,
+    [data-bs-theme="dark"] td.text-dark {
+        color: #f3f4f6 !important;
+    }
+    [data-bs-theme="dark"] .text-muted,
+    [data-bs-theme="dark"] .text-secondary {
+        color: #9ca3af !important;
+    }
+    [data-bs-theme="dark"] .bg-light,
+    [data-bs-theme="dark"] .badge.bg-light,
+    [data-bs-theme="dark"] .bg-light.text-dark {
+        background-color: #1f2937 !important;
+        color: #cbd5e1 !important;
+        border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+    [data-bs-theme="dark"] .info-item-card {
+        background: rgba(255, 255, 255, 0.02) !important;
+        border-color: rgba(255, 255, 255, 0.05) !important;
+    }
+    [data-bs-theme="dark"] .info-item-card:hover {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border-color: var(--primary) !important;
+    }
+    [data-bs-theme="dark"] div[style*="background-color: #f0f9ff"],
+    [data-bs-theme="dark"] div[style*="background: #f0f9ff"] {
+        background-color: rgba(14, 165, 233, 0.1) !important;
+        color: #38bdf8 !important;
+        border-color: rgba(14, 165, 233, 0.2) !important;
+    }
+    [data-bs-theme="dark"] div[style*="background-color: #f0fdf4"],
+    [data-bs-theme="dark"] div[style*="background: #f0fdf4"] {
+        background-color: rgba(16, 185, 129, 0.1) !important;
+        color: #34d399 !important;
+        border-color: rgba(16, 185, 129, 0.2) !important;
+    }
+    [data-bs-theme="dark"] .modal-title,
+    [data-bs-theme="dark"] .modal-content h5,
+    [data-bs-theme="dark"] .modal-content h6,
+    [data-bs-theme="dark"] .card-title,
+    [data-bs-theme="dark"] h1,
+    [data-bs-theme="dark"] h2,
+    [data-bs-theme="dark"] h3,
+    [data-bs-theme="dark"] h4,
+    [data-bs-theme="dark"] h5,
+    [data-bs-theme="dark"] h6 {
+        color: #f3f4f6 !important;
     }
 </style>
 <?= $headExtra ?? '' ?>
@@ -432,6 +491,9 @@
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-light" id="themeToggle" title="Ubah Tema" type="button">
+                <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+            </button>
             <a href="<?= APP_URL ?>/warga/notifikasi" class="btn btn-sm btn-light position-relative">
                 <i class="bi bi-bell"></i>
                 <?php if (($notifCount ?? 0) > 0): ?>
@@ -664,6 +726,37 @@ $(document).ready(function() {
                 }
             });
         });
+    });
+
+    // Logika Dark/Light Mode
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeToggleIcon = document.getElementById('themeToggleIcon');
+
+    function updateThemeUI(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        if (theme === 'dark') {
+            if (themeToggleIcon) themeToggleIcon.className = 'bi bi-moon-stars-fill';
+            if (themeToggleBtn) {
+                themeToggleBtn.classList.remove('btn-light');
+                themeToggleBtn.classList.add('btn-dark');
+            }
+        } else {
+            if (themeToggleIcon) themeToggleIcon.className = 'bi bi-sun-fill';
+            if (themeToggleBtn) {
+                themeToggleBtn.classList.remove('btn-dark');
+                themeToggleBtn.classList.add('btn-light');
+            }
+        }
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    updateThemeUI(savedTheme);
+
+    themeToggleBtn?.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        updateThemeUI(newTheme);
     });
 });
 

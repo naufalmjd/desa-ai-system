@@ -41,7 +41,43 @@ final class AuthController extends Controller
         // Ambil daftar user untuk ditampilkan di halaman login
         $users = $this->userRepo->findAllWithRole();
 
-        $this->render('auth/login', compact('csrfToken', 'flash', 'users'), '');
+        // Ambil berita riil dari database
+        $beritaList = $this->db->fetchAll(
+            "SELECT id, judul AS title, created_at AS date, excerpt AS summary, konten AS content, thumbnail AS image, file_path 
+             FROM berita 
+             WHERE status = 'publish' AND deleted_at IS NULL 
+             ORDER BY created_at DESC"
+        );
+
+        foreach ($beritaList as &$b) {
+            $b['image'] = $b['image'] ? APP_URL . '/public/uploads/berita/' . $b['image'] : 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=600&q=80';
+            $b['attachments'] = [];
+            if ($b['file_path']) {
+                $b['attachments'][] = [
+                    'name' => basename($b['file_path']),
+                    'type' => pathinfo($b['file_path'], PATHINFO_EXTENSION),
+                    'size' => is_file(UPLOAD_PATH . '/berita/' . $b['file_path']) ? round(filesize(UPLOAD_PATH . '/berita/' . $b['file_path']) / 1024 / 1024, 2) . ' MB' : '0 MB'
+                ];
+            }
+        }
+
+        // Ambil landing page settings dari config JSON
+        $settingsPath = dirname(__DIR__, 2) . '/config/landing_settings.json';
+        $settings = [
+            'announcement_title'   => 'Pengumuman Penting Kepala Desa',
+            'announcement_date'    => '04 Juli 2026',
+            'announcement_content' => '"Dihimbau kepada seluruh ketua RT/RW dan warga desa untuk ikut berpartisipasi dalam kegiatan kerja bakti massal pembersihan saluran irigasi pada hari Minggu, 12 Juli 2026 jam 07:00 WIB guna menyambut musim tanam."',
+            'stat_penduduk'        => '3,450',
+            'stat_luas'            => '12.8 Km²',
+            'stat_wilayah'         => '12 RT / 4 RW',
+            'ambulance_phone'      => '628123456789',
+            'ambulance_description'=> 'Butuh bantuan medis segera? Pesan Sopir Ambulans Desa langsung ke kontak WhatsApp admin siaga. Layanan aktif 24 jam bebas biaya bagi seluruh warga.'
+        ];
+        if (is_file($settingsPath)) {
+            $settings = array_merge($settings, json_decode(file_get_contents($settingsPath), true) ?: []);
+        }
+
+        $this->render('auth/login', compact('csrfToken', 'flash', 'users', 'beritaList', 'settings'), '');
     }
 
     // POST /auth/loginPost

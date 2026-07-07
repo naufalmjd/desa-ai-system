@@ -600,10 +600,10 @@ declare(strict_types=1);
                         <div class="d-flex align-items-start gap-3">
                             <span class="fs-2 text-accent"><i class="bi bi-megaphone-fill"></i></span>
                             <div>
-                                <h5 class="fw-bold mb-1">Pengumuman Penting Kepala Desa</h5>
-                                <p class="text-muted mb-2" style="font-size: 0.88rem;">Diterbitkan pada: 04 Juli 2026</p>
+                                <h5 class="fw-bold mb-1"><?= htmlspecialchars($settings['announcement_title'] ?? 'Pengumuman Penting Kepala Desa') ?></h5>
+                                <p class="text-muted mb-2" style="font-size: 0.88rem;">Diterbitkan pada: <?= htmlspecialchars($settings['announcement_date'] ?? '04 Juli 2026') ?></p>
                                 <p class="text-main mb-0" style="font-size: 0.92rem; line-height: 1.6;">
-                                    "Dihimbau kepada seluruh ketua RT/RW dan warga desa untuk ikut berpartisipasi dalam kegiatan kerja bakti massal pembersihan saluran irigasi pada hari Minggu, 12 Juli 2026 jam 07:00 WIB guna menyambut musim tanam."
+                                    <?= nl2br(htmlspecialchars($settings['announcement_content'] ?? '')) ?>
                                 </p>
                             </div>
                         </div>
@@ -616,21 +616,21 @@ declare(strict_types=1);
                             <div class="col-6 col-sm-4">
                                 <div class="card glass-card border-0 p-3 text-center">
                                     <div class="stat-icon"><i class="bi bi-people-fill"></i></div>
-                                    <h3 class="fw-bold mb-0">3,450</h3>
+                                    <h3 class="fw-bold mb-0"><?= htmlspecialchars($settings['stat_penduduk'] ?? '3,450') ?></h3>
                                     <small class="text-muted" style="font-size: 0.75rem;">Total Penduduk</small>
                                 </div>
                             </div>
                             <div class="col-6 col-sm-4">
                                 <div class="card glass-card border-0 p-3 text-center">
                                     <div class="stat-icon"><i class="bi bi-geo-alt-fill"></i></div>
-                                    <h3 class="fw-bold mb-0">12.8 Km²</h3>
+                                    <h3 class="fw-bold mb-0"><?= htmlspecialchars($settings['stat_luas'] ?? '12.8 Km²') ?></h3>
                                     <small class="text-muted" style="font-size: 0.75rem;">Luas Wilayah</small>
                                 </div>
                             </div>
                             <div class="col-12 col-sm-4">
                                 <div class="card glass-card border-0 p-3 text-center">
                                     <div class="stat-icon"><i class="bi bi-houses-fill"></i></div>
-                                    <h3 class="fw-bold mb-0">12 RT / 4 RW</h3>
+                                    <h3 class="fw-bold mb-0"><?= htmlspecialchars($settings['stat_wilayah'] ?? '12 RT / 4 RW') ?></h3>
                                     <small class="text-muted" style="font-size: 0.75rem;">Wilayah Administrasi</small>
                                 </div>
                             </div>
@@ -647,7 +647,7 @@ declare(strict_types=1);
                             </div>
                             <h4 class="fw-bold mb-2">Ambulans Darurat</h4>
                             <p class="text-muted mb-4" style="font-size: 0.88rem; line-height: 1.6;">
-                                Butuh bantuan medis segera? Pesan Sopir Ambulans Desa langsung ke kontak WhatsApp admin siaga. Layanan aktif 24 jam bebas biaya bagi seluruh warga.
+                                <?= htmlspecialchars($settings['ambulance_description'] ?? 'Butuh bantuan medis segera? Pesan Sopir Ambulans Desa langsung ke kontak WhatsApp admin siaga. Layanan aktif 24 jam bebas biaya bagi seluruh warga.') ?>
                             </p>
                         </div>
                         <a href="#ambulans" class="btn btn-emergency w-100 py-3 fs-6">
@@ -969,7 +969,7 @@ declare(strict_types=1);
             <div class="modal-content glass-card border-0 p-2" style="background: var(--bg-solid) !important;">
                 <div class="modal-header border-0 pb-0">
                     <div>
-                        <h5 class="modal-title fw-bold text-white" id="newsDetailModalLabel">Judul Berita</h5>
+                        <h5 class="modal-title fw-bold" id="newsDetailModalLabel" style="color: var(--text-main) !important;">Judul Berita</h5>
                         <small class="text-accent" id="modal-news-date">Tanggal</small>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
@@ -1022,46 +1022,44 @@ declare(strict_types=1);
     <script>
         // ============================================================
         // SmartDesa.id — Frontend Logic & Router
-        // ============================================================
-
-        // --- Mock Data: Berita & Dokumen ---
-        const MOCK_BERITA = [
-            {
-                id: 1,
-                title: "Pembangunan Jalan Usaha Tani Dusun Harapan Selesai 100%",
-                date: "2026-07-05",
-                image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=600&q=80",
-                summary: "Pemerintah Desa sukses merampungkan pengaspalan jalan tani sepanjang 1.2 Km guna meningkatkan mobilitas pertanian warga.",
-                content: "Proyek pengaspalan jalan usaha tani di Dusun Harapan yang didanai oleh Anggaran Dana Desa (ADD) Tahap I Tahun 2026 akhirnya selesai sepenuhnya. Pembangunan ini disambut antusias oleh para petani setempat karena memangkas waktu tempuh pengangkutan hasil panen padi dan jagung secara signifikan. Kepala Desa menyatakan bahwa pembangunan infrastruktur pertanian akan terus diprioritaskan demi ketahanan pangan lokal.",
-                attachments: [
-                    { name: "Laporan Realisasi Pembangunan Jalan.pdf", type: "pdf", size: "1.2 MB" },
-                    { name: "Lampiran Anggaran Biaya Proyek.xlsx", type: "xls", size: "320 KB" }
+        // =========================================================        // --- Mock Data: Berita & Dokumen ---
+        const MOCK_BERITA = <?= json_encode(!empty($beritaList) ? $beritaList : [
+            [
+                'id' => 1,
+                'title' => "Pembangunan Jalan Usaha Tani Dusun Harapan Selesai 100%",
+                'date' => "2026-07-05",
+                'image' => "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=600&q=80",
+                'summary' => "Pemerintah Desa sukses merampungkan pengaspalan jalan tani sepanjang 1.2 Km guna meningkatkan mobilitas pertanian warga.",
+                'content' => "Proyek pengaspalan jalan usaha tani di Dusun Harapan yang didanai oleh Anggaran Dana Desa (ADD) Tahap I Tahun 2026 akhirnya selesai sepenuhnya. Pembangunan ini disambut antusias oleh para petani setempat karena memangkas waktu tempuh pengangkutan hasil panen padi dan jagung secara signifikan. Kepala Desa menyatakan bahwa pembangunan infrastruktur pertanian akan terus diprioritaskan demi ketahanan pangan lokal.",
+                'attachments' => [
+                    ['name' => "Laporan Realisasi Pembangunan Jalan.pdf", 'type' => "pdf", 'size' => "1.2 MB"],
+                    ['name' => "Lampiran Anggaran Biaya Proyek.xlsx", 'type' => "xls", 'size' => "320 KB"]
                 ]
-            },
-            {
-                id: 2,
-                title: "Penyaluran Bantuan Langsung Tunai (BLT) Dana Desa Tahap II",
-                date: "2026-07-02",
-                image: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80",
-                summary: "Sebanyak 120 Keluarga Penerima Manfaat (KPM) menerima dana BLT untuk membantu pemenuhan kebutuhan pangan harian.",
-                content: "Bertempat di balai desa, penyaluran BLT Dana Desa untuk periode April-Juni 2026 telah terlaksana dengan tertib. Sebanyak 120 KPM yang lolos verifikasi menerima bantuan tunai sebesar Rp 900.000 (Sembilan Ratus Ribu Rupiah). Proses penyaluran diawasi langsung oleh Babinsa, Bhabinkamtibmas, serta perwakilan Badan Permusyawaratan Desa (BPD) guna menjamin akuntabilitas dan ketepatan sasaran.",
-                attachments: [
-                    { name: "Daftar Penerima KPM BLT Tahap II.pdf", type: "pdf", size: "850 KB" },
-                    { name: "Formulir Pendaftaran Bantuan Susulan.docx", type: "doc", size: "150 KB" }
+            ],
+            [
+                'id' => 2,
+                'title' => "Penyaluran Bantuan Langsung Tunai (BLT) Dana Desa Tahap II",
+                'date' => "2026-07-02",
+                'image' => "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?auto=format&fit=crop&w=600&q=80",
+                'summary' => "Sebanyak 120 Keluarga Penerima Manfaat (KPM) menerima dana BLT untuk membantu pemenuhan kebutuhan pangan harian.",
+                'content' => "Bertempat di balai desa, penyaluran BLT Dana Desa untuk periode April-Juni 2026 telah terlaksana dengan tertib. Sebanyak 120 KPM yang lolos verifikasi menerima bantuan tunai sebesar Rp 900.000 (Sembilan Ratus Ribu Rupiah). Proses penyaluran diawasi langsung oleh Babinsa, Bhabinkamtibmas, serta perwakilan Badan Permusyawaratan Desa (BPD) guna menjamin akuntabilitas dan ketepatan sasaran.",
+                'attachments' => [
+                    ['name' => "Daftar Penerima KPM BLT Tahap II.pdf", 'type' => "pdf", 'size' => "850 KB"],
+                    ['name' => "Formulir Pendaftaran Bantuan Susulan.docx", 'type' => "doc", 'size' => "150 KB"]
                 ]
-            },
-            {
-                id: 3,
-                title: "Program Penyuluhan Kesehatan Ibu & Anak Serta Imunisasi Gratis",
-                date: "2026-06-28",
-                image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80",
-                summary: "Kader Posyandu menggelar kegiatan bulanan pemeriksaan tumbuh kembang balita dan pencegahan stunting.",
-                content: "Dalam upaya menekan angka stunting, Puskesmas Desa berkolaborasi dengan PKK menggelar Penyuluhan Kesehatan Ibu dan Anak serta pemberian vitamin A gratis. Warga yang memiliki bayi di bawah dua tahun mendapatkan penyuluhan menu gizi seimbang lokal. Kader posyandu juga melaksanakan pengukuran berat dan tinggi badan balita serta menyalurkan bantuan susu formula khusus bagi balita terindikasi stunting.",
-                attachments: [
-                    { name: "Panduan Gizi Mencegah Stunting Anak.pdf", type: "pdf", size: "2.1 MB" }
+            ],
+            [
+                'id' => 3,
+                'title' => "Program Penyuluhan Kesehatan Ibu & Anak Serta Imunisasi Gratis",
+                'date' => "2026-06-28",
+                'image' => "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80",
+                'summary' => "Kader Posyandu menggelar kegiatan bulanan pemeriksaan tumbuh kembang balita dan pencegahan stunting.",
+                'content' => "Dalam upaya menekan angka stunting, Puskesmas Desa berkolaborasi dengan PKK menggelar Penyuluhan Kesehatan Ibu dan Anak serta pemberian vitamin A gratis. Warga yang memiliki bayi di bawah dua tahun mendapatkan penyuluhan menu gizi seimbang lokal. Kader posyandu juga melaksanakan pengukuran berat dan tinggi badan balita serta menyalurkan bantuan susu formula khusus bagi balita terindikasi stunting.",
+                'attachments' => [
+                    ['name' => "Panduan Gizi Mencegah Stunting Anak.pdf", 'type' => "pdf", 'size' => "2.1 MB"]
                 ]
-            }
-        ];
+            ]
+        ]) ?>;
 
         // --- SPA Routing System ---
         function initRouter() {
@@ -1117,7 +1115,7 @@ declare(strict_types=1);
                                 <span class="text-accent mb-2 d-block" style="font-size: 0.78rem;">
                                     <i class="bi bi-calendar3 me-1"></i> ${formatDate(news.date)}
                                 </span>
-                                <h5 class="card-title fw-bold text-white fs-6 mb-2 text-truncate-2">${news.title}</h5>
+                                <h5 class="card-title fw-bold fs-6 mb-2 text-truncate-2" style="color: var(--text-main) !important;">${news.title}</h5>
                                 <p class="card-text text-muted mb-4" style="font-size: 0.85rem; line-height: 1.5;">${news.summary}</p>
                                 <button onclick="viewNewsDetail(${news.id})" class="btn btn-outline-premium btn-sm mt-auto w-100">
                                     Baca Selengkapnya
@@ -1142,7 +1140,7 @@ declare(strict_types=1);
                                     <span class="text-accent mb-2 d-block" style="font-size: 0.78rem;">
                                         <i class="bi bi-calendar3 me-1"></i> ${formatDate(news.date)}
                                     </span>
-                                    <h4 class="text-white fw-bold mb-2">${news.title}</h4>
+                                    <h4 class="fw-bold mb-2" style="color: var(--text-main) !important;">${news.title}</h4>
                                     <p class="text-muted mb-3" style="font-size: 0.88rem; line-height: 1.6;">${news.summary}</p>
                                     <div class="d-flex flex-wrap gap-2">
                                         <button onclick="viewNewsDetail(${news.id})" class="btn btn-premium btn-sm px-4">
@@ -1177,12 +1175,12 @@ declare(strict_types=1);
             if (news.attachments && news.attachments.length > 0) {
                 attachmentContainer.innerHTML = `
                     <div class="border-top border-secondary pt-3 mt-4">
-                        <h6 class="fw-bold text-white mb-3"><i class="bi bi-paperclip me-1 text-accent"></i>Lampiran Dokumen Pelayanan</h6>
+                        <h6 class="fw-bold mb-3" style="color: var(--text-main) !important;"><i class="bi bi-paperclip me-1 text-accent"></i>Lampiran Dokumen Pelayanan</h6>
                         ${news.attachments.map(doc => `
                             <div class="doc-item">
                                 <div class="d-flex align-items-center gap-2">
                                     <span class="doc-badge ${doc.type}">${doc.type}</span>
-                                    <span class="text-white fw-semibold" style="font-size: 0.85rem;">${doc.name}</span>
+                                    <span class="fw-semibold" style="font-size: 0.85rem; color: var(--text-main) !important;">${doc.name}</span>
                                     <small class="text-muted">(${doc.size})</small>
                                 </div>
                                 <button onclick="downloadMockFile('${doc.name}')" class="btn btn-sm btn-outline-info p-1 border-0" title="Unduh File">
@@ -1226,8 +1224,7 @@ declare(strict_types=1);
                 Swal.fire('Error!', 'Mohon isi semua data formulir darurat.', 'error');
                 return;
             }
-            
-            const adminPhone = "628123456789";
+            const adminPhone = "<?= htmlspecialchars($settings['ambulance_phone'] ?? '628123456789') ?>";
             
             let textMsg = `Halo Admin SmartDesa, saya memerlukan bantuan AMBULANS SEGERA.
             

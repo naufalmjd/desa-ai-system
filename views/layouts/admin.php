@@ -7,6 +7,12 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
 <!DOCTYPE html>
 <html lang="id">
 <head>
+<script>
+    (function() {
+        const theme = localStorage.getItem('theme') || 'dark';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+    })();
+</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title><?= htmlspecialchars($pageTitle ?? 'Admin') ?> — <?= htmlspecialchars(APP_NAME ?? '') ?></title>
@@ -229,6 +235,158 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; transi
 .wa-btn-pencil:hover { color: var(--primary); }
 .btn-trigger-edit-profil { cursor: pointer; transition: transform 0.2s; color: var(--primary); }
 .btn-trigger-edit-profil:hover { transform: scale(1.15); }
+
+/* --- LIGHT MODE OVERRIDES & VARIABLES --- */
+[data-bs-theme="light"] {
+    --bg:           #eef2f7;
+    --card-bg:      #ffffff;
+    --border:       rgba(30,64,128,.1);
+    --text-main:    #0f172a;
+    --text-muted:   #5a6a82;
+    --topbar-bg:    #ffffff;
+}
+[data-bs-theme="light"] body {
+    background: var(--bg) !important;
+    color: var(--text-main) !important;
+}
+[data-bs-theme="light"] .topbar {
+    background: var(--topbar-bg) !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+[data-bs-theme="light"] .app-footer {
+    background: var(--topbar-bg) !important;
+    border-top: 1px solid var(--border) !important;
+    color: var(--text-muted) !important;
+}
+[data-bs-theme="light"] .card {
+    background: var(--card-bg) !important;
+    border-color: var(--border) !important;
+    color: var(--text-main) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04) !important;
+}
+[data-bs-theme="light"] .card-header {
+    background: rgba(0, 0, 0, 0.01) !important;
+    border-bottom: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+}
+[data-bs-theme="light"] .card-footer {
+    background: rgba(0, 0, 0, 0.01) !important;
+    border-top: 1px solid var(--border) !important;
+    color: var(--text-muted) !important;
+}
+[data-bs-theme="light"] .table {
+    color: var(--text-main) !important;
+}
+[data-bs-theme="light"] .table th {
+    color: var(--text-muted) !important;
+    border-bottom: 2px solid var(--border) !important;
+}
+[data-bs-theme="light"] .table td {
+    color: var(--text-main) !important;
+    border-bottom: 1px solid var(--border) !important;
+}
+[data-bs-theme="light"] .table-hover tbody tr:hover td {
+    background-color: rgba(0, 0, 0, 0.02) !important;
+}
+[data-bs-theme="light"] .form-control,
+[data-bs-theme="light"] .form-select,
+[data-bs-theme="light"] .input-group-text {
+    background-color: #ffffff !important;
+    border: 1px solid #d1d5db !important;
+    color: #1f2937 !important;
+}
+[data-bs-theme="light"] .form-control:focus,
+[data-bs-theme="light"] .form-select:focus {
+    background-color: #ffffff !important;
+    color: #1f2937 !important;
+    border-color: var(--primary) !important;
+}
+[data-bs-theme="light"] .form-control:disabled,
+[data-bs-theme="light"] .form-select:disabled {
+    background-color: #f3f4f6 !important;
+    color: #9ca3af !important;
+}
+[data-bs-theme="light"] .modal-content {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-main) !important;
+}
+[data-bs-theme="light"] .modal-header .btn-close {
+    filter: none !important;
+}
+[data-bs-theme="light"] .wa-input-group input:disabled {
+    color: var(--text-muted) !important;
+}
+[data-bs-theme="light"] .wa-input-group input:not(:disabled) {
+    color: var(--text-main) !important;
+}
+[data-bs-theme="light"] .text-dark {
+    color: #0f172a !important;
+}
+[data-bs-theme="light"] .text-secondary, [data-bs-theme="light"] .text-muted {
+    color: var(--text-muted) !important;
+}
+[data-bs-theme="light"] .btn-light {
+    background-color: #f3f4f6 !important;
+    border-color: #e5e7eb !important;
+    color: #1f2937 !important;
+}
+[data-bs-theme="light"] .btn-light:hover {
+    background-color: #e5e7eb !important;
+}
+
+/* --- HIGH CONTRAST THEME OVERRIDES --- */
+[data-bs-theme="dark"] .text-dark,
+[data-bs-theme="dark"] .text-black,
+[data-bs-theme="dark"] strong.text-dark,
+[data-bs-theme="dark"] span.text-dark,
+[data-bs-theme="dark"] div.text-dark,
+[data-bs-theme="dark"] td.text-dark {
+    color: #f3f4f6 !important;
+}
+[data-bs-theme="dark"] .text-muted,
+[data-bs-theme="dark"] .text-secondary {
+    color: #9ca3af !important;
+}
+[data-bs-theme="dark"] .bg-light,
+[data-bs-theme="dark"] .badge.bg-light,
+[data-bs-theme="dark"] .bg-light.text-dark {
+    background-color: #1f2937 !important;
+    color: #cbd5e1 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+}
+[data-bs-theme="dark"] .info-item-card {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-color: rgba(255, 255, 255, 0.05) !important;
+}
+[data-bs-theme="dark"] .info-item-card:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: var(--primary) !important;
+}
+[data-bs-theme="dark"] div[style*="background-color: #f0f9ff"],
+[data-bs-theme="dark"] div[style*="background: #f0f9ff"] {
+    background-color: rgba(14, 165, 233, 0.1) !important;
+    color: #38bdf8 !important;
+    border-color: rgba(14, 165, 233, 0.2) !important;
+}
+[data-bs-theme="dark"] div[style*="background-color: #f0fdf4"],
+[data-bs-theme="dark"] div[style*="background: #f0fdf4"] {
+    background-color: rgba(16, 185, 129, 0.1) !important;
+    color: #34d399 !important;
+    border-color: rgba(16, 185, 129, 0.2) !important;
+}
+[data-bs-theme="dark"] .modal-title,
+[data-bs-theme="dark"] .modal-content h5,
+[data-bs-theme="dark"] .modal-content h6,
+[data-bs-theme="dark"] .card-title,
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] h4,
+[data-bs-theme="dark"] h5,
+[data-bs-theme="dark"] h6 {
+    color: #f3f4f6 !important;
+}
 </style>
 <?= $headExtra ?? '' ?>
 </head>
@@ -278,6 +436,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; transi
             ['group' => 'Sistem', 'items' => [
                 ['admin/notifikasi',          'bi-bell-fill',         'Notifikasi'],
                 ['admin/laporan',             'bi-bar-chart-fill',    'Laporan'],
+                ['admin/settings',            'bi-gear-fill',         'Kelola Beranda'],
                 ['admin/profil',              'bi-person-circle',     'Profil'],
             ]],
         ];
@@ -323,6 +482,9 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; transi
             </div>
         </div>
         <div class="d-flex align-items-center gap-2">
+            <button class="btn btn-sm btn-light" id="themeToggle" title="Ubah Tema" type="button">
+                <i class="bi bi-moon-stars-fill" id="themeToggleIcon"></i>
+            </button>
             <a href="<?= APP_URL ?>/admin/notifikasi" class="btn btn-sm btn-light">
                 <i class="bi bi-bell"></i>
             </a>
@@ -536,6 +698,37 @@ $(document).ready(function() {
                 }
             });
         });
+    });
+
+    // Logika Dark/Light Mode
+    const themeToggleBtn = document.getElementById('themeToggle');
+    const themeToggleIcon = document.getElementById('themeToggleIcon');
+
+    function updateThemeUI(theme) {
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        if (theme === 'dark') {
+            if (themeToggleIcon) themeToggleIcon.className = 'bi bi-moon-stars-fill';
+            if (themeToggleBtn) {
+                themeToggleBtn.classList.remove('btn-light');
+                themeToggleBtn.classList.add('btn-dark');
+            }
+        } else {
+            if (themeToggleIcon) themeToggleIcon.className = 'bi bi-sun-fill';
+            if (themeToggleBtn) {
+                themeToggleBtn.classList.remove('btn-dark');
+                themeToggleBtn.classList.add('btn-light');
+            }
+        }
+    }
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    updateThemeUI(savedTheme);
+
+    themeToggleBtn?.addEventListener('click', function() {
+        const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'dark';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        updateThemeUI(newTheme);
     });
 });
 
