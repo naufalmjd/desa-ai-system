@@ -45,7 +45,7 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
         /* --- STRUKTUR SIDEBAR PREMIUM --- */
         .sidebar { 
             width: var(--sidebar-w); 
-            min-height: 100vh; 
+            height: 100vh; 
             background: var(--sidebar-bg);
             position: fixed; 
             top: 0; 

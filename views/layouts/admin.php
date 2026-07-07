@@ -45,7 +45,7 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; transi
 /* --- PERBAIKAN STRUKTUR SIDEBAR --- */
 .sidebar { 
     width: var(--sidebar-w); 
-    min-height: 100vh; 
+    height: 100vh; 
     background: var(--sidebar-bg);
     position: fixed; 
     top: 0; 
@@ -56,6 +56,9 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; transi
     transition: width .25s cubic-bezier(0.4, 0, 0.2, 1); 
     overflow: hidden; 
     border-right: 1px solid var(--border);
+}
+.sidebar.collapsed { 
+    width: var(--sidebar-c); 
 }
 
 /* Penanganan Sempurna Saat Sidebar Mengecil (Collapsed) */
@@ -68,12 +71,15 @@ body { background: var(--bg); color: var(--text-main); min-height: 100vh; transi
     pointer-events: none;
     display: none !important; 
 }
-.sidebar.collapsed .sb-brand,
+.sidebar.collapsed .sb-brand {
+    justify-content: center;
+    padding: 1rem 0;
+}
 .sidebar.collapsed .sidebar-user {
     justify-content: center;
     padding: 1rem 0;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 .sidebar.collapsed .sb-nav a,
 .sidebar.collapsed .sb-footer a {

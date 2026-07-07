@@ -61,7 +61,7 @@
 
     /* ── Sidebar ── */
     .sidebar {
-        width: var(--sidebar-w); min-height: 100vh;
+        width: var(--sidebar-w); height: 100vh;
         background: var(--sidebar-bg); position: fixed; top: 0; left: 0; z-index: 1040;
         display: flex; flex-direction: column; transition: width .25s ease, transform .25s ease;
         overflow: hidden;
