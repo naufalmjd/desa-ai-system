@@ -193,6 +193,9 @@ declare(strict_types=1);
             opacity: 1;
             transform: translateY(0);
         }
+        .page-section:not(#landing) {
+            padding-top: 2.5rem;
+        }
 
         /* Premium Buttons - Warna Indigo */
         .btn-premium {

@@ -116,7 +116,7 @@ ob_start();
                     <?php else: ?>
                         <div class="bg-success rounded-circle text-white d-flex align-items-center justify-content-center fw-bold profile-avatar mx-auto mb-3"
                              style="font-size: 2.5rem">
-                            <?= strtoupper(substr($user['nama'] ?? 'A', 0, 2)) ?>
+                             <?= strtoupper(substr($user['nama'] ?? 'A', 0, 2)) ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -153,7 +153,7 @@ ob_start();
                         </div>
                     </div>
                     
-                    <div class="d-flex align-items-center gap-3">
+                    <div class="mb-3 d-flex align-items-center gap-3">
                         <div class="bg-light rounded-3 p-2 d-flex align-items-center justify-content-center text-muted" style="width: 38px; height: 38px;">
                             <i class="bi bi-award-fill fs-5"></i>
                         </div>
@@ -162,25 +162,27 @@ ob_start();
                             <span class="text-dark fw-semibold" style="font-size: 0.88rem;">Staf Administrasi Desa</span>
                         </div>
                     </div>
+
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="bg-light rounded-3 p-2 d-flex align-items-center justify-content-center text-muted" style="width: 38px; height: 38px;">
+                            <i class="bi bi-calendar-check-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block" style="font-size: 0.75rem;">Terdaftar Sejak</small>
+                            <span class="text-dark fw-semibold" style="font-size: 0.88rem;"><?= date('d F Y', $user['login_at'] ?? time()) ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <!-- Tombol Edit Profil -->
-            <button class="btn btn-primary mt-3 w-100" data-bs-toggle="modal" data-bs-target="#editProfilModal">
-                <i class="bi bi-pencil-square me-1"></i> Edit Profil
-            </button>
         </div>
     </div>
 
-<<<<<<< HEAD
-    <!-- Data Pegawai -->
-=======
-    <!-- Data Penduduk (tetap) -->
->>>>>>> 881128b3260f9e43c09df221d2cbebbc51ac1e19
+    <!-- Data Penduduk / Pegawai Resmi -->
     <div class="col-lg-8">
         <div class="card border-0 rounded-4 shadow-sm bg-white overflow-hidden">
             <div class="card-header bg-white py-4 border-0 d-flex align-items-center justify-content-between px-4">
                 <span class="fw-bold text-dark fs-6">
-                    <i class="bi bi-person-badge-fill me-2 text-primary"></i>Data Pegawai Resmi
+                    <i class="bi bi-person-badge-fill me-2 text-success"></i>Data Pegawai Resmi
                 </span>
                 <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1.5" style="font-size: 0.7rem;">
                     <i class="bi bi-check2-circle me-1"></i>Sesuai Data Dukcapil
@@ -240,6 +242,58 @@ ob_start();
                         </div>
                     </div>
                     
+                    <!-- Agama -->
+                    <div class="col-md-6">
+                        <div class="info-item-card d-flex align-items-center gap-3">
+                            <div class="info-icon info-icon-success">
+                                <i class="bi bi-patch-question"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.7rem; margin-bottom: 2px;">Agama</small>
+                                <strong class="text-dark"><?= htmlspecialchars($penduduk['agama'] ?? '—') ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pendidikan -->
+                    <div class="col-md-6">
+                        <div class="info-item-card d-flex align-items-center gap-3">
+                            <div class="info-icon info-icon-success">
+                                <i class="bi bi-mortarboard"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.7rem; margin-bottom: 2px;">Pendidikan Terakhir</small>
+                                <strong class="text-dark"><?= htmlspecialchars($penduduk['pendidikan'] ?? '—') ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Pekerjaan -->
+                    <div class="col-md-6">
+                        <div class="info-item-card d-flex align-items-center gap-3">
+                            <div class="info-icon info-icon-success">
+                                <i class="bi bi-briefcase"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.7rem; margin-bottom: 2px;">Pekerjaan</small>
+                                <strong class="text-dark"><?= htmlspecialchars($penduduk['pekerjaan'] ?? '—') ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- No HP -->
+                    <div class="col-md-6">
+                        <div class="info-item-card d-flex align-items-center gap-3">
+                            <div class="info-icon info-icon-success">
+                                <i class="bi bi-telephone"></i>
+                            </div>
+                            <div>
+                                <small class="text-muted d-block" style="font-size: 0.7rem; margin-bottom: 2px;">No. HP / Telepon</small>
+                                <strong class="text-dark"><?= htmlspecialchars($penduduk['no_hp'] ?? '—') ?></strong>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- Alamat -->
                     <div class="col-12">
                         <div class="info-item-card d-flex align-items-start gap-3">
@@ -259,85 +313,6 @@ ob_start();
         </div>
     </div>
 </div>
-
-<!-- ========== MODAL EDIT PROFIL ========== -->
-<div class="modal fade" id="editProfilModal" tabindex="-1" aria-labelledby="editProfilModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title fw-bold" id="editProfilModalLabel"><i class="bi bi-person-gear me-2"></i>Edit Profil</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-            </div>
-            <form method="POST" action="<?= APP_URL ?>/admin/profil/update" id="formEditProfil">
-                <div class="modal-body">
-                    <!-- CSRF Token (sesuaikan dengan mekanisme Anda) -->
-                    <input type="hidden" name="_csrf_token" value="<?= htmlspecialchars($csrfToken ?? '') ?>">
-
-                    <!-- Username -->
-                    <div class="mb-3">
-                        <label for="edit_username" class="form-label fw-semibold">Username</label>
-                        <input type="text" class="form-control" id="edit_username" name="username"
-                               value="<?= htmlspecialchars($user['username'] ?? '') ?>" required>
-                    </div>
-
-                    <!-- Email -->
-                    <div class="mb-3">
-                        <label for="edit_email" class="form-label fw-semibold">Alamat Email</label>
-                        <input type="email" class="form-control" id="edit_email" name="email"
-                               value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
-                    </div>
-
-                    <hr>
-
-                    <!-- Password Baru (opsional) -->
-                    <div class="mb-3">
-                        <label for="edit_password" class="form-label fw-semibold">Password Baru <span class="text-muted small">(kosongkan jika tidak diubah)</span></label>
-                        <input type="password" class="form-control" id="edit_password" name="password" placeholder="Masukkan password baru">
-                    </div>
-                    <div class="mb-3">
-                        <label for="edit_password_confirm" class="form-label fw-semibold">Konfirmasi Password Baru</label>
-                        <input type="password" class="form-control" id="edit_password_confirm" name="password_confirm" placeholder="Ulangi password baru">
-                    </div>
-
-                    <!-- Pesan error (bisa ditampilkan dari flash message) -->
-                    <?php if (isset($flash) && $flash['type'] === 'danger'): ?>
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <?= htmlspecialchars($flash['message']) ?>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-                    <?php endif; ?>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="bi bi-check-circle me-1"></i> Simpan Perubahan
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<!-- Script untuk validasi password dan tampilkan modal jika ada error -->
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Jika ada error dari server, tampilkan modal otomatis
-    <?php if (isset($flash) && $flash['type'] === 'danger'): ?>
-        var myModal = new bootstrap.Modal(document.getElementById('editProfilModal'));
-        myModal.show();
-    <?php endif; ?>
-
-    // Validasi sederhana: password dan konfirmasi harus sama jika diisi
-    document.getElementById('formEditProfil').addEventListener('submit', function(e) {
-        var pass = document.getElementById('edit_password').value;
-        var confirm = document.getElementById('edit_password_confirm').value;
-        if (pass !== '' && pass !== confirm) {
-            e.preventDefault();
-            alert('Password baru dan konfirmasi tidak cocok!');
-        }
-    });
-});
-</script>
 
 <?php
 $content = ob_get_clean();

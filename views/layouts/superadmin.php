@@ -156,7 +156,15 @@ body { background: var(--bg); min-height: 100vh; color: var(--text-main); overfl
     box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25) !important;
 }
 .form-control::placeholder {
-    color: rgba(255,255,255,0.3) !important;
+    color: rgba(255,255,255,0.5) !important;
+}
+.dropdown-item {
+    color: var(--text-main) !important;
+    transition: background-color 0.2s, color 0.2s;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: #fff !important;
 }
 
 .badge-role {

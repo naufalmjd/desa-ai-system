@@ -18,19 +18,23 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root {
-    --primary:      #1e4080;
-    --primary-dark: #163566;
-    --accent:       #059669;
-    --sidebar-bg:   #0f2342;
+    --primary:      #10b981;
+    --primary-dark: #059669;
+    --primary-glow: rgba(16, 185, 129, 0.15);
+    --accent:       #34d399;
+    --sidebar-bg:   #060b13;
     --sidebar-w:    245px;
     --sidebar-c:    64px;  /* Lebar standar saat collapsed */
     --header-h:     58px;
-    --bg:           #eef2f7;
-    --card-bg:      #ffffff;
-    --border:       rgba(30,64,128,.1);
+    --bg:           #080c14;
+    --card-bg:      #111827;
+    --border:       rgba(255, 255, 255, 0.06);
+    --text-main:    #f1f5f9;
+    --text-muted:   #94a3b8;
+    --topbar-bg:    #111827;
 }
 * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
-body { background: var(--bg); min-height: 100vh; }
+body { background: var(--bg); color: var(--text-main); min-height: 100vh; transition: background 0.3s, color 0.3s; }
 
 /* --- PERBAIKAN STRUKTUR SIDEBAR --- */
 .sidebar { 
@@ -45,6 +49,7 @@ body { background: var(--bg); min-height: 100vh; }
     flex-direction: column; 
     transition: width .25s cubic-bezier(0.4, 0, 0.2, 1); 
     overflow: hidden; 
+    border-right: 1px solid var(--border);
 }
 
 /* Penanganan Sempurna Saat Sidebar Mengecil (Collapsed) */
@@ -71,13 +76,13 @@ body { background: var(--bg); min-height: 100vh; }
 }
 
 .sb-brand { display: flex; align-items: center; gap: .75rem; padding: 1rem;
-            border-bottom: 1px solid rgba(255,255,255,.08); min-height: var(--header-h); }
+            border-bottom: 1px solid rgba(255,255,255,.05); min-height: var(--header-h); }
 .sb-icon { width: 36px; height: 36px; background: rgba(255,255,255,.15); border-radius: 10px;
            display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .sb-text .n { color: #fff; font-weight: 700; font-size: .8rem; white-space: nowrap; }
 .sb-text .s { color: rgba(255,255,255,.5); font-size: .68rem; white-space: nowrap; }
 
-.sb-badge { width: 34px; height: 34px; border-radius: 10px; background: #059669;
+.sb-badge { width: 34px; height: 34px; border-radius: 10px; background: var(--primary-dark);
             display: flex; align-items: center; justify-content: center; color: #fff;
             font-weight: 700; font-size: .7rem; flex-shrink: 0; }
 
@@ -91,7 +96,7 @@ body { background: var(--bg); min-height: 100vh; }
 .sb-nav .section-label { color: rgba(255,255,255,.3); font-size: .6rem; font-weight: 700;
                           text-transform: uppercase; letter-spacing: .08em; padding: .75rem .75rem .3rem; }
 
-.sb-footer { padding: .75rem; border-top: 1px solid rgba(255,255,255,.08); }
+.sb-footer { padding: .75rem; border-top: 1px solid rgba(255,255,255,.05); }
 .sb-footer a { display: flex; align-items: center; gap: .75rem; color: #f87171;
                padding: .6rem .75rem; border-radius: 10px; font-size: .8rem;
                font-weight: 500; text-decoration: none; transition: .15s; }
@@ -102,17 +107,79 @@ body { background: var(--bg); min-height: 100vh; }
              flex-direction: column; transition: margin-left .25s ease; }
 .main-wrap.collapsed { margin-left: var(--sidebar-c); }
 
-.topbar { height: var(--header-h); background: #fff; border-bottom: 1px solid rgba(30,64,128,.1);
+.topbar { height: var(--header-h); background: var(--topbar-bg); border-bottom: 1px solid var(--border);
           display: flex; align-items: center; justify-content: space-between;
           padding: 0 1.25rem; position: sticky; top: 0; z-index: 100; }
 
 .page-content { flex: 1; padding: 1.5rem; }
-.card { border: 1px solid rgba(30,64,128,.1); border-radius: 14px; box-shadow: 0 1px 4px rgba(0,0,0,.04); }
+
+/* Premium Modernization */
+.card {
+    transition: transform .25s ease, box-shadow .25s ease;
+    background: var(--card-bg) !important;
+    color: var(--text-main);
+    border: 1px solid var(--border) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
+}
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(16, 185, 129, 0.15) !important;
+}
+.card-header {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-bottom: 1px solid var(--border) !important;
+    color: var(--text-main);
+    font-weight: 700;
+}
+.card-footer {
+    background: rgba(255, 255, 255, 0.02) !important;
+    border-top: 1px solid var(--border) !important;
+    color: var(--text-muted);
+}
+.table { color: var(--text-main) !important; }
 .table th { font-size: .72rem; font-weight: 700; text-transform: uppercase;
-             letter-spacing: .04em; color: #5a6a82; border-bottom: 2px solid rgba(30,64,128,.1); }
-.table td { font-size: .8rem; vertical-align: middle; }
-.app-footer { background: #fff; border-top: 1px solid rgba(30,64,128,.1);
-               padding: .5rem 1.25rem; font-size: .68rem; color: #5a6a82; }
+             letter-spacing: .04em; color: var(--text-muted); border-bottom: 2px solid var(--border); background: transparent !important; }
+.table td { font-size: .8rem; vertical-align: middle; border-bottom: 1px solid var(--border); background: transparent !important; color: var(--text-main); }
+.table-hover tbody tr:hover td { background-color: rgba(255, 255, 255, 0.02) !important; }
+
+.app-footer { background: var(--topbar-bg); border-top: 1px solid var(--border);
+               padding: .5rem 1.25rem; font-size: .68rem; color: var(--text-muted); }
+
+/* Form Inputs in Dark Mode */
+.form-control, .form-select, .input-group-text {
+    background-color: #1f2937 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #f3f4f6 !important;
+    border-radius: 10px;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25) !important;
+    background-color: #1f2937 !important;
+    color: #f3f4f6 !important;
+}
+.form-control:disabled, .form-select:disabled {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    color: var(--text-muted) !important;
+    opacity: 0.7;
+}
+.form-control::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 0.5;
+}
+
+/* Modals in Dark Mode */
+.modal-content {
+    background-color: var(--card-bg) !important;
+    border: 1px solid var(--border) !important;
+    color: var(--text-main);
+}
+.modal-header, .modal-footer {
+    border-color: var(--border) !important;
+}
+.modal-header .btn-close {
+    filter: invert(1);
+}
 
 @media (max-width: 991px) {
     .sidebar { transform: translateX(-100%); }
@@ -122,32 +189,23 @@ body { background: var(--bg); min-height: 100vh; }
 }
 .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1039; }
 
-/* Premium Modernization */
-.card {
-    transition: transform .25s ease, box-shadow .25s ease;
-    border: 1px solid rgba(30, 64, 128, 0.08) !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
-}
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(30, 64, 128, 0.06) !important;
-}
 .btn-primary {
-    background: linear-gradient(135deg, #1e4080, #163566);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     border: none;
-    box-shadow: 0 4px 15px rgba(30, 64, 128, 0.2);
+    box-shadow: 0 4px 15px var(--primary-glow);
     transition: all .25s ease;
+    color: #fff !important;
 }
 .btn-primary:hover {
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(30, 64, 128, 0.3);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
 }
 .sidebar-user {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+    background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.06);
 }
 .sb-icon {
-    background: linear-gradient(135deg, #10b981, #047857) !important;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
     box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
 }
 .sb-icon i {
@@ -156,20 +214,20 @@ body { background: var(--bg); min-height: 100vh; }
 
 /* ── STYLE MODAL EDIT PROFIL (WHATSAPP STYLE) ── */
 .wa-input-group {
-    position: relative; border-bottom: 1px solid #e2e8f0; padding-bottom: 0.25rem; margin-bottom: 1.25rem;
+    position: relative; border-bottom: 1px solid var(--border); padding-bottom: 0.25rem; margin-bottom: 1.25rem;
     display: flex; align-items: center; justify-content: space-between;
 }
 .wa-input-group input:disabled {
-    background: transparent !important; border: none !important; color: #1e293b !important;
+    background: transparent !important; border: none !important; color: var(--text-main) !important;
     font-weight: 500; padding-left: 0; box-shadow: none !important; cursor: default;
 }
 .wa-input-group input:not(:disabled) {
-    border: none !important; border-bottom: 2px solid #059669 !important; border-radius: 0 !important;
-    padding-left: 0; box-shadow: none !important; color: #000;
+    border: none !important; border-bottom: 2px solid var(--primary) !important; border-radius: 0 !important;
+    padding-left: 0; box-shadow: none !important; color: #fff !important;
 }
-.wa-btn-pencil { background: none; border: none; color: #8492a6; padding: 4px 8px; transition: color 0.2s; }
-.wa-btn-pencil:hover { color: #1e4080; }
-.btn-trigger-edit-profil { cursor: pointer; transition: transform 0.2s; color: #1e4080; }
+.wa-btn-pencil { background: none; border: none; color: var(--text-muted); padding: 4px 8px; transition: color 0.2s; }
+.wa-btn-pencil:hover { color: var(--primary); }
+.btn-trigger-edit-profil { cursor: pointer; transition: transform 0.2s; color: var(--primary); }
 .btn-trigger-edit-profil:hover { transform: scale(1.15); }
 </style>
 <?= $headExtra ?? '' ?>
@@ -281,7 +339,11 @@ body { background: var(--bg); min-height: 100vh; }
                     </div>
                 <?php endif; ?>
                 <div class="d-none d-sm-block">
-                    <div class="fw-semibold" style="font-size:.78rem"><?= htmlspecialchars($user['nama'] ?? '') ?></div>
+                    <!-- TAMBAHAN: Ikon Pensil Edit Profil di Samping Nama Admin -->
+                    <div class="fw-semibold d-flex align-items-center gap-1" style="font-size:.78rem;line-height:1.2">
+                        <?= htmlspecialchars($user['nama'] ?? '') ?>
+                        <i class="bi bi-pencil-square btn-trigger-edit-profil" title="Edit Akun Profil"></i>
+                    </div>
                     <div class="text-muted" style="font-size:.65rem">Admin Desa</div>
                 </div>
             </div>

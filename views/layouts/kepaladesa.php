@@ -18,18 +18,23 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary:      #0f172a;
-            --accent:       #d97706;
-            --sidebar-bg:   #0f172a;
+            --primary:      #d97706;
+            --primary-dark: #b45309;
+            --primary-glow: rgba(217, 119, 6, 0.15);
+            --accent:       #fbbf24;
+            --sidebar-bg:   #090d16;
             --sidebar-w:    260px; 
             --sidebar-c:    70px;  
             --header-h:     60px;
-            --bg:           #f8fafc;
-            --card-bg:      #ffffff;
-            --border:       rgba(30,64,128,.1);
+            --bg:           #0b0f19;
+            --card-bg:      #111827;
+            --border:       rgba(255, 255, 255, 0.06);
+            --text-main:    #f3f4f6;
+            --text-muted:   #9ca3af;
+            --topbar-bg:    #111827;
         }
         * { font-family: 'Plus Jakarta Sans', sans-serif; box-sizing: border-box; }
-        body { background: var(--bg); min-height: 100vh; }
+        body { background: var(--bg); color: var(--text-main); min-height: 100vh; transition: background 0.3s, color 0.3s; }
 
         /* --- STRUKTUR SIDEBAR PREMIUM --- */
         .sidebar { 
@@ -44,7 +49,7 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
             flex-direction: column; 
             transition: width .25s cubic-bezier(0.4, 0, 0.2, 1); 
             overflow: hidden; 
-            border-right: 1px solid rgba(255,255,255,.05); 
+            border-right: 1px solid var(--border); 
         }
 
         /* --- PERBAIKAN UTAMA: Sembunyikan Teks Keluar Saat Collapsed --- */
@@ -192,27 +197,79 @@ if (isset($_SESSION['user']['role']) && $_SESSION['user']['role'] === 'superadmi
         }
         .main-wrap.collapsed { margin-left: var(--sidebar-c); }
 
-        .topbar { height: var(--header-h); background: #fff; border-bottom: 1px solid rgba(30,64,128,.1);
+        .topbar { height: var(--header-h); background: var(--topbar-bg); border-bottom: 1px solid var(--border);
                   display: flex; align-items: center; justify-content: space-between;
                   padding: 0 1.25rem; position: sticky; top: 0; z-index: 100; }
 
         .page-content { flex: 1; padding: 1.5rem; }
         .card { 
             transition: transform .25s ease, box-shadow .25s ease;
-            border: 1px solid rgba(30, 64, 128, 0.08) !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02) !important;
+            background: var(--card-bg) !important;
+            color: var(--text-main);
+            border: 1px solid var(--border) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3) !important;
             border-radius: 14px;
         }
         .card:hover {
             transform: translateY(-3px);
-            box-shadow: 0 12px 30px rgba(30, 64, 128, 0.06) !important;
+            box-shadow: 0 12px 30px rgba(217, 119, 6, 0.15) !important;
+        }
+        .card-header {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-bottom: 1px solid var(--border) !important;
+            color: var(--text-main);
+            font-weight: 700;
+        }
+        .card-footer {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-top: 1px solid var(--border) !important;
+            color: var(--text-muted);
         }
 
+        .table { color: var(--text-main) !important; }
         .table th { font-size: .72rem; font-weight: 700; text-transform: uppercase;
-                     letter-spacing: .04em; color: #5a6a82; border-bottom: 2px solid rgba(30,64,128,.1); }
-        .table td { font-size: .8rem; vertical-align: middle; }
-        .app-footer { background: #fff; border-top: 1px solid rgba(30,64,128,.1);
-                       padding: .75rem 1.25rem; font-size: .68rem; color: #5a6a82; }
+                     letter-spacing: .04em; color: var(--text-muted); border-bottom: 2px solid var(--border); background: transparent !important; }
+        .table td { font-size: .8rem; vertical-align: middle; border-bottom: 1px solid var(--border); background: transparent !important; color: var(--text-main); }
+        .table-hover tbody tr:hover td { background-color: rgba(255, 255, 255, 0.02) !important; }
+
+        .app-footer { background: var(--topbar-bg); border-top: 1px solid var(--border);
+                       padding: .75rem 1.25rem; font-size: .68rem; color: var(--text-muted); }
+
+        /* Form Inputs in Dark Mode */
+        .form-control, .form-select, .input-group-text {
+            background-color: #1f2937 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #f3f4f6 !important;
+            border-radius: 10px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary) !important;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.25) !important;
+            background-color: #1f2937 !important;
+            color: #f3f4f6 !important;
+        }
+        .form-control:disabled, .form-select:disabled {
+            background-color: rgba(255, 255, 255, 0.05) !important;
+            color: var(--text-muted) !important;
+            opacity: 0.7;
+        }
+        .form-control::placeholder {
+            color: var(--text-muted) !important;
+            opacity: 0.5;
+        }
+
+        /* Modals in Dark Mode */
+        .modal-content {
+            background-color: var(--card-bg) !important;
+            border: 1px solid var(--border) !important;
+            color: var(--text-main);
+        }
+        .modal-header, .modal-footer {
+            border-color: var(--border) !important;
+        }
+        .modal-header .btn-close {
+            filter: invert(1);
+        }
 
         @media (max-width: 991px) {
             .sidebar { transform: translateX(-100%); width: var(--sidebar-w) !important; }
