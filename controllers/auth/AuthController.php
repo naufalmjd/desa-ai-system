@@ -77,6 +77,9 @@ final class AuthController extends Controller
             $settings = array_merge($settings, json_decode(file_get_contents($settingsPath), true) ?: []);
         }
 
+        // Parse Google Maps URL to embed format
+        $settings['contact_maps_embed'] = $this->getEmbedMapUrl($settings['contact_maps'] ?? '');
+
         $this->render('auth/login', compact('csrfToken', 'flash', 'users', 'beritaList', 'settings'), '');
     }
 
@@ -341,5 +344,44 @@ final class AuthController extends Controller
             'description' => $description,
             'ip_address' => $_SERVER['REMOTE_ADDR'] ?? 'unknown'
         ]);
+    }
+
+    private function getEmbedMapUrl(string $url): string
+    {
+        if (empty($url)) {
+            return 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.33806407062!2d109.83151978250645!3d-7.3596720516644265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7aa1a91e57c6b9%3A0x4027a7b50a25610!2sWonosobo%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1704200000000!5m2!1sen!2sid';
+        }
+
+        // Jika sudah berupa link embed, biarkan
+        if (str_contains($url, 'embed') || str_contains($url, 'output=embed')) {
+            return $url;
+        }
+
+        // Cari koordinat @-lat,lng
+        if (preg_match('/@(-?\d+\.\d+),(-?\d+\.\d+)/', $url, $matches)) {
+            return "https://maps.google.com/maps?q={$matches[1]},{$matches[2]}&t=&z=15&ie=UTF8&iwloc=&output=embed";
+        }
+
+        // Cari query q=
+        $parsed = parse_url($url);
+        if (isset($parsed['query'])) {
+            parse_str($parsed['query'], $queryArr);
+            if (isset($queryArr['q'])) {
+                return "https://maps.google.com/maps?q=" . urlencode($queryArr['q']) . "&t=&z=15&ie=UTF8&iwloc=&output=embed";
+            }
+        }
+
+        // Cari bagian /place/Nama+Tempat/
+        if (str_contains($url, '/place/')) {
+            $parts = explode('/place/', $url);
+            if (isset($parts[1])) {
+                $subParts = explode('/', $parts[1]);
+                $place = urldecode(str_replace('+', ' ', $subParts[0]));
+                return "https://maps.google.com/maps?q=" . urlencode($place) . "&t=&z=15&ie=UTF8&iwloc=&output=embed";
+            }
+        }
+
+        // Fallback: gunakan maps search query default
+        return "https://maps.google.com/maps?q=" . urlencode($url) . "&t=&z=15&ie=UTF8&iwloc=&output=embed";
     }
 }

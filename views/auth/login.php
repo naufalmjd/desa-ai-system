@@ -760,7 +760,7 @@ declare(strict_types=1);
                             <span class="fs-4 text-primary"><i class="bi bi-geo-alt-fill"></i></span>
                             <div>
                                 <h6 class="fw-bold mb-1">Alamat Kantor</h6>
-                                <p class="text-muted" style="font-size: 0.88rem;">Jl. Raya Demokrasi No. 45, Kecamatan Sukamaju, Kabupaten Wonosobo, Jawa Tengah, 56361</p>
+                                <p class="text-muted" style="font-size: 0.88rem;"><?= htmlspecialchars($settings['contact_address'] ?? 'Jl. Raya Demokrasi No. 45, Kecamatan Sukamaju, Kabupaten Wonosobo, Jawa Tengah, 56361') ?></p>
                             </div>
                         </div>
 
@@ -768,7 +768,7 @@ declare(strict_types=1);
                             <span class="fs-4 text-accent"><i class="bi bi-envelope-fill"></i></span>
                             <div>
                                 <h6 class="fw-bold mb-1">Email Resmi</h6>
-                                <p class="text-muted" style="font-size: 0.88rem;">info@Smartdesa.id &middot; desa.sukamaju@gmail.com</p>
+                                <p class="text-muted" style="font-size: 0.88rem;"><?= htmlspecialchars($settings['contact_email'] ?? 'info@Smartdesa.id · desa.sukamaju@gmail.com') ?></p>
                             </div>
                         </div>
 
@@ -776,14 +776,20 @@ declare(strict_types=1);
                             <span class="fs-4 text-success"><i class="bi bi-telephone-fill"></i></span>
                             <div>
                                 <h6 class="fw-bold mb-1">Telepon / WhatsApp Siaga</h6>
-                                <p class="text-muted" style="font-size: 0.88rem;">+62 812-3456-789 (Humas Desa)</p>
+                                <p class="text-muted" style="font-size: 0.88rem;"><?= htmlspecialchars($settings['contact_phone'] ?? '+62 812-3456-789 (Humas Desa)') ?></p>
                             </div>
                         </div>
 
                         <!-- Google Maps Placeholder -->
                         <div class="rounded-4 overflow-hidden border border-secondary border-opacity-25" style="height: 180px;">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126438.33806407062!2d109.83151978250645!3d-7.3596720516644265!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7aa1a91e57c6b9%3A0x4027a7b50a25610!2sWonosobo%20Regency%2C%20Central%20Java!5e0!3m2!1sen!2sid!4v1704200000000!5m2!1sen!2sid" 
+                            <iframe src="<?= htmlspecialchars($settings['contact_maps_embed']) ?>" 
                                     width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                        <div class="mt-3">
+                            <a href="<?= htmlspecialchars($settings['contact_maps'] ?? 'https://www.google.com/maps') ?>" target="_blank" class="btn btn-outline-premium w-100 py-2 rounded-3 text-center d-flex align-items-center justify-content-center gap-2" style="font-size: 0.82rem;">
+                                <i class="bi bi-geo-alt-fill"></i>
+                                Buka di Google Maps
+                            </a>
                         </div>
                     </div>
                 </div>
