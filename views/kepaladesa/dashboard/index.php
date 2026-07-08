@@ -23,7 +23,7 @@
             </p>
         </div>
         <div class="col-sm-4 text-sm-end mt-3 mt-sm-0">
-            <span class="badge bg-white bg-opacity-20 border border-white border-opacity-25 px-3 py-2">
+            <span class="badge border px-3 py-2" style="background: rgba(255, 255, 255, 0.15) !important; color: #ffffff !important; border-color: rgba(255, 255, 255, 0.25) !important;">
                 <i class="bi bi-shield-check me-1"></i>Kepala Desa
             </span>
         </div>

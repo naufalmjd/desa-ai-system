@@ -90,7 +90,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <span class="badge text-uppercase" style="background: rgba(255,255,255,0.05); font-size: 0.65rem; border: 1px solid rgba(255,255,255,0.05);">
+                                    <span class="badge text-uppercase" style="background: rgba(255,255,255,0.05); font-size: 0.65rem; border: 1px solid rgba(255,255,255,0.05); color: var(--text-muted);">
                                         <?= htmlspecialchars($log['module']) ?>
                                     </span>
                                 </td>

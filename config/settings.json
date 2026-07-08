@@ -1,10 +1,15 @@
 {
     "app_name": "SIAP-Desa",
     "app_full": "Sistem Pelayanan Administrasi Desa Berbasis AI",
-    "desa_nama": "Desa Saya",
+    "desa_nama": "Desa SukaMaju",
     "desa_kec": "Depok",
     "desa_kab": "Sleman",
     "desa_prov": "Daerah Istimewa Yogyakarta",
     "ai_server_url": "http:\/\/127.0.0.1:8000",
-    "ai_timeout": 30
+    "ai_timeout": 30,
+    "landing_image": "landing_1783519747.jpg",
+    "landing_about_title": "Tentang Portal",
+    "landing_about_desc1": "Portal Sistem Informasi SmartDesa.id dirancang untuk mempermudah koordinasi antara perangkat desa dan masyarakat. Dengan integrasi teknologi informasi, pengurusan administrasi surat-menyurat, pemantauan logistik desa, hingga penanganan darurat ambulans kini dapat diakses kapan saja dan di mana saja.",
+    "landing_about_desc2": "Kami berkomitmen memberikan keterbukaan informasi publik dan akuntabilitas anggaran desa guna mendukung terwujudnya konsep smart village di Indonesia.",
+    "landing_bg_image": "landing_bg_1783520961.jpg"
 }

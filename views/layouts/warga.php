@@ -355,6 +355,25 @@
         color: #f8fafc !important;
     }
 
+    /* --- Purple Status Badge Styling --- */
+    .bg-purple-subtle { background-color: rgba(139, 92, 246, 0.1) !important; }
+    .text-purple { color: #7c3aed !important; }
+    .border-purple-subtle { border-color: rgba(139, 92, 246, 0.2) !important; }
+
+    [data-bs-theme="dark"] .bg-purple-subtle { background-color: rgba(139, 92, 246, 0.18) !important; }
+    [data-bs-theme="dark"] .text-purple { color: #a78bfa !important; }
+    [data-bs-theme="dark"] .border-purple-subtle { border-color: rgba(139, 92, 246, 0.3) !important; }
+
+    /* Light Theme General Badge Overrides */
+    [data-bs-theme="light"] .badge:not([class*="text-"]):not([class*="bg-"]) {
+        color: #1f2937 !important;
+    }
+    [data-bs-theme="light"] .badge-status.bg-secondary-subtle {
+        color: #4b5563 !important;
+        background-color: #f3f4f6 !important;
+        border-color: #e5e7eb !important;
+    }
+
     /* --- HIGH CONTRAST THEME OVERRIDES --- */
     [data-bs-theme="dark"] .text-dark,
     [data-bs-theme="dark"] .text-black,
@@ -406,6 +425,16 @@
     [data-bs-theme="dark"] h5,
     [data-bs-theme="dark"] h6 {
         color: #f3f4f6 !important;
+    }
+
+    /* Force headings inside text-white containers to stay white */
+    .text-white h1,
+    .text-white h2,
+    .text-white h3,
+    .text-white h4,
+    .text-white h5,
+    .text-white h6 {
+        color: #ffffff !important;
     }
 </style>
 <?= $headExtra ?? '' ?>

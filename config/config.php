@@ -40,6 +40,11 @@ define('DESA_NAMA',   $customSettings['desa_nama'] ?? 'Desa Sukamaju');
 define('DESA_KEC',    $customSettings['desa_kec'] ?? 'Tumpang');
 define('DESA_KAB',    $customSettings['desa_kab'] ?? 'Kabupaten Malang');
 define('DESA_PROV',   $customSettings['desa_prov'] ?? 'Jawa Timur');
+define('LANDING_IMAGE', $customSettings['landing_image'] ?? '');
+define('LANDING_BG_IMAGE', $customSettings['landing_bg_image'] ?? '');
+define('LANDING_ABOUT_TITLE', $customSettings['landing_about_title'] ?? 'Tentang Portal');
+define('LANDING_ABOUT_DESC1', $customSettings['landing_about_desc1'] ?? 'Portal Sistem Informasi **SmartDesa.id** dirancang untuk mempermudah koordinasi antara perangkat desa dan masyarakat. Dengan integrasi teknologi informasi, pengurusan administrasi surat-menyurat, pemantauan logistik desa, hingga penanganan darurat ambulans kini dapat diakses kapan saja dan di mana saja.');
+define('LANDING_ABOUT_DESC2', $customSettings['landing_about_desc2'] ?? 'Kami berkomitmen memberikan keterbukaan informasi publik dan akuntabilitas anggaran desa guna mendukung terwujudnya konsep smart village di Indonesia.');
 
 // ─── Session ─────────────────────────────────────────────────────────────────
 define('SESSION_NAME',     'DESAAI_SESS');

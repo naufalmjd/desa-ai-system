@@ -3,11 +3,12 @@ $user = $_SESSION['user'] ?? null;
 $csrfToken = $_SESSION['csrf_token'] ?? '';
 ?>
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-bs-theme="dark">
 <head>
 <script>
     (function() {
         const theme = localStorage.getItem('sa_theme') || 'dark';
+        document.documentElement.setAttribute('data-bs-theme', theme);
         if (theme === 'light') {
             document.documentElement.className = 'light-theme-init';
         }
@@ -281,11 +282,18 @@ body.light-theme .text-gradient {
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
-body.light-theme .text-white {
-    color: #0f172a !important;
-}
+
 body.light-theme .text-white-50 {
     color: #475569 !important;
+}
+body.light-theme .badge-role.warga { color: #0891b2 !important; border-color: rgba(8, 145, 178, 0.2) !important; background: rgba(8, 145, 178, 0.08) !important; }
+body.light-theme .badge-role.admin { color: #ca8a04 !important; border-color: rgba(202, 138, 4, 0.2) !important; background: rgba(202, 138, 4, 0.08) !important; }
+body.light-theme .badge-role.kepala_desa { color: #059669 !important; border-color: rgba(5, 150, 105, 0.2) !important; background: rgba(5, 150, 105, 0.08) !important; }
+body.light-theme .badge-role.superadmin { color: #7c3aed !important; border-color: rgba(124, 58, 237, 0.2) !important; background: rgba(124, 58, 237, 0.08) !important; }
+
+/* General Light Theme Badge text fallback */
+body.light-theme .badge:not([class*="text-"]):not([class*="bg-"]) {
+    color: #1f2937 !important;
 }
 body.light-theme .card-header {
     color: #0f172a !important;
@@ -334,6 +342,110 @@ body.light-theme .bubble-user {
 body.light-theme .bubble-ai {
     background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(6, 182, 212, 0.1)) !important;
     border: 1px solid rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Select dropdown options visibility */
+select option {
+    background-color: #0f172a !important;
+    color: #fff !important;
+}
+body.light-theme select option {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+}
+
+/* Pagination active item overrides */
+.pagination .page-item.active .page-link {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark)) !important;
+    border-color: var(--primary) !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 10px var(--primary-glow);
+}
+.pagination .page-link:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+body.light-theme .pagination .page-link:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
+    color: #0f172a !important;
+}
+
+/* Fix text-muted contrast on dark background */
+body:not(.light-theme) .text-muted, 
+body:not(.light-theme) .text-white-50 {
+    color: #94a3b8 !important;
+}
+body:not(.light-theme) .input-group-text.text-muted {
+    color: #94a3b8 !important;
+}
+
+/* Fix visibility of text-dark, bg-white, bg-light, text-black in dark mode */
+body:not(.light-theme) .text-dark,
+body:not(.light-theme) .text-black,
+body:not(.light-theme) strong.text-dark,
+body:not(.light-theme) span.text-dark,
+body:not(.light-theme) div.text-dark,
+body:not(.light-theme) td.text-dark,
+body:not(.light-theme) h1.text-dark,
+body:not(.light-theme) h2.text-dark,
+body:not(.light-theme) h3.text-dark,
+body:not(.light-theme) h4.text-dark,
+body:not(.light-theme) h5.text-dark,
+body:not(.light-theme) h6.text-dark,
+body:not(.light-theme) .modal-title,
+body:not(.light-theme) .modal-content h5,
+body:not(.light-theme) .modal-content h6,
+body:not(.light-theme) .card-title,
+body:not(.light-theme) h1,
+body:not(.light-theme) h2,
+body:not(.light-theme) h3,
+body:not(.light-theme) h4,
+body:not(.light-theme) h5,
+body:not(.light-theme) h6,
+body:not(.light-theme) .badge.text-dark {
+    color: #f3f4f6 !important;
+}
+body:not(.light-theme) .bg-white,
+body:not(.light-theme) .card-header.bg-white,
+body:not(.light-theme) .card-footer.bg-white {
+    background-color: var(--card-bg) !important;
+    border-color: var(--card-border) !important;
+    color: #f3f4f6 !important;
+}
+body:not(.light-theme) .bg-light,
+body:not(.light-theme) .badge.bg-light,
+body:not(.light-theme) .bg-light.text-dark {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: #cbd5e1 !important;
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+body:not(.light-theme) .border {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+/* Purple Status Badge Styling */
+.bg-purple-subtle { background-color: rgba(139, 92, 246, 0.1) !important; }
+.text-purple { color: #7c3aed !important; }
+.border-purple-subtle { border-color: rgba(139, 92, 246, 0.2) !important; }
+
+body:not(.light-theme) .bg-purple-subtle { background-color: rgba(139, 92, 246, 0.18) !important; }
+body:not(.light-theme) .text-purple { color: #a78bfa !important; }
+body:not(.light-theme) .border-purple-subtle { border-color: rgba(139, 92, 246, 0.3) !important; }
+
+body.light-theme .badge-status.bg-secondary-subtle {
+    color: #4b5563 !important;
+    background-color: #f3f4f6 !important;
+    border-color: #e5e7eb !important;
+}
+
+/* Force headings inside text-white containers to stay white */
+.text-white h1,
+.text-white h2,
+.text-white h3,
+.text-white h4,
+.text-white h5,
+.text-white h6 {
+    color: #ffffff !important;
 }
 </style>
 <?= $headExtra ?? '' ?>
@@ -551,11 +663,13 @@ $(document).ready(function() {
             icon.removeClass('bi-sun-fill text-warning').addClass('bi-moon-stars-fill text-white');
             localStorage.setItem('sa_theme', 'dark');
             document.documentElement.className = '';
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
         } else {
             body.addClass('light-theme');
             icon.removeClass('bi-moon-stars-fill text-white').addClass('bi-sun-fill text-warning');
             localStorage.setItem('sa_theme', 'light');
             document.documentElement.className = 'light-theme-init';
+            document.documentElement.setAttribute('data-bs-theme', 'light');
         }
     });
 });

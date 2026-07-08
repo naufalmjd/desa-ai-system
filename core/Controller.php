@@ -22,6 +22,7 @@ abstract class Controller
 
     protected function render(string $view, array $data = [], string $layout = ''): void
     {
+        $user = $this->auth();
         // Extract data ke scope view
         extract($data, EXTR_SKIP);
 

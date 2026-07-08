@@ -48,6 +48,8 @@ declare(strict_types=1);
             --input-bg:         rgba(30, 41, 59, 0.6);
             --register-bg:      rgba(245, 158, 11, 0.15);
             --register-border:  rgba(245, 158, 11, 0.3);
+            --hero-card-bg:     rgba(15, 23, 42, 0.25);
+            --bg-overlay-opacity: 0.32;
         }
 
         [data-theme="light"] {
@@ -62,6 +64,8 @@ declare(strict_types=1);
             --input-bg:         rgba(255, 255, 255, 0.75);
             --register-bg:      rgba(245, 158, 11, 0.1);
             --register-border:  rgba(245, 158, 11, 0.2);
+            --hero-card-bg:     rgba(255, 255, 255, 0.22);
+            --bg-overlay-opacity: 0.18;
         }
 
         * {
@@ -121,6 +125,22 @@ declare(strict_types=1);
             border-bottom: 1px solid var(--card-border);
             padding: 0.88rem 1.5rem;
             z-index: 1050;
+            transition: background 0.3s ease, border-bottom-color 0.3s ease, box-shadow 0.3s ease, padding 0.3s ease !important;
+        }
+        .navbar:not(.nav-scrolled) {
+            background: transparent !important;
+            border-bottom-color: transparent !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+        }
+        .navbar.nav-scrolled {
+            background: var(--nav-bg) !important;
+            border-bottom: 1px solid var(--card-border) !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05) !important;
+        }
+        [data-theme="dark"] .navbar.nav-scrolled {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
         }
         .navbar-brand {
             font-weight: 800;
@@ -155,8 +175,44 @@ declare(strict_types=1);
         /* Hero Layout */
         .hero-sec {
             position: relative;
-            padding: 8rem 0 5rem;
+            padding: 9rem 0 6rem;
             overflow: hidden;
+        }
+        .hero-glass-card {
+            background: var(--hero-card-bg) !important;
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--card-border) !important;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.4s ease;
+        }
+        [data-theme="light"] .hero-glass-card {
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.05) !important;
+        }
+        .landing-about-img {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: contain;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.2));
+            transition: filter 0.4s ease;
+        }
+        [data-theme="light"] .landing-about-img {
+            filter: drop-shadow(0 15px 30px rgba(15, 23, 42, 0.08));
+        }
+        .landing-bg-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2;
+            opacity: var(--bg-overlay-opacity);
+            pointer-events: none;
+            transition: background-image 0.4s ease, opacity 0.4s ease;
         }
         .hero-glow {
             position: absolute;
@@ -440,6 +496,9 @@ declare(strict_types=1);
         .text-muted {
             color: var(--text-muted) !important;
         }
+        .login-left-panel .text-muted {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
         .card-title, .card-text, .fs-6, .fw-bold {
             color: var(--text-main);
         }
@@ -469,9 +528,16 @@ declare(strict_types=1);
         .demo-btn {
             color: var(--text-main) !important;
         }
+        [data-theme="dark"] .navbar-toggler-icon {
+            filter: invert(1) !important;
+        }
     </style>
 </head>
 <body>
+    <?php 
+    $landingBgImg = !empty(LANDING_BG_IMAGE) ? APP_URL . '/public/uploads/' . LANDING_BG_IMAGE : 'https://images.unsplash.com/photo-1605001011156-cbf0b0f67a51?auto=format&fit=crop&w=1920&q=80';
+    ?>
+    <div class="landing-bg-overlay" style="background-image: url('<?= $landingBgImg ?>');"></div>
 
     <!-- NAVBAR UTAMA -->
     <nav class="navbar navbar-expand-lg fixed-top">
@@ -481,7 +547,7 @@ declare(strict_types=1);
                 <span>SmartDesa.id</span>
             </a>
             <button class="navbar-toggler border-secondary text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon" style="filter: invert(1);"></span>
+                <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
@@ -526,17 +592,19 @@ declare(strict_types=1);
                 <div class="hero-glow hero-glow-1"></div>
                 <div class="hero-glow hero-glow-2"></div>
                 <div class="container py-4">
-                    <h1 class="display-3 fw-bold text-gradient mb-3">SmartDesa.id</h1>
-                    <p class="lead text-muted mx-auto mb-4" style="max-width: 650px;">
-                        Mewujudkan tata kelola desa yang transparan, pelayanan mandiri warga yang super cepat, dan kesiapsiagaan darurat 24 jam berbasis teknologi digital modern.
-                    </p>
-                    <div class="d-flex justify-content-center gap-3">
-                        <a href="#login" class="btn btn-premium py-2.5 px-4 fs-6">
-                            <i class="bi bi-box-arrow-in-right me-2"></i>Masuk ke Sistem
-                        </a>
-                        <a href="#beranda" class="btn btn-outline-premium py-2.5 px-4 fs-6">
-                            Jelajahi Dashboard Publik
-                        </a>
+                    <div class="hero-glass-card mx-auto p-4 p-md-5 rounded-5 border border-secondary border-opacity-10 shadow-lg position-relative" style="max-width: 820px; z-index: 2;">
+                        <h1 class="display-3 fw-bold text-gradient mb-3">SmartDesa.id</h1>
+                        <p class="lead text-muted mx-auto mb-4" style="max-width: 650px;">
+                            Mewujudkan tata kelola desa yang transparan, pelayanan mandiri warga yang super cepat, dan kesiapsiagaan darurat 24 jam berbasis teknologi digital modern.
+                        </p>
+                        <div class="d-flex justify-content-center gap-3 flex-wrap">
+                            <a href="#login" class="btn btn-premium py-2.5 px-4 fs-6">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Masuk ke Sistem
+                            </a>
+                            <a href="#beranda" class="btn btn-outline-premium py-2.5 px-4 fs-6">
+                                Jelajahi Dashboard Publik
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -545,17 +613,22 @@ declare(strict_types=1);
             <div class="row align-items-center my-4 py-3">
                 <div class="col-lg-6 mb-4 mb-lg-0">
                     <div class="card glass-card p-4 border-0">
-                        <h3 class="fw-bold mb-3"><i class="bi bi-info-circle-fill text-primary me-2"></i>Tentang Portal</h3>
+                        <h3 class="fw-bold mb-3"><i class="bi bi-info-circle-fill text-primary me-2"></i><?= htmlspecialchars(LANDING_ABOUT_TITLE) ?></h3>
                         <p class="text-muted mb-3" style="line-height: 1.7;">
-                            Portal Sistem Informasi **SmartDesa.id** dirancang untuk mempermudah koordinasi antara perangkat desa dan masyarakat. Dengan integrasi teknologi informasi, pengurusan administrasi surat-menyurat, pemantauan logistik desa, hingga penanganan darurat ambulans kini dapat diakses kapan saja dan di mana saja.
+                            <?= nl2br(htmlspecialchars(LANDING_ABOUT_DESC1)) ?>
                         </p>
+                        <?php if (!empty(LANDING_ABOUT_DESC2)): ?>
                         <p class="text-muted mb-0" style="line-height: 1.7;">
-                            Kami berkomitmen memberikan keterbukaan informasi publik dan akuntabilitas anggaran desa guna mendukung terwujudnya konsep smart village di Indonesia.
+                            <?= nl2br(htmlspecialchars(LANDING_ABOUT_DESC2)) ?>
                         </p>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <div class="col-lg-6 text-center">
-                    <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80" alt="Tentang Desa" class="img-fluid rounded-5 shadow-lg border border-secondary border-opacity-25" style="max-height: 320px; width: 100%; object-fit: cover;">
+                    <?php 
+                    $landingImg = !empty(LANDING_IMAGE) ? APP_URL . '/public/uploads/' . LANDING_IMAGE : 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=600&q=80';
+                    ?>
+                    <img src="<?= $landingImg ?>" alt="Tentang Desa" class="img-fluid rounded-5 landing-about-img">
                 </div>
             </div>
 
@@ -834,7 +907,7 @@ declare(strict_types=1);
             <div class="row g-4 align-items-stretch justify-content-center">
                 
                 <!-- Left Description Column -->
-                <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-4 glass-card border-0" style="background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(8,10,16,0.8) 100%) !important;">
+                <div class="col-lg-6 d-none d-lg-flex flex-column justify-content-between p-4 glass-card border-0 login-left-panel" style="background: linear-gradient(135deg, rgba(15,23,42,0.6) 0%, rgba(8,10,16,0.8) 100%) !important;">
                     <div>
                         <div class="d-flex align-items-center gap-3 mb-4">
                             <div class="bg-white bg-opacity-10 rounded-3 p-2 border border-white border-opacity-10">
@@ -1488,6 +1561,18 @@ Kondisi Darurat: ${kondisi}`;
             initRouter();
             renderPublicData();
             initTheme();
+            
+            // Navbar transparent to blur on scroll
+            const navbar = document.querySelector('.navbar');
+            const handleScroll = () => {
+                if (window.scrollY > 20) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            };
+            window.addEventListener('scroll', handleScroll);
+            handleScroll();
             
             document.getElementById('form-ambulans')?.addEventListener('submit', handleAmbulanceOrder);
             document.getElementById('form-kontak')?.addEventListener('submit', handleContactSubmit);
