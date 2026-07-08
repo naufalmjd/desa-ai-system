@@ -48,9 +48,12 @@ final class App
         $base   = parse_url(APP_URL, PHP_URL_PATH) ?? '';
         $path   = urldecode(parse_url($uri, PHP_URL_PATH) ?? '/');
 
-        // Hapus base path
+        // Hapus base path secara dinamis dan aman
         if ($base && str_starts_with($path, $base)) {
-            $path = substr($path, strlen($base));
+            $len = strlen($base);
+            if (!isset($path[$len]) || $path[$len] === '/') {
+                $path = substr($path, $len);
+            }
         }
         $path = trim($path, '/');
 

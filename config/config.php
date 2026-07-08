@@ -32,10 +32,26 @@ if (is_file($customSettingsFile)) {
 
 define('APP_NAME',    $customSettings['app_name'] ?? 'SIAP-Desa');
 define('APP_FULL',    $customSettings['app_full'] ?? 'Sistem Pelayanan Administrasi Desa Berbasis AI');
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || ($_SERVER['SERVER_PORT'] ?? 80) == 443) ? "https://" : "http://";
+// Deteksi Protokol secara Dinamis (Mendukung Proxy/Tunneling seperti Ngrok, Anti Gravity, dll.)
+$protocol = 'http://';
+if (
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ||
+    (isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) ||
+    (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') ||
+    (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] === 'on')
+) {
+    $protocol = 'https://';
+}
+
+// Deteksi Host secara Dinamis
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+if (!empty($_SERVER['HTTP_X_FORWARDED_HOST'])) {
+    $forwardedHosts = explode(',', $_SERVER['HTTP_X_FORWARDED_HOST']);
+    $host = trim($forwardedHosts[0]);
+}
+
 $baseDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
-define('APP_URL',     getenv('APP_URL') ?: $protocol . $host . $baseDir);
+define('APP_URL', getenv('APP_URL') ?: $protocol . $host . $baseDir);
 define('DESA_NAMA',   $customSettings['desa_nama'] ?? 'Desa Sukamaju');
 define('DESA_KEC',    $customSettings['desa_kec'] ?? 'Tumpang');
 define('DESA_KAB',    $customSettings['desa_kab'] ?? 'Kabupaten Malang');
@@ -68,10 +84,10 @@ define('ALLOWED_VIDEO',   ['video/mp4', 'video/mpeg', 'video/quicktime']);
 define('PER_PAGE', 15);
 
 // ─── AI Server ───────────────────────────────────────────────────────────────
-define('AI_SERVER_URL',  $customSettings['ai_server_url'] ?? (getenv('AI_SERVER_URL')  ?: 'http://127.0.0.1:8000'));
-define('AI_SERVER_KEY',  getenv('AI_SERVER_KEY')  ?: 'your-api-key-here');
+define('AI_SERVER_URL',  $customSettings['ai_server_url'] ?? 'http://127.0.0.1:8000');
+define('AI_SERVER_KEY',  'isi_api_key_anda');
 define('GEMINI_API_KEY', getenv('GEMINI_API_KEY') ?: 'your-gemini-key-here');
-define('AI_TIMEOUT',     isset($customSettings['ai_timeout']) ? (int)$customSettings['ai_timeout'] : 30);             // detik
+define('AI_TIMEOUT',     isset($customSettings['ai_timeout']) ? (int)$customSettings['ai_timeout'] : 60);
 
 // ─── Error Handling ──────────────────────────────────────────────────────────
 if (APP_DEBUG) {

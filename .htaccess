@@ -3,6 +3,17 @@ Options -Indexes
 RewriteEngine On
 RewriteBase /desa-ai-system
 
+# ─── Proteksi Keamanan Ketat ──────────────────────────────────────────────────
+# 1. Blokir akses ke semua file/folder tersembunyi (diawali titik, misal .git, .env)
+RewriteRule ^\.(.*)$ - [F,L]
+
+# 2. Blokir akses langsung ke file berekstensi sensitif
+RewriteRule \.(py|env|git|md|bat|sh|json|jsonl|sql|sqlite|db)$ - [F,L]
+
+# 3. Blokir akses langsung ke file konfigurasi deploy/package manager
+RewriteRule ^(Procfile|Dockerfile|docker-compose\.yml|composer\.json|composer\.lock|package\.json|package-lock\.json)$ - [F,L]
+
+# ─── Front Controller Routing ─────────────────────────────────────────────────
 # Jika file atau direktori fisik memang ada, langsung buka
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
